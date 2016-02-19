@@ -1,0 +1,50 @@
+---
+title: "A Fast-Track-Overview on Web Scraping with R"
+subtitle: "ECPR WSMT Bamberg"
+author: "Peter Meißner \\newline \\newline https://github.com/petermeissner \\newline http://pmeissner.com \\newline "
+date: "presented: 2016-02-29 / last update: `r Sys.Date()`"
+output: 
+  beamer_presentation: 
+    fonttheme: structurebold
+    highlight: zenburn
+    keep_tex: yes
+fontsize: 9pt
+graphics: yes
+---
+
+```{r set-options, message=FALSE, error=FALSE, include=FALSE}
+options(width = 60)
+REDO <- FALSE
+library(RSelenium, warn.conflicts = FALSE, quietly=TRUE)
+```
+
+
+
+
+# Introduction
+
+THE WEB 
+
+- web pages (e.g. http://example.com, http://ecpr.eu/)
+- web formats (XML, HTML, JSON, ...)
+- web frameworks (HTTP, URL, APIs, ...)
+- social media (Twitter, ...)
+- web data (page views, ip-addresses, ...)
+
+
+
+
+# Introduction
+
+
+**phase**     | **problems** | **examples**
+--------------|--------------|-----------
+**download**  | protocols    | HTTP, HTTPS, POST, GET, ... 
+&nbsp;        | procedures   | cookies, authentication, forms, ...
+--------------|--------------|------------------------------
+**extraction**| parsing      | translating HTML (XML, JSON, ...) into R
+&nbsp;        | extraction   | getting the relevant parts
+&nbsp;        | cleansing    | cleaning up, restructure, combine
+
+
+
