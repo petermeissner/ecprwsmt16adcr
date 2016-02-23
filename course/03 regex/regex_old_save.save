@@ -1,0 +1,452 @@
+---
+title: "Web Data Collection with R"
+author: "Peter Meißner / Dominic Nyhuis / 2015-02-13/14 / ECPR WSM"
+output:
+  beamer_presentation:
+    fonttheme: structurebold
+    toc: yes
+  slidy_presentation: default
+subtitle: '![](../fig/session2.pdf)'
+keep_tex: yes
+---
+
+# Scenario 1 - Overview
+
+## Scenario 1
+&nbsp;
+
+### ... in which we ...
+- download **PDF** files
+- **transform** them to plain **text**
+- use **Regular Expressions** to extract information (name, university)
+- and **geocode** university locations
+
+## Scenario 1
+### ... and learn about ... 
+- **Browsing**
+- **Scraping**
+- **HTML**
+- **Developer Tools**
+- **Regular Expressions**
+- **geocoding**
+
+## Scenario 1
+### ... while using packages ... 
+- **stringr** (string detection, extraction and manipulation via RegEx)
+- **rvest** (information extraction from HTML)
+- **ggmap** (geocoding and map plotting)
+
+
+# How browsing works ... 
+## How browsing works ... 
+1) your computer (client) connects to another computer (server) 
+2) once the connection is established they start talking 
+3) via some protocoll, e.g. HTTP (also HTTPS, POP3, IMAP, FTP, ... )
+4) and exchange information via 
+    - request(s) send from client to server and 
+    - response(s) send from server to client
+    
+## How browsing works ... 
+5) requests and responses might entail 
+    - all kind of information 
+        - version of protocoll used
+        - status codes
+        - who is asking
+        - who is responding
+        - further details
+    - as well as different file formats, e.g. 
+        - HTML
+        - XML, JSON
+        - PNG, JPEG, ... 
+        
+## How browsing works ... 
+6) responses and data are then 
+    - interpreted by our browser 
+    - displayed to us 
+    - *and if need be, new requests are made*
+    
+
+# How scraping works ... 
+## How scraping works ... 
+1) we establish a **connection** to server
+2) make a **request**
+3) get back **responses**
+4) try to make sense of **content**
+5) *clean, munge, save, analyse, visualize data*
+6) *make new request if need be*
+
+
+## When we want to do scraping ...
+### ... we should get ...
+- connection and protocolls work 
+- pose valid requests to server
+- get data received from server into R 
+
+### ... but most of the stuff is take care off by ...
+- packages for connections and protocolls (RCurl, httr) and
+- packages for parsing/extraction (XML, jsonlite, rvest, stringr) as well as
+- special purpose packages (e.g. twitteR)
+
+## When we want to do scraping ...
+### ... still we should have some knowledge about ...
+- **connections and protocolls**
+    - HTTP (HTTPS, FTP, ...)
+    - URL
+    - cookies
+- **content**
+    - HTML, XML
+    - JSON
+    - ...
+- **extraction**
+    - Regular Expressions
+    - Xpath, CSS-Selectors
+
+
+# How HTML works ...
+## How HTML works ... basics
+```
+    <html>
+      <head>
+        <title>PageTitle</title>
+      </head>
+      <body>
+        <p>Hallo World.</p>
+      <body>
+    </html>
+```
+- HTML is one of the possible formats to get back by server
+- HTML is plain text
+- HTML is markup (Hyper Text Markup Language)
+    - tags  and nodes
+    - attributes 
+    - content 
+- HTML is tree structured 
+
+
+## How HTML works ... some special features 
+- tags have predefined meaning 
+    - e.g. `<p>...</p>` for paragraph or `<a href="...">...</a>` for links
+- includs further external ressources via, e.g.:
+    - `<link ... href="...">`
+    - `<script src="..."></script>`
+    - `<img src="...">`
+- HTML forms (e.g. search bar)
+    - gather information to be send to server later on `<form><input>...</...` 
+- CSS (Cascading Style Sheets) `<p class="redintro">...`
+
+- Javascript
+    - a computer language (like e.g. R)
+    - understood and executed by browser
+    - usually manipulating the HTML (tree) received by server
+
+
+
+
+# Scenario 1 - Live coding (1)
+## Scenario 1 - Getting to know the page
+
+### first glance at: http://ajps.org/list-of-reviewers/
+```{r, eval=FALSE}
+url <- "http://ajps.org/list-of-reviewers/"
+browseURL(url)
+```
+
+### getting to know the page
+- look at the source code (Cntr-U)
+- inspecting elements (Cntr-Shift-I)
+
+### surprise
+- reviewer lists are not part of the web page but available as PDF downloads
+
+
+
+## Scenario 1 - Scraping Strategy
+### getting PDFs
+1) download page / load into R 
+    - `html()` *[rvest]*
+2) extract anker nodes `<a ...>` 
+    - `html_nodes(..., xpath=...)` *[rvest]*
+3) extract `href` attribute from nodes
+    - `html_attr(..., "href")` *[rvest]*
+4) filter links (keep those entailing: 'review'; four digits; 'pdf')
+    - `str_detect(..., "review.*\\d{4}.*pdf")` *[stringr]*
+5) download PDFs to disk
+    - `download.file(..., ..., mode="wb")` *[utils]*
+
+## Scenario 1 - Scraping Strategy
+### extracting information from PDF
+
+1) converting PDF to something we can work with
+    - e.g. Adobe Acrobat Pro
+        - HTML, XML, TXT, ... 
+    - e.g. Xpdf (http://www.foolabs.com/xpdf/download.html)
+        - HTML, TXT, ... 
+2) load into R and use Regular Expressions extract information
+
+
+## Scenario 1 - Scraping - R code
+### getting PDFs
+```{r, message=FALSE}
+# packages needed
+require(rvest)
+require(stringr)
+```
+
+## Scenario 1 - Scraping - R code
+### getting PDFs
+```{r, cache=TRUE}
+# url with list of reviews
+url <- "http://ajps.org/list-of-reviewers/"
+# get page
+content <- html(url)
+# get anker (<a href=...>) nodes via xpath
+ankers  <- html_nodes(content, xpath = "//a")
+# get value of ankers' href attribute
+hrefs   <- html_attr(ankers, "href", 
+                     default="NO HREF IN HERE")
+```
+
+## Scenario 1 - Scraping - R code
+### getting PDFs
+```{r, cache=TRUE}
+# filter links: should entail ... 
+# 'review', four-digit number, 'pdf'
+pdf <- hrefs[ str_detect(hrefs, "review.*\\d{4}.*pdf") ]
+pdf
+```
+
+## Scenario 1 - Scraping - R code
+### getting PDFs
+```{r}
+# names for PDFs on disk
+pdf_names <- str_extract(pdf, "\\d{4}.pdf")
+pdf_names
+```
+
+```{r, eval=F}
+# download pdfs
+for(i in seq_along(pdf)) {
+  download.file(pdf[i], pdf_names[i], mode="wb")
+}
+```
+
+
+# How Regular Expresions work ...
+
+## How Regular Expresions work
+1) stringr-package providing string functions
+    - `str_detect(str, pattern)` 
+    - `str_extract(str, pattern)`
+    - `str_replace(str, pattern, replacement)`
+    - ...
+
+## How Regular Expresions work
+2) [Regular Expressions providing string patterns](http://regexlib.com/CheatSheet.aspx)
+
+    pattern               | description
+    --------------------- | -----------------------------------
+    **`"Hallo"`**         | 1:1 
+    **`"."`**             | any character
+    **`"[abc]"`**         | set of characters (e.g. a,b, and c)
+    **`"[a-z]"`**         | range of characters (e.g. a-z)
+    **`"\\d"` / `"\\D"`** | digit / no digit
+    **`"\\w"` / `"\\W"`** | word char. / no word char
+    **`"\\s"` / `"\\S"`** | white space char. / no ws char
+    **`"a*"` /  `"a+"`**  | none or more /  one or more
+    **`a{2,4}`**          | two up to four 
+    **...**               | &nbsp; 
+
+
+
+
+# Scenario 1 - Live coding (2)
+## Scenario 1 - Scraping - R code
+### transforming PDFs - function
+
+```{r}
+# WINDOWS: xpdf: http://www.foolabs.com/xpdf/download.html
+# Linux: sudo apt-get install poppler-utils
+# function working for windows ...
+# should use system() instead of shell() on Mac/Linux
+pdftotext <- function(fname){
+  path_to_pdftotext <- "pdftotext"
+  fname_txt <- str_replace(fname, ".pdf", ".txt")
+  command   <- str_c(path_to_pdftotext, 
+                     fname, 
+                     fname_txt, sep=" ")
+  sys.exec(command)
+  return(fname_txt)
+}
+```
+
+
+## Scenario 1 - Scraping - R code
+### transforming PDFs - execution
+```{r, eval=FALSE}
+# transform PDFs to text
+pdftotext(pdf_names[1])
+pdftotext(pdf_names[2])
+pdftotext(pdf_names[3])
+pdftotext(pdf_names[4])
+```
+
+
+## Scenario 1 - Scraping - R code
+### information extraction - loading text
+```{r, warning=FALSE}
+# laod text of PDF
+fname <- str_replace(pdf_names[1], ".pdf", ".txt")
+text1 <- readLines(fname)
+```
+
+## Scenario 1 - Scraping - R code
+### information extraction - first glance at text
+```{r}
+substring(text1, 1, 60)[6:10]
+```
+
+- some useless/wrong characters &#8594; cleansing
+- separation into lines is not helpful &#8594; collapsing
+- information scheme is: \newline{} `FirstName Lastname, Institution (NumberOfReviews)` &#8594; splitting
+- followed by actual extraction
+
+## Scenario 1 - Scraping - R code
+### information extraction - preparation
+
+```{r}
+text1_tmp <- str_c(text1, collapse="")
+text1_tmp <- str_replace_all(text1_tmp, "[!\f]"," ")
+text1_tmp <- str_replace_all(text1_tmp, "\\]"," ")
+text1_tmp <- unlist(str_split(text1_tmp, "\\)"))
+text1_tmp[1:5]
+text1_tmp <- text1_tmp[-1]
+```
+
+```{r, include=FALSE}
+# reviews possibly done by professors of University Konstanz, Dep. Politics
+length(grep("Konstanz", text1_tmp))
+```
+
+
+## Scenario 1 - Scraping - R code
+### information extraction - extraction - names
+
+```{r}
+names <- str_trim(
+            str_replace_all(
+              str_extract(text1_tmp, "^.*?,"), 
+            "  |,", " ")
+          )
+sample(names, 10)
+```
+
+
+## Scenario 1 - Scraping - R code
+### information extraction - extraction - institutions
+
+```{r}
+institution <-  str_trim(
+                  str_replace_all(
+                    str_extract(text1_tmp, ",.*\\("), 
+                  "  |\\(|^, ", " ")
+                )
+sample(institution, 7)
+```
+
+
+
+## Scenario 1 - Scraping - R code
+### information extraction - extraction - reviews
+
+```{r}
+reviews <-      as.numeric(
+                  str_extract(
+                    str_extract(text1_tmp, "\\(.*"), 
+                  "\\d+")
+                )
+table(reviews)
+```
+
+
+# Scenario 1 - Extension
+
+## Scenario 1 - Extension
+### geocoding institutions
+```{r, message=FALSE}
+require(ggmap)
+# geocoding takes a while -> save results
+# 2500 requests allowed per day
+if ( !file.exists("scenario1_inst_geocoded_pos.rdata")){
+  pos <- geocode(institution)
+  geocodeQueryCheck() 
+  save(pos, file="scenario1_inst_geocoded_pos.rdata")
+} else {
+  load("scenario1_inst_geocoded_pos.rdata")
+}
+```
+
+## Scenario 1 - Extension
+### plot coordinates
+```{r}
+mapWorld <- borders("world")
+map <-   
+  ggplot() + 
+  mapWorld + 
+  geom_point(aes(x=pos$lon, y=pos$lat) ,
+             color="#F54B1A90", size=3 ,
+             na.rm=T) + 
+  theme_bw() + 
+  coord_map(xlim=c(-180, 180), ylim=c(-60,70))
+```
+
+## Scenario 1 - Extension
+```{r}
+map # ajps 2013 reviewers worldwide
+```
+
+
+
+## Scenario 1 - Extension
+### gen boundary data fro Germany
+```{r}
+url   <- 
+  "http://biogeo.ucdavis.edu/data/gadm2/R/DEU_adm1.RData"
+fname <- basename(url)
+if ( !file.exists(fname) ){
+  download.file(url, fname, mode="wb")
+}
+load(fname)
+```
+
+## Scenario 1 - Extension
+### produce map for Germany
+```{r}
+map2 <- 
+ggplot(data=gadm, aes(x=long, y=lat)) +
+  geom_polygon(data = gadm, aes(group=group)) + 
+  geom_path(color="white",  aes(group=group)) + 
+  geom_point(data = pos, 
+             aes(x = lon, y = lat), 
+             colour = "#F54B1A70", size=5, na.rm=T) +
+  coord_map(xlim=c(5, 16), ylim=c(47,55.5)) +
+  theme_bw()
+```
+
+## Scenario 1 - Extension
+```{r}
+map2 # ajps 2013 reviewers in Germany
+```
+
+## Scenario 1 - Extension Extension
+```{r}
+# use search functionality here
+# http://onlinelibrary.wiley.com/advanced/search/results?start=1
+# to capture data on publications of authors in AJPS
+```
+
+
+
+
+
+
+

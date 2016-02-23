@@ -1,0 +1,142 @@
+---
+title: "Web Data Collection with R"
+author: "Peter Meißner / 2016-02-29 --  2016-03-04 / ECPR WSMT"
+header-includes:
+  - \definecolor{links}{HTML}{800080}
+  - \hypersetup{colorlinks,linkcolor=,urlcolor=links}
+output:
+  beamer_presentation:
+    fonttheme: structurebold
+    keep_tex: yes
+    toc: yes
+  slidy_presentation: default
+subtitle: File Manipulation
+keep_tex: yes
+---
+
+```{r, include=FALSE}
+options(width = 40)
+```
+
+
+# Why ? 
+
+# Functions
+
+## Patterns
+
+function      | description
+------------- | -------------
+`list.files()`        | list files 
+`list.dirs()`         | list directories 
+`file.info()`         | information on file
+`file.size()`         | check size of file 
+`file.exists()`       | check existence of file
+`file.copy()`         | copy file
+`file.remove()`       | delete file 
+`file.rename()`       | rename file
+`file.mtime()`        | get modiefied time of file 
+`readLines()`         | read file into char. vector
+`writeLines()`        | write character vector into file
+`write()`             | write to file, e.g. append to file 
+
+&nbsp;
+    
+## use case 1 - write file if not existent
+```{r, include=FALSE}
+file.remove("testfile.txt")
+```
+
+```{r}
+fname <- "testfile.txt"
+
+if( !file.exists(fname)  ) {
+  writeLines( as.character(Sys.time()), fname )
+}
+
+file.mtime(fname)
+readLines(fname)
+```
+
+## use case 2 - append to file 
+
+```{r}
+
+for( i in 1:3 ){
+  atime <- substr(as.character(Sys.time()),12,20)
+  mtime <- substr(as.character(file.mtime(fname)),12,20)
+  write(
+    paste0(
+      " append : ", atime, "   mtime : ", mtime, 
+      collapse = ""
+    ), 
+    fname, 
+    append = TRUE
+  )
+  Sys.sleep(1)
+}
+```
+
+## use case 2 - append to file
+
+```{r}
+file.mtime(fname)
+readLines(fname)
+```
+
+
+## use case 3 - get file name from URL
+
+```{r}
+url      <- "http://www.r-datacollection.com/materials/http/abunchofasciis/index.html"
+destfile <- basename(url)
+download.file(url = url, destfile = destfile)
+```
+
+```{r}
+destfile
+file.exists(destfile)
+readLines(destfile, warn=FALSE)
+```
+
+
+## use case 4 - handling files names in a loop
+
+```{r}
+for ( i in 1:10) {
+  content <- paste(sample(letters,10),collapse = "")
+  fname   <- 
+    paste(
+      "f_", 
+      Sys.time(), " ", 
+      stringr::str_pad(i, 3, "left", 0),  
+      ".test",
+      collapse = "", sep=""
+    )
+  writeLines(content, fname)
+}
+```
+
+## use case 4 - handling files names in a loop
+
+```{r}
+list.files(pattern = "\\d.test$")
+```
+
+
+## use case 5 - zipping 
+
+```{r}
+filelist <- list.files(pattern = ".txt$|html$|test$")
+zip(zipfile = "archive.zip", files = filelist)
+file.remove(filelist[file.exists(filelist)])
+list.files()
+```
+
+
+
+
+
+    
+    
+

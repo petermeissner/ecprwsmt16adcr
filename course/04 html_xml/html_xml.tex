@@ -1,0 +1,179 @@
+\documentclass[ignorenonframetext,]{beamer}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+\usefonttheme{structurebold}
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\newif\ifbibliography
+
+% Prevent slide breaks in the middle of a paragraph:
+\widowpenalties 1 10000
+\raggedbottom
+
+\AtBeginPart{
+  \let\insertpartnumber\relax
+  \let\partname\relax
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \let\insertsectionnumber\relax
+    \let\sectionname\relax
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \let\insertsubsectionnumber\relax
+  \let\subsectionname\relax
+  \frame{\subsectionpage}
+}
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+\definecolor{links}{HTML}{800080}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
+\title{Web Data Collection with R}
+\subtitle{How HTML/XML Works}
+\author{Peter Meißner / 2016-02-29 -- 2016-03-04 / ECPR WSMT}
+\date{}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}
+\tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{How HTML/XML works \ldots{}}\label{how-htmlxml-works}
+
+\begin{frame}[fragile]{How HTML/XML works \ldots{} basics}
+
+\begin{verbatim}
+    <html>
+      <head>
+        <title>PageTitle</title>
+      </head>
+      <body>
+        <p class="simple">Hallo World.</p>
+      <body>
+    </html>
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  HTML is one of the possible formats to get back by server
+\item
+  HTML is plain text
+\item
+  HTML is markup (Hyper Text Markup Language)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    tags and nodes
+  \item
+    attributes
+  \item
+    content
+  \end{itemize}
+\item
+  HTML is tree structured
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{How HTML works \ldots{} some special features}
+
+\begin{itemize}
+\item
+  tags have predefined meaning
+
+  \begin{itemize}
+  \tightlist
+  \item
+    e.g.
+    \texttt{\textless{}p\textgreater{}...\textless{}/p\textgreater{}}
+    for paragraph or
+    \texttt{\textless{}a\ href="..."\textgreater{}...\textless{}/a\textgreater{}}
+    for links
+  \end{itemize}
+\item
+  includs further external ressources via, e.g.:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\textless{}link\ ...\ href="..."\textgreater{}}
+  \item
+    \texttt{\textless{}script\ src="..."\textgreater{}\textless{}/script\textgreater{}}
+  \item
+    \texttt{\textless{}img\ src="..."\textgreater{}}
+  \end{itemize}
+\item
+  HTML forms (e.g.~search bar)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    gather information to be send to server later on
+    \texttt{\textless{}form\textgreater{}\textless{}input\textgreater{}...\textless{}/...}
+  \end{itemize}
+\item
+  CSS (Cascading Style Sheets)
+  \texttt{\textless{}p\ class="redintro"\textgreater{}...}
+\item
+  Javascript
+
+  \begin{itemize}
+  \tightlist
+  \item
+    a computer language (like e.g.~R)
+  \item
+    understood and executed by browser
+  \item
+    usually manipulating the HTML (tree) received by server
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Some live examples}
+
+\begin{itemize}
+\tightlist
+\item
+  \url{http://www.r-datacollection.com/materials/html/TagExample.html}
+\item
+  \url{http://www.r-datacollection.com/materials/html/JavaScript.html}
+\end{itemize}
+
+\end{frame}
+
+\end{document}

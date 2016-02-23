@@ -1,0 +1,322 @@
+---
+title: "Web Data Collection with R"
+author: "Peter Meißner / 2016-02-29 --  2016-03-04 / ECPR WSMT"
+header-includes:
+  - \definecolor{links}{HTML}{800080}
+  - \hypersetup{colorlinks,linkcolor=,urlcolor=links}
+output:
+  beamer_presentation:
+    fonttheme: structurebold
+    keep_tex: yes
+    toc: yes
+  slidy_presentation: default
+subtitle: Regular Expressions / RegEx - A Case Study
+keep_tex: yes
+---
+
+
+# Getting to know the page
+
+## first glance at: http://ajps.org/list-of-reviewers/
+```{r, eval=FALSE}
+url <- "http://ajps.org/list-of-reviewers/"
+browseURL(url)
+```
+
+## getting to know the page
+- look at the source code (Cntr-U)
+- inspecting elements (Cntr-Shift-I)
+
+## surprise
+- reviewer lists are not part of the web page but available as PDF downloads
+
+
+
+# Scraping Strategy
+
+## getting PDFs
+1) download page / load into R 
+    - `read_html()` *[rvest]*
+2) extract anker nodes `<a ...>` 
+    - `html_nodes(..., xpath=...)` *[rvest]*  
+3) extract `href` attribute from nodes
+    - `html_attr(..., "href")` *[rvest]*
+4) filter links (keep those entailing: 'review'; four digits; 'pdf')
+    - `str_detect(..., "review.*\\d{4}.*pdf")` *[stringr]*
+5) download PDFs to disk
+    - `download.file(..., ..., mode="wb")` *[utils]*
+
+## extracting information from PDF
+6) converting PDF to something we can work with
+    - e.g. Adobe Acrobat Pro
+        - HTML, XML, TXT, ...   
+    - e.g. Xpdf (http://www.foolabs.com/xpdf/download.html)
+        - HTML, TXT, ... 
+        - WINDOWS: http://www.foolabs.com/xpdf/download.html - add install path to path variable / see: http://www.computerhope.com/issues/ch000549.htm
+        -  Linux e.g.: `sudo apt-get install poppler-utils`
+7) load into R and use Regular Expressions extract information
+
+
+
+
+# Scraping 
+
+
+
+
+## getting PDFs
+```{r, message=FALSE}
+# packages needed
+require(rvest)
+require(stringr)
+```
+
+## getting PDFs
+```{r, cache=TRUE}
+# url with list of reviews
+url <- "http://ajps.org/list-of-reviewers/"
+
+# get page
+content <- read_html(url)
+
+# get anker (<a href=...>) nodes via xpath
+ankers  <- html_nodes(content, xpath = "//a")
+
+# get value of ankers' href attribute
+hrefs   <- html_attr(ankers, "href", 
+                     default="NO HREF IN HERE")
+```
+
+
+## getting PDFs
+```{r, cache=TRUE}
+# filter links: should entail ... 
+# 'review', four-digit number, 'pdf'
+pdf <- hrefs[ str_detect(hrefs, "review.*\\d{4}.*pdf") ]
+pdf
+```
+
+
+## getting PDFs
+```{r}
+# names for PDFs on disk
+basename(pdf)
+str_extract(pdf, "\\d{4}.pdf")
+
+pdf_names <- str_extract(pdf, "\\d{4}.pdf")
+```
+
+```{r, eval=F}
+# download pdfs
+for(i in seq_along(pdf)) {
+  download.file(pdf[i], pdf_names[i], mode="wb")
+}
+```
+
+
+# Transforming / Reading Data
+
+## transforming PDFs - function
+
+```{r}
+# WINDOWS: xpdf: http://www.foolabs.com/xpdf/download.html 
+#   add install path to path variable / see: http://www.computerhope.com/issues/ch000549.htm
+# Linux: sudo apt-get install poppler-utils
+pdftotext <- function(fname){
+  fname_txt <- str_replace(fname, ".pdf", ".txt")
+  system2(command = "pdftotext", args = fname)
+  return(fname_txt)
+}
+```
+
+
+
+## transforming PDFs - execution
+```{r, eval=FALSE}
+# transform PDFs to text
+pdftotext(pdf_names[1])
+pdftotext(pdf_names[2])
+pdftotext(pdf_names[3])
+pdftotext(pdf_names[4])
+``` 
+
+
+
+## loading text
+```{r, warning=FALSE}
+# laod text of PDF
+text1 <- readLines("2013.txt", warn=FALSE)
+```
+
+
+## first glance at text
+```{r}
+substring(text1, 1, 60)[6:14]
+```
+
+- some useless/wrong characters &#8594; cleansing
+- get rid of spaces
+- get rid of parantheses
+- information scheme is: \newline{} `FirstName Lastname, Institution (NumberOfReviews)`
+- followed by actual extraction
+
+
+##  preparation
+
+```{r}
+text1_tmp <- 
+  text1 %>% 
+  str_replace_all("[!\f]"," ") %>%   # drop form feed
+  str_replace_all("\\]"," ") %>%     # drop ]
+  str_replace_all("\\(|\\)", "") %>% # drop ( )
+  str_replace(" ,", ",") %>%         # correct space
+  str_replace_all("  ", " ") %>%     # correct space
+  str_trim()                         # correct space
+
+text1_tmp <- 
+  text1_tmp[text1_tmp != ""] # drop empty lines
+
+text1_tmp <- 
+  text1_tmp[-c(1:5 )]        # drop non data
+```
+
+## cleaned up
+
+```{r}
+text1_tmp[1:10]
+```
+
+
+
+# First Result
+
+## Reviewers
+
+```{r}
+length(grep("Konstanz", text1_tmp))
+length(grep("Harvard", text1_tmp))
+length(grep("Berlin", text1_tmp))
+length(grep("Bamberg", text1_tmp))
+length(grep("UCLA", text1_tmp))
+```
+
+
+
+# Extraction
+  
+## names
+
+```{r}
+names <- 
+  text1_tmp %>% 
+  str_extract("^.*?,") %>% 
+  str_replace_all("  |,", " ") %>% 
+  str_trim( )
+sample(names, 10)
+```
+
+
+## institutions
+
+```{r}
+institution <-
+  text1_tmp %>% 
+  str_extract(",.*\\d") %>% 
+  str_replace_all("^ ,|^,|\\d$","") %>% 
+  str_trim()
+sample(institution, 7)
+```
+
+
+## reviews
+
+```{r}
+reviews <-      
+  text1_tmp %>% 
+  str_extract("\\d+") %>% 
+  as.numeric 
+table(reviews)
+```
+
+
+## reviews
+
+```{r}
+data.frame(n=reviews, names, institution)[reviews > 3, ]
+```
+
+
+## save data gathered so far
+
+```{r}
+revdat <- data.frame(
+  reviews, 
+  names, 
+  institution, 
+  stringsAsFactors = FALSE
+)
+save(revdat, file = "revdat.Rdata")
+```
+
+
+
+
+# Extension (1) 
+
+## geocoding institutions
+```{r, message=FALSE}
+require(ggmap)
+# geocoding takes a while -> save results
+# 2500 requests allowed per day
+if ( !file.exists("scenario1_inst_geocoded_pos.rdata")){
+  pos <- geocode(institution)
+  geocodeQueryCheck() 
+  save(pos, file="scenario1_inst_geocoded_pos.rdata")
+} else {
+  load("scenario1_inst_geocoded_pos.rdata")
+}
+```
+
+## plot coordinates
+```{r}
+mapWorld <- borders("world")
+map <-   
+  ggplot() + 
+  mapWorld + 
+  geom_point(aes(x=pos$lon, y=pos$lat) ,
+             color="#F54B1A90", size=3 ,
+             na.rm=T) + 
+  theme_bw() + 
+  coord_map(xlim=c(-180, 180), ylim=c(-60,70))
+```
+
+
+## plot coordinates
+
+```{r}
+map # ajps 2013 reviewers worldwide
+```
+
+
+
+## Extension (2)
+
+- grab articel authors for some years
+- and compare to reviewers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

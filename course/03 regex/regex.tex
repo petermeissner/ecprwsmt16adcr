@@ -1,0 +1,340 @@
+\documentclass[ignorenonframetext,]{beamer}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+\usefonttheme{structurebold}
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\newif\ifbibliography
+\usepackage{longtable,booktabs}
+\usepackage{caption}
+% These lines are needed to make table captions work with longtable:
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
+
+% Prevent slide breaks in the middle of a paragraph:
+\widowpenalties 1 10000
+\raggedbottom
+
+\AtBeginPart{
+  \let\insertpartnumber\relax
+  \let\partname\relax
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \let\insertsectionnumber\relax
+    \let\sectionname\relax
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \let\insertsubsectionnumber\relax
+  \let\subsectionname\relax
+  \frame{\subsectionpage}
+}
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+\definecolor{links}{HTML}{800080}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
+\title{Web Data Collection with R}
+\subtitle{Regular Expressions / RegEx}
+\author{Peter Meißner / 2016-02-29 -- 2016-03-04 / ECPR WSMT}
+\date{}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}
+\tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{How Regular Expressions work
+\ldots{}}\label{how-regular-expressions-work}
+
+\begin{frame}[fragile]{What is it all about?}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  Regular Expressions refer to combination of two things
+
+  \begin{itemize}
+  \tightlist
+  \item
+    a \textbf{syntax} that allows to define string patterns
+
+    \begin{itemize}
+    \tightlist
+    \item
+      e.g.: ``\texttt{{[}pP{]}eter}'',
+      ``\texttt{\textbackslash{}\textbackslash{}d\{4\}-\textbackslash{}\textbackslash{}d\{1,2\}-\textbackslash{}\textbackslash{}d\{1,2\}}''
+    \end{itemize}
+  \item
+    a set of \textbf{functions} doing string handling
+
+    \begin{itemize}
+    \tightlist
+    \item
+      base R has \texttt{grep()}, \texttt{grepl()},
+      \texttt{substring()}, \ldots{} nice because of options ignore.case
+      and invert and bcause build in
+    \item
+      more convenient stringr/stringi functions: \texttt{str\_detect()},
+      \texttt{str\_replace()}, \texttt{str\_extract()}, \ldots{}
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+
+\end{frame}
+
+\section{Patterns}\label{patterns}
+
+\begin{frame}[fragile]{Patterns}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{1}
+\item
+  \href{http://regexlib.com/CheatSheet.aspx}{Regular Expressions
+  providing string patterns}
+
+  \begin{longtable}[c]{@{}ll@{}}
+  \toprule
+  pattern & description\tabularnewline
+  \midrule
+  \endhead
+  \textbf{\texttt{"Hallo"}} & 1:1\tabularnewline
+  \textbf{\texttt{"."}} & any character\tabularnewline
+  \textbf{\texttt{"{[}{]}"}} & placeholder for one
+  character\tabularnewline
+  \textbf{\texttt{"{[}abc{]}"}} & set of characters (e.g.~a,b, and
+  c)\tabularnewline
+  \textbf{\texttt{"{[}a-z{]}"}} & range of characters (e.g.~a-z, not è,
+  ä, \ldots{})\tabularnewline
+  \textbf{\texttt{"a*"} / \texttt{"a+"}} & none or more / one or
+  more\tabularnewline
+  \textbf{\texttt{"a\{2,4\}"}} & two up to four\tabularnewline
+  \textbf{\texttt{"ac\textbar{}b"}} & ac or b\tabularnewline
+  \textbf{\texttt{"{[}\^{}ab{]}"}} & non of those\tabularnewline
+  \textbf{\texttt{"\^{}a"}} & starting with a\tabularnewline
+  \textbf{\texttt{"a\$"}} & ending with a\tabularnewline
+  \bottomrule
+  \end{longtable}
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}[fragile]{Special Characters}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{2}
+\item
+  \href{http://regexlib.com/CheatSheet.aspx}{Expressing Patterns}
+
+  \begin{longtable}[c]{@{}ll@{}}
+  \toprule
+  pattern & description\tabularnewline
+  \midrule
+  \endhead
+  \textbf{\texttt{"\textbackslash{}n"}} & newline\tabularnewline
+  \textbf{\texttt{"\textbackslash{}r"}} & carriage return\tabularnewline
+  \textbf{\texttt{"\textbackslash{}t"}} & tab\tabularnewline
+  \textbf{\texttt{"\textbackslash{}b"}} & word boundary (between
+  \texttt{"\textbackslash{}\textbackslash{}w"} and
+  \texttt{"\textbackslash{}\textbackslash{}W"})\tabularnewline
+  \textbf{\texttt{"\textbackslash{}122"}} & {[}matches ASCII character
+  number 82 (octal)\tabularnewline
+  \textbf{\texttt{"\textbackslash{}x52"}} & matches ASCII character
+  number 82 (hexadecimal)\tabularnewline
+  \textbf{\texttt{"\textbackslash{}u0052"}} & matches Unicode character
+  number 82 (hexadecimal)\tabularnewline
+  \bottomrule
+  \end{longtable}
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}[fragile]{Character Classes}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  \href{http://regexlib.com/CheatSheet.aspx}{Expressing Character
+  Classes}
+\end{enumerate}
+
+\begin{longtable}[c]{@{}ll@{}}
+\toprule
+pattern & description\tabularnewline
+\midrule
+\endhead
+\textbf{\texttt{"\textbackslash{}\textbackslash{}d"} /
+\texttt{"\textbackslash{}\textbackslash{}D"}} & digit / no
+digit\tabularnewline
+\textbf{\texttt{"\textbackslash{}\textbackslash{}w"} /
+\texttt{"\textbackslash{}\textbackslash{}W"}} & word char. / no word
+char\tabularnewline
+\textbf{\texttt{"\textbackslash{}\textbackslash{}s"} /
+\texttt{"\textbackslash{}\textbackslash{}S"}} & white space char. / no
+ws char\tabularnewline
+\textbf{\texttt{"\textbackslash{}\textbackslash{}p\{Currency\_Symbol\}"}}
+& \href{http://www.regular-expressions.info/unicode.html}{unicode groups
+and blocks}\tabularnewline
+\textbf{\texttt{"{[}{[}:digit:{]}{]}"}} & digit\tabularnewline
+\textbf{\texttt{"{[}{[}:alpha:{]}{]}"}} & characters (also
+è)\tabularnewline
+\textbf{\texttt{"{[}{[}:alphanum:{]}{]}"}} & word char.\tabularnewline
+\textbf{\texttt{"{[}\^{}{[}:alphanum:{]}{]}"}} & white space
+char.\tabularnewline
+\bottomrule
+\end{longtable}
+
+\end{frame}
+
+\begin{frame}[fragile]{Syntax Characters}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  some characters have special meaning and cannot be used literally
+\end{enumerate}
+
+\begin{itemize}
+\item
+  ~ . \$ \^{} \{ {[} ( \textbar{} ) {]} \} * + ?
+
+  \begin{longtable}[c]{@{}lll@{}}
+  \toprule
+  character & description & matching\tabularnewline
+  \midrule
+  \endhead
+  \textbf{\texttt{"\textbackslash{}"}} & escapes
+  \texttt{"\textbackslash{}"}, extra chars &
+  \texttt{grep("\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}","\textbackslash{}\textbackslash{}")}\tabularnewline
+  \textbf{\texttt{"\{"}} & numeral classifier &
+  \texttt{grep("\textbackslash{}\textbackslash{}\{","\{")}\tabularnewline
+  \ldots{} & \ldots{} & \ldots{}\tabularnewline
+  \bottomrule
+  \end{longtable}
+\end{itemize}
+
+\end{frame}
+
+\section{Functions}\label{functions}
+
+\begin{frame}[fragile]{functions for string detection}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{4}
+\item
+  base functions for string detection / manipulation
+
+  \begin{longtable}[c]{@{}ll@{}}
+  \toprule
+  name & description\tabularnewline
+  \midrule
+  \endhead
+  \texttt{grep()} & searches for pat. and returns numeric
+  index/content\tabularnewline
+  \texttt{grepl()} & searches for pat. and returns logical
+  index\tabularnewline
+  \texttt{gregexpr()} & gives back each position of match\tabularnewline
+  \texttt{nchar()} & length of string\tabularnewline
+  \texttt{substr()} & extracts sequence of characters\tabularnewline
+  \texttt{sub()} & replace one pat. match in string with other
+  string\tabularnewline
+  \texttt{gsub()} & replace all pat. matches in string with other
+  string\tabularnewline
+  \texttt{paste()} & concatonates vector elements into one
+  string\tabularnewline
+  \texttt{paste0()} & concatonates vector elements into one
+  string\tabularnewline
+  \texttt{-} & duplicates string\tabularnewline
+  \texttt{-} & removes leading /trailing whitespace\tabularnewline
+  \texttt{-} & adds whitespace to left, right, or both\tabularnewline
+  \texttt{-} & returns matrix of strings x matches + 1\tabularnewline
+  \texttt{cat()} & prints text to screen\tabularnewline
+  \bottomrule
+  \end{longtable}
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}[fragile]{functions for string detection}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{5}
+\item
+  stringr/stringi functions for string detection / manipulation
+
+  \begin{longtable}[c]{@{}ll@{}}
+  \toprule
+  name & description\tabularnewline
+  \midrule
+  \endhead
+  \texttt{-} & searches for pat. and ret. numeric
+  index/cont.\tabularnewline
+  \texttt{str\_detect()} & searches for pat. and returns logical
+  index\tabularnewline
+  \texttt{str\_locate()} & gives back each position of
+  match\tabularnewline
+  \texttt{str\_length()} & length of str.\tabularnewline
+  \texttt{str\_sub()} & extracts sequence of characters\tabularnewline
+  \texttt{str\_replace} & repl. one pat. match in str. with other
+  str.\tabularnewline
+  \texttt{str\_replace\_all()} & repl. all pat. matches in str. with
+  other str.\tabularnewline
+  \texttt{-} & concatonates vector elements into one str.\tabularnewline
+  \texttt{str\_c()} & concatonates vector elements into one
+  str.\tabularnewline
+  \texttt{str\_dup} & duplicates string\tabularnewline
+  \texttt{str\_trim} & removes leading /trailing
+  whitespace\tabularnewline
+  \texttt{str\_pad} & adds whitespace to left, right, or
+  both\tabularnewline
+  \texttt{str\_match} & returns matrix of strings x matches +
+  1\tabularnewline
+  \texttt{cat()} & prints text to screen\tabularnewline
+  \bottomrule
+  \end{longtable}
+\end{enumerate}
+
+\end{frame}
+
+\end{document}

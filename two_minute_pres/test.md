@@ -9,7 +9,7 @@ keep_tex: yes
 ---
 
 
- 
+
 ##  Peter Meißner
 
 \raisebox{-0.5\height}{\includegraphics[width=2em]{fig/petermeissner.jpg}} 

@@ -23,6 +23,7 @@ library(RSelenium, warn.conflicts = FALSE, quietly=TRUE)
 
 # Introduction
 
+
 THE WEB 
 
 - web pages (e.g. http://example.com, http://ecpr.eu/)

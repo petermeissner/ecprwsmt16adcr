@@ -1,0 +1,351 @@
+\documentclass[ignorenonframetext,]{beamer}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+\usefonttheme{structurebold}
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\newif\ifbibliography
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{{#1}}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{longtable,booktabs}
+\usepackage{caption}
+% These lines are needed to make table captions work with longtable:
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
+
+% Prevent slide breaks in the middle of a paragraph:
+\widowpenalties 1 10000
+\raggedbottom
+
+\AtBeginPart{
+  \let\insertpartnumber\relax
+  \let\partname\relax
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \let\insertsectionnumber\relax
+    \let\sectionname\relax
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \let\insertsubsectionnumber\relax
+  \let\subsectionname\relax
+  \frame{\subsectionpage}
+}
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+\definecolor{links}{HTML}{800080}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
+\title{Web Data Collection with R}
+\subtitle{File Manipulation}
+\author{Peter Meißner / 2016-02-29 -- 2016-03-04 / ECPR WSMT}
+\date{}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}
+\tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{Why ?}\label{why}
+
+\section{Functions}\label{functions}
+
+\begin{frame}[fragile]{Patterns}
+
+\begin{longtable}[c]{@{}ll@{}}
+\toprule
+function & description\tabularnewline
+\midrule
+\endhead
+\texttt{list.files()} & list files\tabularnewline
+\texttt{list.dirs()} & list directories\tabularnewline
+\texttt{file.info()} & information on file\tabularnewline
+\texttt{file.size()} & check size of file\tabularnewline
+\texttt{file.exists()} & check existence of file\tabularnewline
+\texttt{file.copy()} & copy file\tabularnewline
+\texttt{file.remove()} & delete file\tabularnewline
+\texttt{file.rename()} & rename file\tabularnewline
+\texttt{file.mtime()} & get modiefied time of file\tabularnewline
+\texttt{readLines()} & read file into char. vector\tabularnewline
+\texttt{writeLines()} & write character vector into file\tabularnewline
+\texttt{write()} & write to file, e.g.~append to file\tabularnewline
+\bottomrule
+\end{longtable}
+
+~
+
+\end{frame}
+
+\begin{frame}[fragile]{use case 1 - write file if not existent}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fname <-}\StringTok{ "testfile.txt"}
+
+\NormalTok{if( !}\KeywordTok{file.exists}\NormalTok{(fname)  ) \{}
+  \KeywordTok{writeLines}\NormalTok{( }\KeywordTok{as.character}\NormalTok{(}\KeywordTok{Sys.time}\NormalTok{()), fname )}
+\NormalTok{\}}
+
+\KeywordTok{file.mtime}\NormalTok{(fname)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2016-02-24 10:10:56 CET"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{readLines}\NormalTok{(fname)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2016-02-24 10:10:56"
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{use case 2 - append to file}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{for( i in }\DecValTok{1}\NormalTok{:}\DecValTok{3} \NormalTok{)\{}
+  \NormalTok{atime <-}\StringTok{ }\KeywordTok{substr}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(}\KeywordTok{Sys.time}\NormalTok{()),}\DecValTok{12}\NormalTok{,}\DecValTok{20}\NormalTok{)}
+  \NormalTok{mtime <-}\StringTok{ }\KeywordTok{substr}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(}\KeywordTok{file.mtime}\NormalTok{(fname)),}\DecValTok{12}\NormalTok{,}\DecValTok{20}\NormalTok{)}
+  \KeywordTok{write}\NormalTok{(}
+    \KeywordTok{paste0}\NormalTok{(}
+      \StringTok{" append : "}\NormalTok{, atime, }\StringTok{"   mtime : "}\NormalTok{, mtime, }
+      \DataTypeTok{collapse =} \StringTok{""}
+    \NormalTok{), }
+    \NormalTok{fname, }
+    \DataTypeTok{append =} \OtherTok{TRUE}
+  \NormalTok{)}
+  \KeywordTok{Sys.sleep}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\end{frame}
+
+\begin{frame}[fragile]{use case 2 - append to file}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{file.mtime}\NormalTok{(fname)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2016-02-24 10:10:58 CET"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{readLines}\NormalTok{(fname)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "2016-02-24 10:10:56"                  
+## [2] " append : 10:10:56   mtime : 10:10:56"
+## [3] " append : 10:10:57   mtime : 10:10:56"
+## [4] " append : 10:10:58   mtime : 10:10:57"
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{use case 3 - get file name from URL}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{url      <-}\StringTok{ "http://www.r-datacollection.com/materials/http/abunchofasciis/index.html"}
+\NormalTok{destfile <-}\StringTok{ }\KeywordTok{basename}\NormalTok{(url)}
+\KeywordTok{download.file}\NormalTok{(}\DataTypeTok{url =} \NormalTok{url, }\DataTypeTok{destfile =} \NormalTok{destfile)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{destfile}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "index.html"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{file.exists}\NormalTok{(destfile)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{readLines}\NormalTok{(destfile, }\DataTypeTok{warn=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "<html>"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+## [2] " <head>"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+## [3] "  <title>List of Files</title>"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+## [4] " </head>"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+## [5] " <body>"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+## [6] " <h3>Quotes Of The Day</h3>"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+## [7] "<a href='file00329.html'>file00329.html</a><br><a href='file00330.html'>file00330.html</a><br><a href='file00331.html'>file00331.html</a><br><a href='file00332.html'>file00332.html</a><br><a href='file00333.html'>file00333.html</a><br><a href='file00334.html'>file00334.html</a><br><a href='file00335.html'>file00335.html</a><br><a href='file00336.html'>file00336.html</a><br><a href='file00337.html'>file00337.html</a><br><a href='file00338.html'>file00338.html</a><br><a href='file00339.html'>file00339.html</a><br><a href='file00340.html'>file00340.html</a><br><a href='file00341.html'>file00341.html</a><br><a href='file00342.html'>file00342.html</a><br><a href='file00343.html'>file00343.html</a><br><a href='file00344.html'>file00344.html</a><br><a href='file00345.html'>file00345.html</a><br><a href='file00346.html'>file00346.html</a><br><a href='file00347.html'>file00347.html</a><br><a href='file00348.html'>file00348.html</a><br><a href='file00349.html'>file00349.html</a><br><a href='file00350.html'>file00350.html</a><br><a href='file00351.html'>file00351.html</a><br><a href='file00352.html'>file00352.html</a><br><a href='file00353.html'>file00353.html</a><br><a href='file00354.html'>file00354.html</a><br><a href='file00355.html'>file00355.html</a><br><a href='file00356.html'>file00356.html</a><br><a href='file00357.html'>file00357.html</a><br><a href='file00358.html'>file00358.html</a><br><a href='file00359.html'>file00359.html</a><br><a href='file00360.html'>file00360.html</a><br><a href='file00361.html'>file00361.html</a><br><a href='file00362.html'>file00362.html</a><br><a href='file00363.html'>file00363.html</a><br><a href='file00364.html'>file00364.html</a><br><a href='file00365.html'>file00365.html</a><br><a href='file00366.html'>file00366.html</a><br><a href='file00367.html'>file00367.html</a><br><a href='file00368.html'>file00368.html</a><br><a href='file00369.html'>file00369.html</a><br><a href='file00370.html'>file00370.html</a><br> </body>"
+## [8] "</html>"
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{use case 4 - handling files names in a loop}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{for ( i in }\DecValTok{1}\NormalTok{:}\DecValTok{10}\NormalTok{) \{}
+  \NormalTok{content <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\KeywordTok{sample}\NormalTok{(letters,}\DecValTok{10}\NormalTok{),}\DataTypeTok{collapse =} \StringTok{""}\NormalTok{)}
+  \NormalTok{fname   <-}\StringTok{ }
+\StringTok{    }\KeywordTok{paste}\NormalTok{(}
+      \StringTok{"f_"}\NormalTok{, }
+      \KeywordTok{Sys.time}\NormalTok{(), }\StringTok{" "}\NormalTok{, }
+      \NormalTok{stringr::}\KeywordTok{str_pad}\NormalTok{(i, }\DecValTok{3}\NormalTok{, }\StringTok{"left"}\NormalTok{, }\DecValTok{0}\NormalTok{),  }
+      \StringTok{".test"}\NormalTok{,}
+      \DataTypeTok{collapse =} \StringTok{""}\NormalTok{, }\DataTypeTok{sep=}\StringTok{""}
+    \NormalTok{)}
+  \KeywordTok{writeLines}\NormalTok{(content, fname)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\end{frame}
+
+\begin{frame}[fragile]{use case 4 - handling files names in a loop}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{pattern =} \StringTok{"}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{d.test$"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "f_2016-02-24 10:10:59 001.test"
+##  [2] "f_2016-02-24 10:10:59 002.test"
+##  [3] "f_2016-02-24 10:10:59 003.test"
+##  [4] "f_2016-02-24 10:10:59 004.test"
+##  [5] "f_2016-02-24 10:10:59 005.test"
+##  [6] "f_2016-02-24 10:10:59 006.test"
+##  [7] "f_2016-02-24 10:10:59 007.test"
+##  [8] "f_2016-02-24 10:10:59 008.test"
+##  [9] "f_2016-02-24 10:10:59 009.test"
+## [10] "f_2016-02-24 10:10:59 010.test"
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{use case 5 - zipping}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{filelist <-}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{pattern =} \StringTok{".txt$|html$|test$"}\NormalTok{)}
+\KeywordTok{zip}\NormalTok{(}\DataTypeTok{zipfile =} \StringTok{"archive.zip"}\NormalTok{, }\DataTypeTok{files =} \NormalTok{filelist)}
+\KeywordTok{file.remove}\NormalTok{(filelist[}\KeywordTok{file.exists}\NormalTok{(filelist)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+##  [8] TRUE TRUE TRUE TRUE TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{list.files}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "archive.zip"          
+## [2] "file_manipulation.pdf"
+## [3] "file_manipulation.Rmd"
+## [4] "file_manipulation.tex"
+\end{verbatim}
+
+\end{frame}
+
+\end{document}
