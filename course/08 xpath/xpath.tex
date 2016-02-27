@@ -67,6 +67,12 @@
 \newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{{#1}}}}
 \newcommand{\NormalTok}[1]{{#1}}
+\usepackage{longtable,booktabs}
+\usepackage{caption}
+% These lines are needed to make table captions work with longtable:
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -119,20 +125,19 @@
 \tableofcontents[hideallsubsections]
 \end{frame}
 
-\begin{frame}{HTML/XML tree structure again}
+\section{HTML/XML tree structure
+again}\label{htmlxml-tree-structure-again}
 
-\begin{block}{HTML/XML tree structure, nodes and attributes}
+\begin{frame}{HTML/XML tree structure, nodes and attributes}
 
 \url{http://www.r-datacollection.com/materials/html/fortunes.html}
 \includegraphics{tree.png}
 
-\end{block}
-
 \end{frame}
 
-\begin{frame}[fragile]{Running Example}
+\section{Running Example}\label{running-example}
 
-\begin{block}{running example}
+\begin{frame}[fragile]{running example}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -155,9 +160,9 @@
 \end{Highlighting}
 \end{Shaded}
 
-\end{block}
+\end{frame}
 
-\begin{block}{running example}
+\begin{frame}[fragile]{running example}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -234,13 +239,11 @@
 ##   {text}
 \end{verbatim}
 
-\end{block}
-
 \end{frame}
 
-\begin{frame}[fragile]{How XPath works \ldots{}}
+\section{How XPath works \ldots{}}\label{how-xpath-works}
 
-\begin{block}{XPath? What is it all about?}
+\begin{frame}{XPath? What is it all about?}
 
 \begin{itemize}
 \tightlist
@@ -255,9 +258,9 @@
   in XPath on selects nodes describing the paths that lead to that path
 \end{itemize}
 
-\end{block}
+\end{frame}
 
-\begin{block}{How XPath Works \ldots{}}
+\begin{frame}[fragile]{How XPath Works \ldots{}}
 
 \begin{itemize}
 \tightlist
@@ -308,9 +311,9 @@
   \ldots{} from single nodes and node sets
 \end{itemize}
 
-\end{block}
+\end{frame}
 
-\begin{block}{explicit path}
+\begin{frame}[fragile]{explicit path}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -324,9 +327,9 @@
 ## [1] <h1 class="pink">Rolf Turner</h1>
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{path anywhere in hierarchy}
+\begin{frame}[fragile]{path anywhere in hierarchy}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -340,9 +343,9 @@
 ## [2] <h1 class="pink">Rolf Turner</h1>
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{path anywhere in hierarchy / attribute}
+\begin{frame}[fragile]{path anywhere in hierarchy / attribute}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -356,9 +359,9 @@
 ## [2]  href="www.r-datacollectionbook.com"
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{path anywhere in hierarchy / function}
+\begin{frame}[fragile]{path anywhere in hierarchy / function}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -372,9 +375,9 @@
 ## [2] 'R is wonderful, but it cannot work magic'
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{path anywhere in hierarchy / indexing}
+\begin{frame}[fragile]{path anywhere in hierarchy / indexing}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -387,9 +390,9 @@
 ## [1] <i>'What we have is nice, but we need something very different'</i>
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{path anywhere in hierarchy / indexing}
+\begin{frame}[fragile]{path anywhere in hierarchy / indexing}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -425,9 +428,9 @@
 ## [1] 'What we have is nice, but we need something very different'
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{node / attribute contains/is equal \ldots{}}
+\begin{frame}[fragile]{node / attribute contains/is equal \ldots{}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -462,9 +465,9 @@
 ## [1] <div lang="english" date="October/2011">\n\t\t\t<h1 class="pink">Rol ...
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{node / attribute contains/is equal \ldots{}}
+\begin{frame}[fragile]{node / attribute contains/is equal \ldots{}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -488,9 +491,9 @@
 ## [1] <a href="www.r-datacollectionbook.com">\n\t\t\t\t<i>The book homepag ...
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{node parent}
+\begin{frame}[fragile]{node parent}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -516,9 +519,9 @@
 ## [2] <address>\n\t\t\t<a href="www.r-datacollectionbook.com">\n\t\t\t\t<i ...
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{all nodes everywhere}
+\begin{frame}[fragile]{all nodes everywhere}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -551,9 +554,9 @@
 ## ...
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{all nodes' text everywhere}
+\begin{frame}[fragile]{all nodes' text everywhere}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -586,9 +589,9 @@
 ## ...
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{that node or the other}
+\begin{frame}[fragile]{that node or the other}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -605,9 +608,9 @@
 ## [5] <i>The book homepage</i>
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{using axis :: parent}
+\begin{frame}[fragile]{using axis :: parent}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -644,9 +647,9 @@
 ## [1] <p>\n\t\t\t\t<b class="pink">Source: </b>\n\t\t\t\t<a href="https:// ...
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{using axis :: child}
+\begin{frame}[fragile]{using axis :: child}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -689,9 +692,9 @@
 ## [2] <i>'R is wonderful, but it cannot work magic'</i>
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{using axis :: ancestor}
+\begin{frame}[fragile]{using axis :: ancestor}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -739,9 +742,9 @@
 ## [20]  \n
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{using axis :: descendant}
+\begin{frame}[fragile]{using axis :: descendant}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -776,9 +779,10 @@
 ## [6] R-help
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{using axis :: following-sibling / preceding-sibling}
+\begin{frame}[fragile]{using axis :: following-sibling /
+preceding-sibling}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -803,13 +807,11 @@
 ## [1] <a href="https://stat.ethz.ch/mailman/listinfo/r-help">R-help</a>
 \end{verbatim}
 
-\end{block}
-
 \end{frame}
 
-\begin{frame}[fragile]{How CSS-Selectors Work \ldots{}}
+\section{How CSS-Selectors Work \ldots{}}\label{how-css-selectors-work}
 
-\begin{block}{How CSS-Selectors Work \ldots{}}
+\begin{frame}{How CSS-Selectors Work \ldots{}}
 
 \begin{itemize}
 \tightlist
@@ -841,9 +843,9 @@
   \end{itemize}
 \end{itemize}
 
-\end{block}
+\end{frame}
 
-\begin{block}{selecting nodes by name}
+\begin{frame}[fragile]{selecting nodes by name}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -874,9 +876,9 @@
 ## [5] <i>The book homepage</i>
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{selecting nodes by class}
+\begin{frame}[fragile]{selecting nodes by class}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -892,9 +894,9 @@
 ## [4] <b class="pink">Source: </b>
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{selecting nodes by id}
+\begin{frame}[fragile]{selecting nodes by id}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -918,9 +920,9 @@
 ## [1] <div id="R_Inventor" lang="english" date="June/2003">\n\t\t\t<h1 cla ...
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{selecting nodes by attribute}
+\begin{frame}[fragile]{selecting nodes by attribute}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -946,9 +948,9 @@
 ## [2] <a href="www.r-datacollectionbook.com">\n\t\t\t\t<i>The book homepag ...
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{selecting nodes by attribute value}
+\begin{frame}[fragile]{selecting nodes by attribute value}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -994,9 +996,10 @@
 ## [1] <div id="R_Inventor" lang="english" date="June/2003">\n\t\t\t<h1 cla ...
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{selecting nodes by path characteristics : decendant}
+\begin{frame}[fragile]{selecting nodes by path characteristics :
+decendant}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1022,9 +1025,9 @@
 ## [1] <i>The book homepage</i>
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{selecting nodes by path characteristics :parent}
+\begin{frame}[fragile]{selecting nodes by path characteristics :parent}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1049,9 +1052,10 @@
 ## [1] <i>The book homepage</i>
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{selecting nodes by path characteristics : first of type}
+\begin{frame}[fragile]{selecting nodes by path characteristics : first
+of type}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1065,10 +1069,10 @@
 ## [2] <p>\n\t\t\t\t<i>'R is wonderful, but it cannot work magic'</i><br/>\ ...
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{selecting nodes by path characteristics : nth child of
-parent}
+\begin{frame}[fragile]{selecting nodes by path characteristics : nth
+child of parent}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1092,10 +1096,10 @@ parent}
 ## [1] <a href="https://stat.ethz.ch/mailman/listinfo/r-help">R-help</a>
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{selecting nodes by path characteristics : nth child of
-parent}
+\begin{frame}[fragile]{selecting nodes by path characteristics : nth
+child of parent}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1119,10 +1123,10 @@ parent}
 ## {xml_nodeset (0)}
 \end{verbatim}
 
-\end{block}
+\end{frame}
 
-\begin{block}{selecting nodes by path characteristics : nth child of
-parent}
+\begin{frame}[fragile]{selecting nodes by path characteristics : nth
+child of parent}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1136,39 +1140,11 @@ parent}
 ## [2] <p>\n\t\t\t\t<i>'R is wonderful, but it cannot work magic'</i><br/>\ ...
 \end{verbatim}
 
-\end{block}
-
 \end{frame}
 
-\begin{frame}{Selector Gadget and Developer Tools to the Rescue}
+\section{R-Packages and Functions}\label{r-packages-and-functions}
 
-\begin{block}{Selector Gadget and Developer Tools to the Rescue}
-
-\begin{itemize}
-\tightlist
-\item
-  building Xpath (CSS-S) expressions is an art
-\item
-  and easily and quickly becomes mind buggling and complicated
-\item
-  there are however some tools that might help lessen the burden:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    selectorgadget : \url{http://selectorgadget.com/}
-  \item
-    developer tools
-  \end{itemize}
-\end{itemize}
-
-\end{block}
-
-\end{frame}
-
-\begin{frame}{R-Packages and Functions}
-
-\begin{block}{rvest and XML}
+\begin{frame}{rvest and XML}
 
 \textbf{rvest} (httr + xml2 + selectr)
 
@@ -1205,38 +1181,86 @@ parent}
   al (2014): \emph{Automated Data Collection with R}
 \end{itemize}
 
-\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{rvest's (important) XML handling functions}
+
+\begin{longtable}[c]{@{}ll@{}}
+\toprule
+function & description\tabularnewline
+\midrule
+\endhead
+\texttt{read\_html()} & parse HTML (file); all others based
+on\tabularnewline
+\texttt{html\_structure()} & shows the structure of an HTML
+(doc)\tabularnewline
+\texttt{as\_list()} & transform parsed XML / HTML to list
+(doc)\tabularnewline
+\texttt{html\_attr()} & get specific attribute value
+(node)\tabularnewline
+\texttt{html\_attrs()} & get all attributes (node)\tabularnewline
+\texttt{html\_text()} & get node's and children's text
+(node)\tabularnewline
+\texttt{html\_children()} & get children of node (doc,
+node)\tabularnewline
+\texttt{xml\_path()} & gives back the explicit path to nodes
+(node)\tabularnewline
+\texttt{xml\_length()} & number of children (node)\tabularnewline
+\texttt{html\_name()} & name of nodes (node)\tabularnewline
+\texttt{xml\_parent()} & gives back parent of node (node)\tabularnewline
+\texttt{xml\_parents()} & gives back all ancestors of node
+(node)\tabularnewline
+\texttt{xml\_siblings()} & gives back nodes with the same parent
+(node)\tabularnewline
+\texttt{xml\_type()} & gives back type (node, doc)\tabularnewline
+\bottomrule
+\end{longtable}
+
+doc: parsed document; node: node set or node; file: un-parsed XML
+document
 
 \end{frame}
 
-\begin{frame}{rvest / xml2}
+\section{Selector Gadget and Developer Tools to the
+Rescue}\label{selector-gadget-and-developer-tools-to-the-rescue}
 
-\end{frame}
+\begin{frame}{Selector Gadget and Developer Tools to the Rescue}
 
-\begin{frame}[fragile]{(important) XML handling functions}
+\begin{itemize}
+\tightlist
+\item
+  building Xpath (CSS-S) expressions is an art (practice hard and be
+  creative)
+\item
+  \ldots{} and easily and quickly becomes mind buggling and complicated
+  \ldots{}
+\item
+  \ldots{} there are however some tools that might help lessen the
+  burden:
 
-function \textbar{} description --------- \textbar{} ------------
-\texttt{read\_html()} \textbar{} parse HTML (file); all others based on
-\texttt{html\_structure()} \textbar{} shows the structure of an HTML
-(doc) \texttt{as\_list()} \textbar{} transform parsed XML / HTML to list
-(doc) html\_attr
+  \begin{itemize}
+  \tightlist
+  \item
+    selectorgadget : \url{http://selectorgadget.com/}
+  \item
+    developer tools :
 
-doc: parsed document; ns: node set or node; file: un-parsed XML document
-
-\texttt{write\_xml} \texttt{xml\_attr} \texttt{xml\_attrs}\\
-\texttt{xml\_children} \texttt{xml\_contents} \texttt{xml\_find\_all}
-\texttt{xml\_find\_one}\\
-\texttt{xml\_has\_attr} \texttt{xml\_length} \texttt{xml\_name}
-\texttt{xml\_ns}\\
-xml\_ns\_rename\texttt{`xml\_parent} \texttt{xml\_parents}
-\texttt{xml\_path}\\
-\texttt{xml\_siblings} \texttt{xml\_structure} \texttt{xml\_text}
-\texttt{xml\_type}\\
-\texttt{xml\_url}
-
-\texttt{url\_absolute} \texttt{url\_escape} \texttt{url\_parse}
-\texttt{url\_relative}\\
-\texttt{url\_unescape}
+    \begin{itemize}
+    \tightlist
+    \item
+      Firefox: \url{https://developer.mozilla.org/de/docs/Tools}
+    \item
+      Chrome: \url{https://developer.chrome.com/devtools}
+    \item
+      Safari: \url{https://developer.apple.com/safari/tools/}
+    \item
+      Opera: \url{http://www.opera.com/dragonfly/}
+    \item
+      Edge:
+      \url{https://dev.windows.com/en-us/microsoft-edge/platform/documentation/f12-devtools-guide/}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
 
 \end{frame}
 

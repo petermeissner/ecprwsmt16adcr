@@ -261,17 +261,6 @@ html_nodes(html, css = "p:nth-of-type(1)")
 
 
 
-
-# Selector Gadget and Developer Tools to the Rescue
-
-## Selector Gadget and Developer Tools to the Rescue
-- building Xpath (CSS-S) expressions is an art 
-- and easily and quickly becomes mind buggling and complicated
-- there are however some tools that might help lessen the burden:
-    - selectorgadget : http://selectorgadget.com/
-    - developer tools
-
-
 # R-Packages and Functions
 ## rvest and XML
 
@@ -292,34 +281,43 @@ html_nodes(html, css = "p:nth-of-type(1)")
   - two good sources cover that one: Nolan & Temple-Lang (2013): *XML and Web Technologies for Data Sciences with R*; Munzert et al (2014): *Automated Data Collection with R*
 
   
-# rvest / xml2
-# (important) XML handling functions
+## rvest's (important) XML handling functions
 
 function           | description
 ------------------ | ------------
 `read_html()`      | parse HTML (file); all others based on
 `html_structure()` | shows the structure of an HTML (doc)
 `as_list()`        | transform parsed XML / HTML to list (doc)
-`html_attr()`      | get specific attribute value (nset)
-`html_attrs()`     | get all attributes (nset)
-`html_children()`  | get children of node (doc, nset)
+`html_attr()`      | get specific attribute value (node)
+`html_attrs()`     | get all attributes (node)
+`html_text()`      | get node's and children's text (node)
+`html_children()`  | get children of node (doc, node)
+`xml_path()`       | gives back the explicit path to nodes (node)
+`xml_length()`     | number of children (node)
+`html_name()`      | name of nodes (node)
+`xml_parent()`     | gives back parent of node (node)
+`xml_parents()`    | gives back all ancestors of node (node)
+`xml_siblings()`   | gives back nodes with the same parent (node)
+`xml_type()`       | gives back type (node, doc)
+
+doc: parsed document; node: node set or node; file: un-parsed XML document
 
 
 
-doc: parsed document; nset: node set or node; file: un-parsed XML document
+# Selector Gadget and Developer Tools to the Rescue
 
-
- `xml_contents`   `xml_find_all`   `xml_find_one`  
-`xml_has_attr`   `xml_length`     `xml_name`       `xml_ns`        
-xml_ns_rename`  `xml_parent`     `xml_parents`    `xml_path`      
-`xml_siblings`   `xml_structure`  `xml_text`       `xml_type`      
-`xml_url`       
-
-
-`url_absolute`   `url_escape`     `url_parse`      `url_relative`  
-`url_unescape` 
-
-
+## Selector Gadget and Developer Tools to the Rescue
+- building Xpath (CSS-S) expressions is an art (practice hard and be creative)
+- ... and easily and quickly becomes mind buggling and complicated ...
+- ... there are however some tools that might help lessen the burden:
+    - selectorgadget : http://selectorgadget.com/
+    - developer tools : 
+        - Chrome: https://developer.chrome.com/devtools 
+        - Firefox: https://developer.mozilla.org/de/docs/Tools
+        - Opera: http://www.opera.com/dragonfly/
+        - Safari: https://developer.apple.com/safari/tools/
+        - Edge: https://dev.windows.com/en-us/microsoft-edge/platform/documentation/f12-devtools-guide/
+        
 
 
 

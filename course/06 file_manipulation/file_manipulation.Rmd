@@ -39,6 +39,7 @@ function      | description
 `readLines()`         | read file into char. vector
 `writeLines()`        | write character vector into file
 `write()`             | write to file, e.g. append to file 
+`dir.create()`        | creates a directory
 
 &nbsp;
     
