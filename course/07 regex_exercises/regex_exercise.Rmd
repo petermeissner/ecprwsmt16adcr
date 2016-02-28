@@ -1,0 +1,11 @@
+---
+title: "Exercise: RegEx"
+author: "Peter Meißner"
+date: "28 Februar 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+

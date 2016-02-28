@@ -1,0 +1,77 @@
+---
+title: "Exercise: file manipulation"
+author: "Peter Meißner"
+date: "28 Februar 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##1) Logging the System time
+
+a) write a loop that 
+    - sleeps 1 second
+    - writes a text-file with name equal to the current time
+    
+b) write a function that 
+    - writes a file with some content of your choosing
+    - but only if a file with the same name does not exist or is older than 20 seconds
+    
+*example of a function writing a file*
+```{r}
+  write_punny_file <- function(name="no_a_clever_name.txt"){
+    writeLines("content", name)
+  }
+```
+
+c) write a loop that 
+    - sleeps for a second
+    - appends the current time to a file
+
+
+##2) Pasting file names
+    
+a) generate a data.frame 
+    - with two variables 
+    - each having three values 
+    - build a double loop (one over variable 1, one over variable 2) 
+    - for each iteration a file should be written to disk 
+    - the file name should entail the value of variable one and two
+  
+*example of a double loop*
+```{r, eval=FALSE}
+  for( i in 1:3){
+    for( j in 1:3){
+      cat("- i=", i, "j=", j, "\n")
+    }
+  }
+```
+  
+  
+b) use expand.grid() on the data.frame created before
+    - than use apply() to apply the paste function with option collapse="_" on each row
+    - use the resulting strings to create the same file as in ex-2.a
+
+
+
+##3) Reading files
+  
+a) use list.files() to get a vector of file names in the current folder
+
+b) use list.files() in combination with option pattern 
+    - to only get a subset of files
+    - use three different subsets
+    
+c) make an empy list
+    - use list.files() to get a vector of file names
+    - use file.info() to get further information on the files (mtime)
+    - read in the content of the files 
+        - only for those files that are newest according to mtime
+  
+  
+  
+  
+  
+        
