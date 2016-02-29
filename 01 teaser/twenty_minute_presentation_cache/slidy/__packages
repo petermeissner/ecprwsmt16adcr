@@ -1,0 +1,17 @@
+base
+methods
+datasets
+utils
+grDevices
+graphics
+stats
+stringr
+bitops
+RCurl
+RJSONIO
+XML
+RSelenium
+dplyr
+magrittr
+wikipediatrend
+ggplot2

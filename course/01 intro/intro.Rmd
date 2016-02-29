@@ -300,44 +300,36 @@ if ( p_to_install > 0 ){
 # What to expect within the next sessions? 
 
 ## How do we proceed?
-### Session 1: Overview
-### Session 2: Information extraction via RegEx
-### Session 3: Information extraction via XPath (~~and CSS-selectors~~)
-### session 4: Getting along with APIs and JSON data
-### Session 5: Surviving JavaScript and filling out HTML forms
-
-
-## How do we proceed?
-### Session 2: Information extraction via RegEx
-- first simple downloads
-- introduction to HTML
-- introduction to Regular Expressions
-- pdf transformation
-- information extraction via RegEx
-- geocoding
+1) Introduction
+2) Browsing and Scraping 
+3) Regular Expressions
+4) Regular Expressions Case Study
+5) HTML/XML
+6) File Manipulation
+7) Excercises
 
 ## How do we proceed?
-### Session 3: Information extraction via XPath (~~and CSS-selectors~~)
-- introduction to selector gadget
-- introduction to XPath
-- some XPath extractions
-
+8) Xpath
+9) Xpath Case Study 
 
 ## How do we proceed?
-### Session 4: Getting along with APIs (and JSON data)
-- introduction to JSON
-- simple API communications
-- OAuth API communiations (twitteR package)
-
+10) JSON
+11) APIs
+12) Simple APIs Case Study
+13) Oauth  APIs Case Study
 
 ## How do we proceed?
-### Session 5: HTML forms
-- GETting and POSTing Forms 
+14) HTML Forms
+15) HTML Forms GET Case Study 
+15) HTML Forms POST 1 Case Study
+16) HTML Forms POST 2 Case Study
+17) JavaScript
+18) Browserautomation
 
-### Session 5: Kicking JavaScript (controling your browser)
-- using Selenium to automate your Browser
-
-
+## How do we proceed?
+19) XHR
+20) XHR Case Study
+21) Managing Projects
 
 
 

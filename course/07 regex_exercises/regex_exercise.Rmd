@@ -9,3 +9,71 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+##1) Character Encoding
+
+```{r}
+readLines("text1.txt")
+readLines("text2.txt")
+```
+
+a) use the encoding option of readLines() to read show files correctly
+
+b) use Encoding to show the files correctly
+
+c) use iconv to solve the problem 
+
+d) use stringi::stri_enc_detect() to guess Encoding of the files
+
+e) write your name with `\u0000` expressions (http://unicode-table.com/en/), e.g.:
+
+```{r}
+name <- "\u0055\u0064\u006f"
+name
+```
+
+f) read in 17814-0.txt and get the encoding right
+
+
+##2) Information Extraction
+
+a) read in pg345.txt
+    - count how many times the word "blood" or "Blood" is used throughout the book
+    - use grep() to get an index of lines containing the word
+    - use hist(...,n=100000) to make a "zebra?"-chart
+    - what might be other interesting words?
+    - can you add them to your RegEx?
+
+b) read in pg345.txt
+    - use paste(..., collapse="\n") to combine the text into one single string
+    - use str_split() to split this string into words
+    - use tabulate() and sort to get the 10 most frequent words as well as the 10 least frequent words
+    
+c) for all files: 17814-0.txt, pg11.txt, pg1661.txt, pg174.txt, pg2600.txt, pg345.txt, pg34901.txt    
+    - find a way to extract:
+        - title
+        - author
+        - posting date
+    - find a way to drop information added by Projct Gutenberg
+
+d) read in 2012.txt and build a data.frame containing the following information
+    - first name
+    - last name
+    - number of reviews
+    - institution
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
