@@ -67,6 +67,18 @@ img {
 </div>
 
 
+<pre class="r"><code>library(magrittr)
+library(stringr)</code></pre>
+<pre class="r"><code>if( grepl(&quot;file_manipulation_exercise&quot;,basename(getwd())) ){
+  list.files(pattern = &quot;txt$&quot;)  %&gt;% 
+    file.remove()
+  
+  list.files(pattern = &quot;^\\d.*\\d$&quot;) %&gt;% 
+    file.remove()
+  
+  file.remove(&quot;mylogfile&quot;)
+}</code></pre>
+<pre><code>## [1] TRUE</code></pre>
 <div id="logging-the-system-time" class="section level2">
 <h2>1) Logging the System time</h2>
 <ol style="list-style-type: lower-alpha">
@@ -75,6 +87,22 @@ img {
 <li>sleeps 1 second</li>
 <li>writes a text-file with name equal to the current time</li>
 </ul></li>
+</ol>
+<pre class="r"><code>for(i in 1:10){
+  Sys.sleep(1)
+  
+  Sys.time() %&gt;% 
+    as.character() %&gt;% 
+    str_replace_all(&quot;:&quot;, &quot;_&quot;) %&gt;% 
+    writeLines( &quot;blah&quot;, .)
+}
+
+list.files(pattern = &quot;^\\d&quot;)</code></pre>
+<pre><code>##  [1] &quot;2016-03-01 18_22_25&quot; &quot;2016-03-01 18_22_26&quot; &quot;2016-03-01 18_22_27&quot;
+##  [4] &quot;2016-03-01 18_22_28&quot; &quot;2016-03-01 18_22_29&quot; &quot;2016-03-01 18_22_30&quot;
+##  [7] &quot;2016-03-01 18_22_31&quot; &quot;2016-03-01 18_22_32&quot; &quot;2016-03-01 18_22_33&quot;
+## [10] &quot;2016-03-01 18_22_34&quot;</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
 <li>write a function that
 <ul>
 <li>writes a file with some content of your choosing</li>
@@ -82,9 +110,27 @@ img {
 </ul></li>
 </ol>
 <p><em>example of a function writing a file</em></p>
-<pre class="r"><code>  write_punny_file &lt;- function(name=&quot;no_a_clever_name.txt&quot;){
-    writeLines(&quot;content&quot;, name)
-  }</code></pre>
+<pre class="r"><code>  write_punny_file &lt;- function(name=&quot;not_a_clever_name.txt&quot;){
+    timediff &lt;-
+      as.numeric(Sys.time()) -
+    as.numeric(file.info(name)$mtime)
+    
+    if( !file.exists(name) | timediff &gt; 20 | is.na(timediff &gt; 20) ){
+      writeLines(&quot;content&quot;, name)
+      return(TRUE)
+    }else{
+      return(FALSE)
+    }
+  }
+
+write_punny_file()</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>list.files(pattern = &quot;^not_&quot;)</code></pre>
+<pre><code>## [1] &quot;not_a_clever_name.txt&quot;</code></pre>
+<pre class="r"><code>Sys.time()</code></pre>
+<pre><code>## [1] &quot;2016-03-01 18:22:34 CET&quot;</code></pre>
+<pre class="r"><code>file.info(&quot;not_a_clever_name.txt&quot;)$mtime</code></pre>
+<pre><code>## [1] &quot;2016-03-01 18:22:34 CET&quot;</code></pre>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>write a loop that
 <ul>
@@ -92,6 +138,18 @@ img {
 <li>appends the current time to a file</li>
 </ul></li>
 </ol>
+<pre class="r"><code>for( i in 1:10){
+  write(
+    as.character(Sys.time()), 
+    &quot;mylogfile&quot;, append = TRUE)  
+  Sys.sleep(0.3)
+}
+
+readLines(&quot;mylogfile&quot;)</code></pre>
+<pre><code>##  [1] &quot;2016-03-01 18:22:34&quot; &quot;2016-03-01 18:22:35&quot; &quot;2016-03-01 18:22:35&quot;
+##  [4] &quot;2016-03-01 18:22:35&quot; &quot;2016-03-01 18:22:36&quot; &quot;2016-03-01 18:22:36&quot;
+##  [7] &quot;2016-03-01 18:22:36&quot; &quot;2016-03-01 18:22:37&quot; &quot;2016-03-01 18:22:37&quot;
+## [10] &quot;2016-03-01 18:22:37&quot;</code></pre>
 </div>
 <div id="pasting-file-names" class="section level2">
 <h2>2) Pasting file names</h2>
@@ -111,6 +169,29 @@ img {
       cat(&quot;- i=&quot;, i, &quot;j=&quot;, j, &quot;\n&quot;)
     }
   }</code></pre>
+<p><em>solution</em></p>
+<pre class="r"><code>var1 &lt;- letters[1:3]
+var2 &lt;- LETTERS[7:9]
+df  &lt;- data.frame(var1, var2)
+
+  for( i in seq_along(var1)){
+    for( j in seq_along(var2)){
+      txt   &lt;- paste(&quot;var1 =&quot;, df$var1[i], &quot;\nvar2 =&quot;, df$var2[j])
+      fname &lt;- paste0(df$var1[i], &quot;_&quot;, df$var2[j], &quot;.txt&quot;)
+      writeLines(txt, fname)
+    }
+  }
+
+list.files(pattern = &quot;txt$&quot;)</code></pre>
+<pre><code>##  [1] &quot;a_G.txt&quot;               &quot;a_H.txt&quot;              
+##  [3] &quot;a_I.txt&quot;               &quot;b_G.txt&quot;              
+##  [5] &quot;b_H.txt&quot;               &quot;b_I.txt&quot;              
+##  [7] &quot;c_G.txt&quot;               &quot;c_H.txt&quot;              
+##  [9] &quot;c_I.txt&quot;               &quot;not_a_clever_name.txt&quot;</code></pre>
+<pre class="r"><code>readLines(&quot;a_G.txt&quot;)</code></pre>
+<pre><code>## [1] &quot;var1 = a &quot; &quot;var2 = G&quot;</code></pre>
+<pre class="r"><code>readLines(&quot;c_I.txt&quot;)</code></pre>
+<pre><code>## [1] &quot;var1 = c &quot; &quot;var2 = I&quot;</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>use expand.grid() on the data.frame created before
 <ul>
@@ -118,16 +199,88 @@ img {
 <li>use the resulting strings to create the same file as in ex-2.a</li>
 </ul></li>
 </ol>
+<pre class="r"><code>df_expanded &lt;- expand.grid(df)
+df_expanded</code></pre>
+<pre><code>##   var1 var2
+## 1    a    G
+## 2    b    G
+## 3    c    G
+## 4    a    H
+## 5    b    H
+## 6    c    H
+## 7    a    I
+## 8    b    I
+## 9    c    I</code></pre>
+<pre class="r"><code>df_expanded$fnames &lt;-
+  df_expanded %&gt;% 
+  apply(1, paste0, collapse=&quot;_&quot;) %&gt;% 
+  paste0(&quot;.txt&quot;)
+
+for( i in seq_along(df_expanded[,1]) ){
+  with(
+    df_expanded,
+    writeLines(
+      paste(&quot;.var1 =&quot;, var1[i], &quot;\n.var2 =&quot;, var2[i]),
+      fnames[i],
+    )
+  )
+}
+
+list.files(pattern = &quot;txt$&quot;)</code></pre>
+<pre><code>##  [1] &quot;a_G.txt&quot;               &quot;a_H.txt&quot;              
+##  [3] &quot;a_I.txt&quot;               &quot;b_G.txt&quot;              
+##  [5] &quot;b_H.txt&quot;               &quot;b_I.txt&quot;              
+##  [7] &quot;c_G.txt&quot;               &quot;c_H.txt&quot;              
+##  [9] &quot;c_I.txt&quot;               &quot;not_a_clever_name.txt&quot;</code></pre>
+<pre class="r"><code>readLines(&quot;a_G.txt&quot;)</code></pre>
+<pre><code>## [1] &quot;.var1 = a &quot; &quot;.var2 = G&quot;</code></pre>
+<pre class="r"><code>readLines(&quot;c_I.txt&quot;)</code></pre>
+<pre><code>## [1] &quot;.var1 = c &quot; &quot;.var2 = I&quot;</code></pre>
 </div>
 <div id="reading-files" class="section level2">
 <h2>3) Reading files</h2>
 <ol style="list-style-type: lower-alpha">
-<li><p>use list.files() to get a vector of file names in the current folder</p></li>
+<li>use list.files() to get a vector of file names in the current folder</li>
+</ol>
+<pre class="r"><code>list.files()</code></pre>
+<pre><code>##  [1] &quot;2016-03-01 18_22_25&quot;             &quot;2016-03-01 18_22_26&quot;            
+##  [3] &quot;2016-03-01 18_22_27&quot;             &quot;2016-03-01 18_22_28&quot;            
+##  [5] &quot;2016-03-01 18_22_29&quot;             &quot;2016-03-01 18_22_30&quot;            
+##  [7] &quot;2016-03-01 18_22_31&quot;             &quot;2016-03-01 18_22_32&quot;            
+##  [9] &quot;2016-03-01 18_22_33&quot;             &quot;2016-03-01 18_22_34&quot;            
+## [11] &quot;a_G.txt&quot;                         &quot;a_H.txt&quot;                        
+## [13] &quot;a_I.txt&quot;                         &quot;b_G.txt&quot;                        
+## [15] &quot;b_H.txt&quot;                         &quot;b_I.txt&quot;                        
+## [17] &quot;c_G.txt&quot;                         &quot;c_H.txt&quot;                        
+## [19] &quot;c_I.txt&quot;                         &quot;file_manipulation_exercise.html&quot;
+## [21] &quot;file_manipulation_exercise.pdf&quot;  &quot;file_manipulation_exercise.R&quot;   
+## [23] &quot;file_manipulation_exercise.Rmd&quot;  &quot;mylogfile&quot;                      
+## [25] &quot;not_a_clever_name.txt&quot;</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
 <li>use list.files() in combination with option pattern
 <ul>
 <li>to only get a subset of files</li>
 <li>use three different subsets</li>
 </ul></li>
+</ol>
+<pre class="r"><code>list.files(pattern = &quot;^\\d&quot;)</code></pre>
+<pre><code>##  [1] &quot;2016-03-01 18_22_25&quot; &quot;2016-03-01 18_22_26&quot; &quot;2016-03-01 18_22_27&quot;
+##  [4] &quot;2016-03-01 18_22_28&quot; &quot;2016-03-01 18_22_29&quot; &quot;2016-03-01 18_22_30&quot;
+##  [7] &quot;2016-03-01 18_22_31&quot; &quot;2016-03-01 18_22_32&quot; &quot;2016-03-01 18_22_33&quot;
+## [10] &quot;2016-03-01 18_22_34&quot;</code></pre>
+<pre class="r"><code>list.files(pattern = &quot;txt$&quot;)</code></pre>
+<pre><code>##  [1] &quot;a_G.txt&quot;               &quot;a_H.txt&quot;              
+##  [3] &quot;a_I.txt&quot;               &quot;b_G.txt&quot;              
+##  [5] &quot;b_H.txt&quot;               &quot;b_I.txt&quot;              
+##  [7] &quot;c_G.txt&quot;               &quot;c_H.txt&quot;              
+##  [9] &quot;c_I.txt&quot;               &quot;not_a_clever_name.txt&quot;</code></pre>
+<pre class="r"><code>list.files(pattern = &quot;manipulation&quot;)</code></pre>
+<pre><code>## [1] &quot;file_manipulation_exercise.html&quot; &quot;file_manipulation_exercise.pdf&quot; 
+## [3] &quot;file_manipulation_exercise.R&quot;    &quot;file_manipulation_exercise.Rmd&quot;</code></pre>
+<pre class="r"><code>list.files(pattern = &quot;manipulation&quot;, full.names = TRUE, recursive = TRUE)</code></pre>
+<pre><code>## [1] &quot;./file_manipulation_exercise.html&quot; &quot;./file_manipulation_exercise.pdf&quot; 
+## [3] &quot;./file_manipulation_exercise.R&quot;    &quot;./file_manipulation_exercise.Rmd&quot;</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
 <li>make an empy list
 <ul>
 <li>use list.files() to get a vector of file names</li>
@@ -138,6 +291,14 @@ img {
 </ul></li>
 </ul></li>
 </ol>
+<pre class="r"><code>fnames &lt;- list.files(full.names = TRUE, recursive = TRUE)
+
+info   &lt;- file.info(fnames)
+mtime  &lt;- info$mtime
+
+newest &lt;- fnames[order(mtime, decreasing = TRUE)]
+
+texts  &lt;- lapply(newest, readLines, warn=FALSE)</code></pre>
 </div>
 
 

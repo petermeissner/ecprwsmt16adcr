@@ -1,0 +1,58 @@
+---
+title: "Web Data Collection with R"
+author: "Peter Meißner / 2016-02-29 --  2016-03-04 / ECPR WSMT"
+header-includes:
+  - \definecolor{links}{HTML}{800080}
+  - \hypersetup{colorlinks,linkcolor=,urlcolor=links}
+output:
+  beamer_presentation:
+    fonttheme: structurebold
+    keep_tex: yes
+    toc: yes
+  slidy_presentation: default
+subtitle: JSON
+keep_tex: yes
+---
+
+
+
+
+# How JSON Works 
+##  How JSON Works 
+
+-  **J**ava**S**cript **O**bject **N**otation
+- data storage format used by most Web APIs
+- uses, `{ } , : " \` to describe data
+- is quite similar to a list in R
+- transforming JSON into some R data type is quite easy *[jsonlite]*
+
+##  How JSON Works 
+```{r}
+json <- 
+'{
+  "list" : {
+    "name" : "Peter",
+    "living in" : "Konstanz",
+    "course" : 108, 
+    "students" : [ {"name": "Paul", "age" : 20} ,
+      {"name": "Mary", "age" : 99} 
+    ]
+  }
+}'
+```
+
+##  How JSON Works 
+```{r}
+library(jsonlite)
+list <- fromJSON(json)
+list
+```
+
+##  How JSON Works 
+```{r}
+df <- as.data.frame(list)
+df[,1:3]
+df[,-c(1:3)]
+```
+
+

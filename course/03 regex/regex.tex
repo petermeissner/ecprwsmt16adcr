@@ -377,336 +377,60 @@ char.\tabularnewline
 
 \end{frame}
 
-\section{Character Encodings}\label{character-encodings}
-
-\begin{frame}{Character Encodings}
-
-Character Encodings are \ldots{}
+\begin{frame}{base / stringr / stringi}
 
 \begin{itemize}
 \tightlist
 \item
-  are like family \ldots{}
+  currently there are 3 packages with regular expression engines and
+  string manipulation functions
 \item
-  \ldots{} some of them you do not like but cannot avoid \ldots{}
+  base functions might be a little less coonvenient but they are
+  availible out of the box and are solid (and most likely to not change
+  in the near future)
 \item
-  \ldots{} something we will struggle with but have cope anyways
-\end{itemize}
-
-The best thing is \ldots{}
-
-\begin{itemize}
-\tightlist
+  stringr used to be its own package but is nowadays based on stringi
 \item
-  R has them all
-\end{itemize}
-
-The worst thing is \ldots{}
-
-\begin{itemize}
-\tightlist
+  stringi is based on a very solid, fast, and powerful C-library
 \item
-  R has them all
+  note, that the RegexEngines of stringi (stringr) and base work
+  differently (see following slide)
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Character Encodings}
-
-\begin{itemize}
-\tightlist
-\item
-  computers store everything as 0s and 1s (bits)
-\item
-  in cs there are differing layers of abstraction
-\item
-  one bit of information is called bit
-\item
-  bits are quite uninformative as they only ave two states
-\item
-  so they are are grouped into bytes (8 bits)
-\item
-  one byte can have 256 different values (2\^{}8)
-\item
-  so it can store numbers 0 to 255 or 1 to 256 or \ldots{} -127 to 128
-\item
-  or it can map to characters e.g.~ASCII
-  (abcABC.:-\_,;\#'+*\textasciitilde{}\textbar{}\textless{}\textgreater{}!``§\$\%\&/()=?\}{]}{[}\{\}\^{}°,
-  \ldots{}'')
-\item
-  ASCII is a character set - the set of characters you want to be able
-  to store - even 7 Bits would suffice to store it
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Character Encodings}
-
-\begin{itemize}
-\tightlist
-\item
-  for larger character sets than ASCII (ä ö ü é è \ldots{} ) on needs to
-  get clever since one byte does not suffice to map all characters to 0s
-  and 1s
-\item
-  unfortunate people got clever in differing ways
-
-  \begin{enumerate}
-  \def\labelenumi{\arabic{enumi})}
-  \tightlist
-  \item
-    using more than one byte to map more characters (`wide' characters,
-    UTF-16, USC-2, Windows OSs)
-  \item
-    using one or more bytes and using the first byte to encode how
-    manies are used (`multi-byte characters', UTF-8, Unix based OSs)
-  \end{enumerate}
-\item
-  otherwise we would not have to talk about character sets and character
-  encodings
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}[fragile]{Character Encodings}
+\begin{frame}[fragile]{base / stringr / stringi}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{rawToBits}\NormalTok{(}\KeywordTok{as.raw}\NormalTok{(}\DecValTok{62}\NormalTok{:}\DecValTok{66}\NormalTok{)) }\CommentTok{# as bits}
+\KeywordTok{library}\NormalTok{(stringr)}
+\KeywordTok{grepl}\NormalTok{(}\StringTok{"^a.*d$"}\NormalTok{, }\StringTok{"abc}\CharTok{\textbackslash{}n}\StringTok{efgd"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] 00 01 01 01 01 01 00 00 01 01 01 01 01 01 00 00 00 00 00 00 00 00 01
-## [24] 00 01 00 00 00 00 00 01 00 00 01 00 00 00 00 01 00
+## [1] TRUE
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{as.raw}\NormalTok{(}\DecValTok{62}\NormalTok{:}\DecValTok{66}\NormalTok{) }\CommentTok{# bytes as hexa-decimal}
+\KeywordTok{str_detect}\NormalTok{(}\StringTok{"abc}\CharTok{\textbackslash{}n}\StringTok{efgd"}\NormalTok{, }\StringTok{"^a.*d$"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 3e 3f 40 41 42
+## [1] FALSE
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.raw}\NormalTok{(}\DecValTok{62}\NormalTok{:}\DecValTok{66}\NormalTok{)) }\CommentTok{# as numbers}
+\KeywordTok{str_detect}\NormalTok{(}\StringTok{"abc}\CharTok{\textbackslash{}n}\StringTok{efgd"}\NormalTok{, }\KeywordTok{regex}\NormalTok{(}\StringTok{"a.*d"}\NormalTok{,  }\DataTypeTok{dotall=}\OtherTok{TRUE}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 62 63 64 65 66
+## [1] TRUE
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{rawToChar}\NormalTok{(}\KeywordTok{as.raw}\NormalTok{(}\DecValTok{62}\NormalTok{:}\DecValTok{66}\NormalTok{)) }\CommentTok{# bytes as chararcters}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] ">?@AB"
-\end{verbatim}
-
-\end{frame}
-
-\begin{frame}[fragile]{A character set problem}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{text           <-}\StringTok{ }\KeywordTok{rawToChar}\NormalTok{(}\KeywordTok{as.raw}\NormalTok{(}\DecValTok{228}\NormalTok{))}
-\KeywordTok{Encoding}\NormalTok{(text) <-}\StringTok{ "UTF-8"} 
-\NormalTok{text}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "\xe4"
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{Encoding}\NormalTok{(text) <-}\StringTok{ "latin1"} 
-\NormalTok{text}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "ä"
-\end{verbatim}
-
-Results differ because for latin1 character 228 is know but not for
-UTF-8
-
-\end{frame}
-
-\begin{frame}[fragile]{An encoding problem}
-
-Of cause UTF-8 knows how to encode ``ä'' \ldots{}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{text <-}\StringTok{ "ä"}
-\KeywordTok{charToRaw}\NormalTok{(text)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] c3 a4
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{Encoding}\NormalTok{(text) <-}\StringTok{ "latin1"}
-\NormalTok{text}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "Ã¤"
-\end{verbatim}
-
-\ldots{} but here the results differ because ``UTF-8'' has another
-system translating characters to bytes. In latin1 the two bytes are
-interpreted as two characters.
-
-\end{frame}
-
-\begin{frame}[fragile]{Which default encoding does your R use}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{Sys.getlocale}\NormalTok{()}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "LC_CTYPE=de_DE.UTF-8;LC_NUMERIC=C;LC_TIME=de_DE.UTF-8;LC_COLLATE=de_DE.UTF-8;LC_MONETARY=de_DE.UTF-8;LC_MESSAGES=de_DE.UTF-8;LC_PAPER=de_DE.UTF-8;LC_NAME=C;LC_ADDRESS=C;LC_TELEPHONE=C;LC_MEASUREMENT=de_DE.UTF-8;LC_IDENTIFICATION=C"
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# if yor locale is something other than UTF-8, }
-\CommentTok{# switch 'latin1' and 'UTF-8' and you shall be good to go}
-\end{Highlighting}
-\end{Shaded}
-
-\end{frame}
-
-\begin{frame}[fragile]{Changing interpretation of bytes}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{text <-}\StringTok{ "Små grodorna, små grodorna är lustiga att se."}
-\KeywordTok{Encoding}\NormalTok{(text) <-}\StringTok{ "UTF-8"}
-\NormalTok{text}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "Små grodorna, små grodorna är lustiga att se."
-\end{verbatim}
-
-\end{frame}
-
-\begin{frame}[fragile]{Changing interpretation of bytes}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{text <-}\StringTok{ "Små grodorna, små grodorna är lustiga att se."}
-\KeywordTok{Encoding}\NormalTok{(text) <-}\StringTok{ "latin1"}
-\NormalTok{text}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "SmÃ¥ grodorna, smÃ¥ grodorna Ã¤r lustiga att se."
-\end{verbatim}
-
-\end{frame}
-
-\begin{frame}[fragile]{Changing bytes and interpretation}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{text <-}\StringTok{ "Små grodorna, små grodorna är lustiga att se."}
-\NormalTok{text <-}\StringTok{ }\KeywordTok{iconv}\NormalTok{(text, }\StringTok{"UTF-8"}\NormalTok{, }\StringTok{"latin1"}\NormalTok{)}
-\KeywordTok{Encoding}\NormalTok{(text)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "latin1"
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{text}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "Små grodorna, små grodorna är lustiga att se."
-\end{verbatim}
-
-\end{frame}
-
-\begin{frame}[fragile]{Noe that all sources might have another encoding
-than your R default locale!}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{text <-}\StringTok{ "Små grodorna, små grodorna är lustiga att se."}
-\NormalTok{text <-}\StringTok{ }\KeywordTok{iconv}\NormalTok{(text, }\StringTok{"UTF-8"}\NormalTok{, }\StringTok{"latin1"}\NormalTok{)}
-\KeywordTok{writeLines}\NormalTok{(text, }\StringTok{"text_latin1.txt"}\NormalTok{, }\DataTypeTok{useBytes =} \OtherTok{TRUE}\NormalTok{)}
-\NormalTok{text <-}\StringTok{ }\KeywordTok{readLines}\NormalTok{(}\StringTok{"text_latin1.txt"}\NormalTok{)}
-\KeywordTok{Encoding}\NormalTok{(text)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "unknown"
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{text}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "Sm\xe5 grodorna, sm\xe5 grodorna \xe4r lustiga att se."
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{Encoding}\NormalTok{(text) <-}\StringTok{ "latin1"}
-\NormalTok{text}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "Små grodorna, små grodorna är lustiga att se."
-\end{verbatim}
-
-\end{frame}
-
-\section{URL character encoding}\label{url-character-encoding}
-
-\begin{frame}{URL character encoding}
-
-\begin{itemize}
-\tightlist
-\item
-  URLs have to wok for differing systems and OSs
-\item
-  therefore URLs have their own system of ensuring consistency
-\item
-  URL-encodings
-\end{itemize}
 
 \end{frame}
 

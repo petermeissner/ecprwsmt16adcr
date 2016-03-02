@@ -1,0 +1,157 @@
+---
+title: "Web Data Collection with R"
+author: "Peter Meißner / 2016-02-29 --  2016-03-04 / ECPR WSMT"
+header-includes:
+  - \definecolor{links}{HTML}{800080}
+  - \hypersetup{colorlinks,linkcolor=,urlcolor=links}
+output:
+  beamer_presentation:
+    fonttheme: structurebold
+    keep_tex: yes
+    toc: yes
+  slidy_presentation: default
+subtitle: OAuth API Case Study
+keep_tex: yes
+---
+
+
+
+
+# Twitter API - API with authentication
+
+## API with authentication
+- provides API for tweeting, accessing tweets and user information
+- more complex interface 
+- access needs Oauth authentication
+    - get account / developer account
+    - create/register application
+    - use credentials to authorize 
+
+## API with authentication
+- *[httr]* has capabilities and some examples: https://github.com/hadley/httr/tree/master/demo
+- use an already written package 
+- ... twitteR package by Jeff Gentry (!must read!: http://geoffjentry.hexdump.org/twitteR.pdf)
+
+## OAuth
+![](fig/oauth.png)
+
+## twitter app
+![](fig/twitterapp1.png)
+
+## twitter app
+![](fig/twitterapp2.png)
+
+## twitter app
+![](fig/twitterapp3.png)
+
+## twitter app
+![](fig/twitterapp4.png)
+
+## twitter app
+![](fig/twitterapp5.png)
+
+## twitter app
+![](fig/twitterapp6.png)
+
+## twitter app
+![](fig/twitterapp7.png)
+
+
+## the twitter example
+```{r, message=FALSE}
+# packages
+library(httr)
+library(dplyr)
+library(magrittr)
+library(stringr)
+# credentials
+cred_file <- "ecpr_wsmt_2016.credentials"
+tmp       <- readLines(cred_file)
+tmp
+```
+
+
+
+## the twitter example
+```{r}
+key = stringr::str_replace(
+  grep("twitter_api_key=", tmp, value = T), 
+  "twitter_api_key=", "")
+
+secret = stringr::str_replace(
+  grep("twitter_api_secret=", tmp, value = T), 
+  "twitter_api_secret=", "")
+
+token = stringr::str_replace(
+  grep("twitter_access_token=", tmp, value = T), 
+  "twitter_access_token=", "")
+
+token_secret = stringr::str_replace(
+  grep("twitter_access_token_secret=", tmp, value = T), 
+  "twitter_access_token_secret=", "")
+```
+
+
+## the twitter example
+```{r, cache=TRUE}
+twitter_token <-
+  Token1.0$new(
+    endpoint      = NULL,
+    params        = list(as_header = TRUE),
+    app           = oauth_app( "twitter", key, secret ),
+    credentials   = list(
+      oauth_token        = token,
+      oauth_token_secret = token_secret
+    )
+  )
+```
+
+## the twitter example
+```{r, cache=TRUE}
+req <-
+  GET(
+    paste0(
+      "https://api.twitter.com/1.1/search/tweets.json",
+      "?q=%23wsmt16&result_type=recent&count=100"
+    ),
+    config(token = twitter_token)
+  )
+```
+
+## the twitter example
+```{r}
+tweets <-
+  req %>%
+  content("parsed") %>%
+  extract2("statuses") %>%
+  lapply(`[`, "text") %>%
+  unlist(use.names=FALSE)
+```
+
+## the twitter example
+```{r}
+tweets %>% grep("^RT ",. ,invert=TRUE, value=TRUE) 
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,94 @@
+---
+title: 'Exercise: APIs'
+author: "Peter Meißner"
+date: "02 March 2016"
+output:
+  html_document:
+    keep_md: no
+    toc: no
+  pdf_document:
+    toc: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+##1) geonames
+
+a) setting things up
+  - install package geonames
+  - load it 
+  - list its functions via `ls(package:geonames)`
+  - register an application at http://www.geonames.org/login
+  - use your username with `options(geonamesUsername="myusernamehere")` to be able to use the geonames package
+  
+b) using the API
+  - go through all functions of the geonames package and
+      - look at: http://www.geonames.org/export/web-services.html which URL belongs to the function
+      - describe what it does
+      - make at least one valid call with it
+ 
+ 
+  
+##2) twitter
+
+a) get a twitter account
+  - go to twitter and get a twitter account
+  - go to https://apps.twitter.com/ and set up a twitter app
+  - create tokens and secret
+  
+b) the twitterlight package
+  - install the twitterlight package via `devtools::install_github("petermeissner/twitterlight")`
+  - load the package
+  - have a look at availible functions via `ls(package:twitterlight)`
+
+c) getting tweets
+  - use `tw_user_timeline("ecpr")` to get the user timeline for the ecpr account
+  - have a look at the results
+  - what type of data did you get (`class()`) 
+  - take the first item (`tmp[[1]]`) in combination with `names()` to get an idea of what information was downloaded
+  - get the text of all the tweets
+  - get the text for all items
+  - have a closer look at the user item 
+  - extract the screen_name and followers_count for all users that tweeted
+
+d) building you own requests 
+  - have a look at https://dev.twitter.com/rest/public
+  - have a look at the documentation of search tweets 
+  - use the `twitter_get()` function to build an API call that searches for tweets, below is an (non-)working example for the user time line feature that can be adopted
+  
+twitter_get(
+  path  = "statuses/user_timeline.json", 
+  param =  list(
+    screen_name="ecpr"    
+  ), 
+  key    = "absdfgöljsaljf", 
+  secret = "jlkjjljöljlöj"
+)
+
+e) twitteR package
+  - install and load the twitteR package
+  - have a look at the vignette: http://geoffjentry.hexdump.org/twitteR.pdf
+  - use `setup_twitter_oauth("API key", "API secret")` to set up your authentication
+  - use `searchTwitter()` to search for 'wsmt16' and for '@ecpr'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

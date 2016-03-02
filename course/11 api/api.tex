@@ -1,0 +1,156 @@
+\documentclass[ignorenonframetext,]{beamer}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+\usefonttheme{structurebold}
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\newif\ifbibliography
+
+% Prevent slide breaks in the middle of a paragraph:
+\widowpenalties 1 10000
+\raggedbottom
+
+\AtBeginPart{
+  \let\insertpartnumber\relax
+  \let\partname\relax
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \let\insertsectionnumber\relax
+    \let\sectionname\relax
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \let\insertsubsectionnumber\relax
+  \let\subsectionname\relax
+  \frame{\subsectionpage}
+}
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+\definecolor{links}{HTML}{800080}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
+\title{Web Data Collection with R}
+\subtitle{API}
+\author{Peter Meißner / 2016-02-29 -- 2016-03-04 / ECPR WSMT}
+\date{}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}
+\tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{How APIs Work}\label{how-apis-work}
+
+\begin{frame}{How APIs work}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{A}pplication \textbf{P}rogramming \textbf{I}nterface
+\item
+  lots of web Services provide APIs to access their data and services
+  (Twitter, Google, Facebook, Wikipedia, \ldots{})
+\item
+  \ldots{} aka \textbf{a preset and structured way of getting data} (or
+  posting data, or do whatever the web service allows)
+\item
+  frees us building our own scraper, provides legal access
+\item
+  forces us to understand the way the API works
+\item
+  but for several servics ready made R packages exist, e.g.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \url{http://cran.r-project.org/web/views/WebTechnologies.html}
+  \item
+    Web Analytics, Genes and Genomes, Sports, Social media, News,
+    Images, Graphics, Videos, Music, Marketing, Maps, Literature,
+    Metadata, Text, and Altmetrics, Governemnt, Google, Biology, Earth
+    Science, Data Depots
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{examples}
+
+\begin{itemize}
+\tightlist
+\item
+  Google Maps
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \url{http://maps.googleapis.com/maps/api/directions/json?origin=Konstanz,Germany1\&destination=Bamberg}
+  \item
+    \url{https://developers.google.com/maps/documentation/directions/}
+  \end{itemize}
+\item
+  GitHub
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \url{https://api.github.com/users/petermeissner}
+  \item
+    \url{https://developer.github.com/v3/}
+  \end{itemize}
+\item
+  Twitter (fails, authentication needed)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \url{https://api.twitter.com/1.1/statuses/user_timeline.json}
+  \item
+    \href{https://api.twitter.com/1.1/statuses/user_timeline.json}{https://dev.twitter.com/overview/documentation}
+  \end{itemize}
+\item
+  more APIs
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \url{http://www.programmableweb.com/apis}
+  \item
+    \url{http://cran.r-project.org/web/views/WebTechnologies.html}
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\end{document}

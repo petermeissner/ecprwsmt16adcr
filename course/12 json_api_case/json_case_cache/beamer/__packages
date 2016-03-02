@@ -1,0 +1,7 @@
+base
+xml2
+rvest
+jsonlite
+stringr
+lubridate
+dplyr

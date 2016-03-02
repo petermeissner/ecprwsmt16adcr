@@ -133,9 +133,9 @@ if( !<span class="kw">file.exists</span>(fname)  ) {
 }
 
 <span class="kw">file.mtime</span>(fname)</code></pre></div>
-<pre><code>## [1] &quot;2016-02-29 01:43:09 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2016-03-01 00:22:20 CET&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">readLines</span>(fname)</code></pre></div>
-<pre><code>## [1] &quot;2016-02-29 01:43:09&quot;</code></pre>
+<pre><code>## [1] &quot;2016-03-01 00:22:20&quot;</code></pre>
 </div><div id="use-case-2---append-to-file" class="slide section level2">
 <h1>use case 2 - append to file</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for( i in <span class="dv">1</span>:<span class="dv">3</span> ){
@@ -154,12 +154,12 @@ if( !<span class="kw">file.exists</span>(fname)  ) {
 </div><div id="use-case-2---append-to-file-1" class="slide section level2">
 <h1>use case 2 - append to file</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">file.mtime</span>(fname)</code></pre></div>
-<pre><code>## [1] &quot;2016-02-29 01:43:11 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2016-03-01 00:22:22 CET&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">readLines</span>(fname)</code></pre></div>
-<pre><code>## [1] &quot;2016-02-29 01:43:09&quot;                  
-## [2] &quot; append : 01:43:09   mtime : 01:43:09&quot;
-## [3] &quot; append : 01:43:10   mtime : 01:43:09&quot;
-## [4] &quot; append : 01:43:11   mtime : 01:43:10&quot;</code></pre>
+<pre><code>## [1] &quot;2016-03-01 00:22:20&quot;                  
+## [2] &quot; append : 00:22:20   mtime : 00:22:20&quot;
+## [3] &quot; append : 00:22:21   mtime : 00:22:20&quot;
+## [4] &quot; append : 00:22:22   mtime : 00:22:21&quot;</code></pre>
 </div><div id="use-case-3---get-file-name-from-url" class="slide section level2">
 <h1>use case 3 - get file name from URL</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">url      &lt;-<span class="st"> &quot;http://www.r-datacollection.com/materials/http/abunchofasciis/index.html&quot;</span>
@@ -195,16 +195,16 @@ destfile &lt;-<span class="st"> </span><span class="kw">basename</span>(url)
 </div><div id="use-case-4---handling-files-names-in-a-loop-1" class="slide section level2">
 <h1>use case 4 - handling files names in a loop</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">list.files</span>(<span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">d.test$&quot;</span>)</code></pre></div>
-<pre><code>##  [1] &quot;f_2016-02-29 01:43:12 001.test&quot;
-##  [2] &quot;f_2016-02-29 01:43:12 002.test&quot;
-##  [3] &quot;f_2016-02-29 01:43:12 003.test&quot;
-##  [4] &quot;f_2016-02-29 01:43:12 004.test&quot;
-##  [5] &quot;f_2016-02-29 01:43:12 005.test&quot;
-##  [6] &quot;f_2016-02-29 01:43:12 006.test&quot;
-##  [7] &quot;f_2016-02-29 01:43:12 007.test&quot;
-##  [8] &quot;f_2016-02-29 01:43:12 008.test&quot;
-##  [9] &quot;f_2016-02-29 01:43:12 009.test&quot;
-## [10] &quot;f_2016-02-29 01:43:12 010.test&quot;</code></pre>
+<pre><code>##  [1] &quot;f_2016-03-01 00:22:24 001.test&quot;
+##  [2] &quot;f_2016-03-01 00:22:24 002.test&quot;
+##  [3] &quot;f_2016-03-01 00:22:24 003.test&quot;
+##  [4] &quot;f_2016-03-01 00:22:24 004.test&quot;
+##  [5] &quot;f_2016-03-01 00:22:24 005.test&quot;
+##  [6] &quot;f_2016-03-01 00:22:24 006.test&quot;
+##  [7] &quot;f_2016-03-01 00:22:24 007.test&quot;
+##  [8] &quot;f_2016-03-01 00:22:24 008.test&quot;
+##  [9] &quot;f_2016-03-01 00:22:24 009.test&quot;
+## [10] &quot;f_2016-03-01 00:22:24 010.test&quot;</code></pre>
 </div><div id="use-case-5---zipping" class="slide section level2">
 <h1>use case 5 - zipping</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filelist &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">pattern =</span> <span class="st">&quot;.txt$|html$|test$&quot;</span>)

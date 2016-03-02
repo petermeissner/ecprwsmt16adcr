@@ -286,19 +286,21 @@ html_nodes(html, css = "p:nth-of-type(1)")
 function           | description
 ------------------ | ------------
 `read_html()`      | parse HTML (file); all others based on
-`html_structure()` | shows the structure of an HTML (doc)
-`as_list()`        | transform parsed XML / HTML to list (doc)
+`html_node()`      | extract a node via XPath and CSS-S.
+`html_nodes()`     | extract nodes via XPath and CSS-S.
 `html_attr()`      | get specific attribute value (node)
 `html_attrs()`     | get all attributes (node)
 `html_text()`      | get node's and children's text (node)
-`html_children()`  | get children of node (doc, node)
 `xml_path()`       | gives back the explicit path to nodes (node)
+`html_structure()` | shows the structure of an HTML (doc)
+`as_list()`        | transform parsed XML / HTML to list (doc)
+`html_children()`  | get children of node (doc, node)
 `xml_length()`     | number of children (node)
-`html_name()`      | name of nodes (node)
 `xml_parent()`     | gives back parent of node (node)
 `xml_parents()`    | gives back all ancestors of node (node)
 `xml_siblings()`   | gives back nodes with the same parent (node)
 `xml_type()`       | gives back type (node, doc)
+
 
 doc: parsed document; node: node set or node; file: un-parsed XML document
 

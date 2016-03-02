@@ -1,0 +1,17 @@
+base
+stringr
+bitops
+RCurl
+RJSONIO
+XML
+RSelenium
+xml2
+rvest
+ggplot2
+ggmap
+maps
+d3Network
+jsonlite
+httr
+dplyr
+magrittr

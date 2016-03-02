@@ -1,0 +1,187 @@
+---
+title: "Web Data Collection with R"
+author: "Peter Meißner / 2016-02-29 --  2016-03-04 / ECPR WSMT"
+header-includes:
+  - \definecolor{links}{HTML}{800080}
+  - \hypersetup{colorlinks,linkcolor=,urlcolor=links}
+output:
+  beamer_presentation:
+    fonttheme: structurebold
+    keep_tex: yes
+    toc: yes
+  slidy_presentation: default
+subtitle: JSON/API Case Study
+keep_tex: yes
+---
+
+
+
+# The old wikipedia pageviews API - stats.grok.se
+## packages
+```{r, message=FALSE}
+library(rvest)
+library(jsonlite)
+library(lubridate)
+library(dplyr)
+```
+
+[http://stats.grok.se/](http://stats.grok.se/)
+
+
+##A first try
+```{r, cache=TRUE}
+url  <- "http://stats.grok.se/json/en/latest90/Influenza"
+json <- html_text(read_html(url)) 
+json
+```
+
+##A first try
+```{r, cache=TRUE, echo=FALSE, message=FALSE}
+require(stringr)
+cat(str_c(unlist(str_split(json, ",")),",\n")[1:13],"\n...")
+```
+
+##Getting JSON in
+```{r, eval=FALSE}
+data  <- fromJSON(json)
+date  <- as.Date(names(data$daily_views))
+views <- unlist(data$daily_views)
+
+plot( date, views,  
+      ylim = c(0, 3000),
+      type = "h", 
+      col  = "#F54B1A90",
+      lwd=3, 
+      main="Influenca Page Views on Wikipedia (en)")
+
+lines(lowess(views ~ date), col = "#1B346C90", lwd=5)
+```
+
+##Getting JSON in
+```{r, echo=FALSE}
+data  <- fromJSON(json)
+date  <- as.Date(names(data$daily_views))
+views <- unlist(data$daily_views)
+
+plot( date, views,  
+      type = "h", 
+      col  = "#F54B1A90",
+      lwd=3, 
+      main="Influenca Page Views on Wikipedia (en)")
+
+lines(lowess(views ~ date), col = "#1B346C90", lwd=5)
+```
+
+
+##Getting serious
+```{r, cache=TRUE}
+url_pt1  <- "http://stats.grok.se/json/en/"
+url_pt2  <- 
+  paste0(
+    rep(2014:2015, each=12),
+    str_pad(1:12, width=2, side="left", "0")
+  )
+url_pt3  <- "/Influenza"
+URL <- paste0(url_pt1, url_pt2, url_pt3)
+```
+
+##Getting serious
+```{r}
+# downloadig the data
+JSON <- list()
+for( i in seq_along(URL) ){
+  fname <- basename(dirname(URL[i]))
+  if( !file.exists(fname) ){
+    download.file(URL[i], fname )
+    Sys.sleep(1)
+  }
+  JSON[i] <- readLines(fname, warn = FALSE)
+}
+```
+
+##Getting serious
+
+```{r}
+# parsing the JSON
+JSON_parsed <- lapply(JSON, fromJSON)
+
+json <- JSON_parsed[[1]]
+
+date <- 
+  json$daily_views %>% 
+  names() %>% 
+  ymd()
+
+views <- 
+  json$daily_views %>% 
+  unlist()
+
+views[1:3]
+date[1:3]
+```
+
+
+##Getting serious
+```{r}
+# putting it in a function
+page_views_to_df <- function(json){
+  date  <- json$daily_views %>% names() %>% ymd()
+  views <- json$daily_views %>% unlist()
+  df <- data.frame(date, views)[!is.na(date),]
+  rownames(df) <- NULL
+  return(df)
+}
+```
+
+
+
+##Getting serious
+```{r}
+influenza15 <- 
+  JSON_parsed %>% 
+  lapply(page_views_to_df) %>% 
+  do.call(rbind, .) 
+```
+
+##Getting serious
+```{r, eval=FALSE}
+
+plot( influenza15$date, influenza15$views,  
+      type = "h", 
+      col  = "#F54B1A90",
+      lwd=1, 
+      main="Influenca Page Views on Wikipedia (en)")
+
+lowess(influenza15$views ~ influenza15$date, f=0.08) %>% 
+  lines(col = "#1B346C90", lwd=5)
+```
+
+##Getting serious
+```{r, echo=FALSE}
+
+plot( influenza15$date, influenza15$views,  
+      type = "h", 
+      col  = "#F54B1A90",
+      lwd=1, 
+      main="Influenca Page Views on Wikipedia (en)")
+
+lowess(influenza15$views ~ influenza15$date, f=0.08) %>% 
+  lines(col = "#1B346C90", lwd=5)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

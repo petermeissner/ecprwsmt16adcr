@@ -136,144 +136,18 @@ pattern               | description
     `cat()` | prints text to screen 
 
 
+## base / stringr / stringi
 
-# Character Encodings
+- currently there are 3 packages with regular expression engines and string manipulation functions
+- base functions might be a little less coonvenient but they are availible out of the box and are solid (and most likely to not change in the near future)
+- stringr used to be its own package but is nowadays based on stringi
+- stringi is based on a very solid, fast, and powerful C-library 
+- note, that the RegexEngines of stringi (stringr) and base work differently (see following slide)
 
-##Character Encodings
-
-Character Encodings are ... 
-
-- are like family ...
-- ... some of them you do not like but cannot avoid ...
-- ... something we will struggle with but have cope anyways
-
-The best thing is ...
-
-- R has them all 
-
-The worst thing is ... 
-
-- R has them all 
-
-##Character Encodings
-- computers store everything as 0s and 1s (bits)
-- in cs there are differing layers of abstraction
-- one bit of information is called bit
-- bits are quite uninformative as they only ave two states
-- so they are are grouped into bytes (8 bits)
-- one byte can have 256 different values (2^8)
-- so it can store numbers 0 to 255 or 1 to 256 or ... -127 to 128
-- or it can map to characters e.g. ASCII (abcABC.:-_,;#'+*~|<>!"§$%&/()=?}][{\}^°, ...")
-- ASCII is a character set - the set of characters you want to be able to store - even 7 Bits would suffice to store it
-
-##Character Encodings
-- for larger character sets than ASCII (ä ö ü é è ... ) on needs to get clever since one byte does not suffice to map all characters to 0s and 1s
-- unfortunate people got clever in differing ways 
-    1) using more than one byte to map more characters ('wide' characters, UTF-16, USC-2, Windows OSs)
-    2) using one or more bytes and using the first byte to encode how manies are used ('multi-byte characters', UTF-8, Unix based OSs)
-- otherwise we would not have to talk about character sets and character encodings
-    
-
-##Character Encodings
+## base / stringr / stringi
 ```{r}
-rawToBits(as.raw(62:66)) # as bits
-as.raw(62:66) # bytes as hexa-decimal
-as.numeric(as.raw(62:66)) # as numbers
-rawToChar(as.raw(62:66)) # bytes as chararcters
+library(stringr)
+grepl("^a.*d$", "abc\nefgd")
+str_detect("abc\nefgd", "^a.*d$")
+str_detect("abc\nefgd", regex("a.*d",  dotall=TRUE))
 ```
-
-
-##A character set problem
-```{r}
-text           <- rawToChar(as.raw(228))
-Encoding(text) <- "UTF-8" 
-text
-Encoding(text) <- "latin1" 
-text
-```
-
-Results differ because for latin1 character 228 is know but not for UTF-8
-
-##An encoding problem
-Of cause UTF-8 knows how to encode "ä" ... 
-```{r}
-text <- "ä"
-charToRaw(text)
-Encoding(text) <- "latin1"
-text
-```
-... but here the results differ because "UTF-8" has another system translating characters to bytes. In latin1 the two bytes are interpreted as two characters. 
-
-
-
-##Which default encoding does your R use
-```{r}
-Sys.getlocale()
-
-# if yor locale is something other than UTF-8, 
-# switch 'latin1' and 'UTF-8' and you shall be good to go
-```
-
-##Changing interpretation of bytes
-```{r}
-text <- "Små grodorna, små grodorna är lustiga att se."
-Encoding(text) <- "UTF-8"
-text
-```
-
-##Changing interpretation of bytes
-```{r}
-text <- "Små grodorna, små grodorna är lustiga att se."
-Encoding(text) <- "latin1"
-text
-```
-
-##Changing bytes and interpretation
-```{r}
-text <- "Små grodorna, små grodorna är lustiga att se."
-text <- iconv(text, "UTF-8", "latin1")
-Encoding(text)
-text
-```
-
-##Noe that all sources might have another encoding than your R default locale!
-```{r}
-text <- "Små grodorna, små grodorna är lustiga att se."
-text <- iconv(text, "UTF-8", "latin1")
-writeLines(text, "text_latin1.txt", useBytes = TRUE)
-text <- readLines("text_latin1.txt")
-Encoding(text)
-text
-Encoding(text) <- "latin1"
-text
-```
-
-
-# URL character encoding
-
-##URL character encoding
-
-- URLs have to wok for differing systems and OSs
-- therefore URLs have their own system of ensuring consistency
-- URL-encodings
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

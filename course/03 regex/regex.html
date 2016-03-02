@@ -401,125 +401,24 @@ Peter Meißner / 2016-02-29 – 2016-03-04 / ECPR WSMT
 </tbody>
 </table></li>
 </ol>
-</div>
-<div id="character-encodings" class="titleslide slide section level1"><h1>Character Encodings</h1></div><div id="character-encodings-1" class="slide section level2">
-<h1>Character Encodings</h1>
-<p>Character Encodings are …</p>
+</div><div id="base-stringr-stringi" class="slide section level2">
+<h1>base / stringr / stringi</h1>
 <ul>
-<li>are like family …</li>
-<li>… some of them you do not like but cannot avoid …</li>
-<li>… something we will struggle with but have cope anyways</li>
+<li>currently there are 3 packages with regular expression engines and string manipulation functions</li>
+<li>base functions might be a little less coonvenient but they are availible out of the box and are solid (and most likely to not change in the near future)</li>
+<li>stringr used to be its own package but is nowadays based on stringi</li>
+<li>stringi is based on a very solid, fast, and powerful C-library</li>
+<li>note, that the RegexEngines of stringi (stringr) and base work differently (see following slide)</li>
 </ul>
-<p>The best thing is …</p>
-<ul>
-<li>R has them all</li>
-</ul>
-<p>The worst thing is …</p>
-<ul>
-<li>R has them all</li>
-</ul>
-</div><div id="character-encodings-2" class="slide section level2">
-<h1>Character Encodings</h1>
-<ul>
-<li>computers store everything as 0s and 1s (bits)</li>
-<li>in cs there are differing layers of abstraction</li>
-<li>one bit of information is called bit</li>
-<li>bits are quite uninformative as they only ave two states</li>
-<li>so they are are grouped into bytes (8 bits)</li>
-<li>one byte can have 256 different values (2^8)</li>
-<li>so it can store numbers 0 to 255 or 1 to 256 or … -127 to 128</li>
-<li>or it can map to characters e.g. ASCII (abcABC.:-_,;#’+*~|&lt;&gt;!“§$%&amp;/()=?}][{}^°, …”)</li>
-<li>ASCII is a character set - the set of characters you want to be able to store - even 7 Bits would suffice to store it</li>
-</ul>
-</div><div id="character-encodings-3" class="slide section level2">
-<h1>Character Encodings</h1>
-<ul>
-<li>for larger character sets than ASCII (ä ö ü é è … ) on needs to get clever since one byte does not suffice to map all characters to 0s and 1s</li>
-<li>unfortunate people got clever in differing ways
-<ol style="list-style-type: decimal">
-<li>using more than one byte to map more characters (‘wide’ characters, UTF-16, USC-2, Windows OSs)</li>
-<li>using one or more bytes and using the first byte to encode how manies are used (‘multi-byte characters’, UTF-8, Unix based OSs)</li>
-</ol></li>
-<li>otherwise we would not have to talk about character sets and character encodings</li>
-</ul>
-</div><div id="character-encodings-4" class="slide section level2">
-<h1>Character Encodings</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rawToBits</span>(<span class="kw">as.raw</span>(<span class="dv">62</span>:<span class="dv">66</span>)) <span class="co"># as bits</span></code></pre></div>
-<pre><code>##  [1] 00 01 01 01 01 01 00 00 01 01 01 01 01 01 00 00 00 00 00 00 00 00 01
-## [24] 00 01 00 00 00 00 00 01 00 00 01 00 00 00 00 01 00</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.raw</span>(<span class="dv">62</span>:<span class="dv">66</span>) <span class="co"># bytes as hexa-decimal</span></code></pre></div>
-<pre><code>## [1] 3e 3f 40 41 42</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.numeric</span>(<span class="kw">as.raw</span>(<span class="dv">62</span>:<span class="dv">66</span>)) <span class="co"># as numbers</span></code></pre></div>
-<pre><code>## [1] 62 63 64 65 66</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rawToChar</span>(<span class="kw">as.raw</span>(<span class="dv">62</span>:<span class="dv">66</span>)) <span class="co"># bytes as chararcters</span></code></pre></div>
-<pre><code>## [1] &quot;&gt;?@AB&quot;</code></pre>
-</div><div id="a-character-set-problem" class="slide section level2">
-<h1>A character set problem</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text           &lt;-<span class="st"> </span><span class="kw">rawToChar</span>(<span class="kw">as.raw</span>(<span class="dv">228</span>))
-<span class="kw">Encoding</span>(text) &lt;-<span class="st"> &quot;UTF-8&quot;</span> 
-text</code></pre></div>
-<pre><code>## [1] &quot;\xe4&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Encoding</span>(text) &lt;-<span class="st"> &quot;latin1&quot;</span> 
-text</code></pre></div>
-<pre><code>## [1] &quot;ä&quot;</code></pre>
-<p>Results differ because for latin1 character 228 is know but not for UTF-8</p>
-</div><div id="an-encoding-problem" class="slide section level2">
-<h1>An encoding problem</h1>
-<p>Of cause UTF-8 knows how to encode “ä” …</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text &lt;-<span class="st"> &quot;ä&quot;</span>
-<span class="kw">charToRaw</span>(text)</code></pre></div>
-<pre><code>## [1] c3 a4</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Encoding</span>(text) &lt;-<span class="st"> &quot;latin1&quot;</span>
-text</code></pre></div>
-<pre><code>## [1] &quot;Ã¤&quot;</code></pre>
-<p>… but here the results differ because “UTF-8” has another system translating characters to bytes. In latin1 the two bytes are interpreted as two characters.</p>
-</div><div id="which-default-encoding-does-your-r-use" class="slide section level2">
-<h1>Which default encoding does your R use</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Sys.getlocale</span>()</code></pre></div>
-<pre><code>## [1] &quot;LC_CTYPE=de_DE.UTF-8;LC_NUMERIC=C;LC_TIME=de_DE.UTF-8;LC_COLLATE=de_DE.UTF-8;LC_MONETARY=de_DE.UTF-8;LC_MESSAGES=de_DE.UTF-8;LC_PAPER=de_DE.UTF-8;LC_NAME=C;LC_ADDRESS=C;LC_TELEPHONE=C;LC_MEASUREMENT=de_DE.UTF-8;LC_IDENTIFICATION=C&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># if yor locale is something other than UTF-8, </span>
-<span class="co"># switch 'latin1' and 'UTF-8' and you shall be good to go</span></code></pre></div>
-</div><div id="changing-interpretation-of-bytes" class="slide section level2">
-<h1>Changing interpretation of bytes</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text &lt;-<span class="st"> &quot;Små grodorna, små grodorna är lustiga att se.&quot;</span>
-<span class="kw">Encoding</span>(text) &lt;-<span class="st"> &quot;UTF-8&quot;</span>
-text</code></pre></div>
-<pre><code>## [1] &quot;Små grodorna, små grodorna är lustiga att se.&quot;</code></pre>
-</div><div id="changing-interpretation-of-bytes-1" class="slide section level2">
-<h1>Changing interpretation of bytes</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text &lt;-<span class="st"> &quot;Små grodorna, små grodorna är lustiga att se.&quot;</span>
-<span class="kw">Encoding</span>(text) &lt;-<span class="st"> &quot;latin1&quot;</span>
-text</code></pre></div>
-<pre><code>## [1] &quot;SmÃ¥ grodorna, smÃ¥ grodorna Ã¤r lustiga att se.&quot;</code></pre>
-</div><div id="changing-bytes-and-interpretation" class="slide section level2">
-<h1>Changing bytes and interpretation</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text &lt;-<span class="st"> &quot;Små grodorna, små grodorna är lustiga att se.&quot;</span>
-text &lt;-<span class="st"> </span><span class="kw">iconv</span>(text, <span class="st">&quot;UTF-8&quot;</span>, <span class="st">&quot;latin1&quot;</span>)
-<span class="kw">Encoding</span>(text)</code></pre></div>
-<pre><code>## [1] &quot;latin1&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text</code></pre></div>
-<pre><code>## [1] &quot;Små grodorna, små grodorna är lustiga att se.&quot;</code></pre>
-</div><div id="noe-that-all-sources-might-have-another-encoding-than-your-r-default-locale" class="slide section level2">
-<h1>Noe that all sources might have another encoding than your R default locale!</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text &lt;-<span class="st"> &quot;Små grodorna, små grodorna är lustiga att se.&quot;</span>
-text &lt;-<span class="st"> </span><span class="kw">iconv</span>(text, <span class="st">&quot;UTF-8&quot;</span>, <span class="st">&quot;latin1&quot;</span>)
-<span class="kw">writeLines</span>(text, <span class="st">&quot;text_latin1.txt&quot;</span>, <span class="dt">useBytes =</span> <span class="ot">TRUE</span>)
-text &lt;-<span class="st"> </span><span class="kw">readLines</span>(<span class="st">&quot;text_latin1.txt&quot;</span>)
-<span class="kw">Encoding</span>(text)</code></pre></div>
-<pre><code>## [1] &quot;unknown&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text</code></pre></div>
-<pre><code>## [1] &quot;Sm\xe5 grodorna, sm\xe5 grodorna \xe4r lustiga att se.&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Encoding</span>(text) &lt;-<span class="st"> &quot;latin1&quot;</span>
-text</code></pre></div>
-<pre><code>## [1] &quot;Små grodorna, små grodorna är lustiga att se.&quot;</code></pre>
-</div>
-<div id="url-character-encoding" class="titleslide slide section level1"><h1>URL character encoding</h1></div><div id="url-character-encoding-1" class="slide section level2">
-<h1>URL character encoding</h1>
-<ul>
-<li>URLs have to wok for differing systems and OSs</li>
-<li>therefore URLs have their own system of ensuring consistency</li>
-<li>URL-encodings</li>
-</ul>
+</div><div id="base-stringr-stringi-1" class="slide section level2">
+<h1>base / stringr / stringi</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(stringr)
+<span class="kw">grepl</span>(<span class="st">&quot;^a.*d$&quot;</span>, <span class="st">&quot;abc</span><span class="ch">\n</span><span class="st">efgd&quot;</span>)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_detect</span>(<span class="st">&quot;abc</span><span class="ch">\n</span><span class="st">efgd&quot;</span>, <span class="st">&quot;^a.*d$&quot;</span>)</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_detect</span>(<span class="st">&quot;abc</span><span class="ch">\n</span><span class="st">efgd&quot;</span>, <span class="kw">regex</span>(<span class="st">&quot;a.*d&quot;</span>,  <span class="dt">dotall=</span><span class="ot">TRUE</span>))</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
 </div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->

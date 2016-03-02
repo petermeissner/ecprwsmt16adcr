@@ -1,0 +1,49 @@
+---
+title: "Web Data Collection with R"
+author: "Peter Meißner / 2016-02-29 --  2016-03-04 / ECPR WSMT"
+header-includes:
+  - \definecolor{links}{HTML}{800080}
+  - \hypersetup{colorlinks,linkcolor=,urlcolor=links}
+output:
+  beamer_presentation:
+    fonttheme: structurebold
+    keep_tex: yes
+    toc: yes
+  slidy_presentation: default
+subtitle: API
+keep_tex: yes
+---
+
+
+
+
+# How APIs Work
+##  How APIs work 
+
+- **A**pplication **P**rogramming **I**nterface
+- lots of web Services provide APIs to access their data and services (Twitter, Google, Facebook, Wikipedia, ...)
+- ... aka **a preset and structured way of getting data** (or posting data, or do whatever the web service allows)
+- frees us building our own scraper, provides legal access
+- forces us to understand the way the API works
+- but for several servics ready made R packages exist, e.g.
+    - http://cran.r-project.org/web/views/WebTechnologies.html
+    - Web Analytics, Genes and Genomes, Sports, Social media, News, Images, Graphics, Videos, Music, Marketing, Maps, Literature, Metadata, Text, and Altmetrics, Governemnt, Google, Biology, Earth Science, Data Depots
+
+
+## examples
+- Google Maps
+    - [http://maps.googleapis.com/maps/api/directions/json?origin=Konstanz,Germany1&destination=Bamberg](http://maps.googleapis.com/maps/api/directions/json?origin=Konstanz,Germany1&destination=Bamberg)
+    - [https://developers.google.com/maps/documentation/directions/](https://developers.google.com/maps/documentation/directions/)
+
+- GitHub
+    - [https://api.github.com/users/petermeissner](https://api.github.com/users/petermeissner)
+    - [https://developer.github.com/v3/](https://developer.github.com/v3/)
+    
+- Twitter (fails, authentication needed)
+    - [https://api.twitter.com/1.1/statuses/user_timeline.json](https://api.twitter.com/1.1/statuses/user_timeline.json)
+    - [https://dev.twitter.com/overview/documentation](https://api.twitter.com/1.1/statuses/user_timeline.json)
+    
+- more APIs
+    - [http://www.programmableweb.com/apis](http://www.programmableweb.com/apis)
+    - [http://cran.r-project.org/web/views/WebTechnologies.html](http://cran.r-project.org/web/views/WebTechnologies.html)
+    
