@@ -1,0 +1,34 @@
+---
+title: 'Exercise: AJAX'
+author: "Peter Meißner"
+date: "02 March 2016"
+output:
+  html_document:
+    keep_md: no
+    toc: no
+  pdf_document:
+    toc: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+##1) go grab it
+
+a) setting things up
+  - install RSelenium package
+  - (get appropriate Java version, driver for your browser, etc to get it work)
+  - go to [https://cran.r-project.org/web/packages/RSelenium/vignettes/RSelenium-basics.html](https://cran.r-project.org/web/packages/RSelenium/vignettes/RSelenium-basics.html) and make yourself familiar with package functions 
+  
+  
+b) grab info
+  - browse to: [http://www.r-datacollection.com/materials/ch-6-ajax/fortunes/fortunes1.html](http://www.r-datacollection.com/materials/ch-6-ajax/fortunes/fortunes1.html), [http://www.r-datacollection.com/materials/ch-6-ajax/fortunes/fortunes2.html](http://www.r-datacollection.com/materials/ch-6-ajax/fortunes/fortunes2.html), [http://www.r-datacollection.com/materials/ch-6-ajax/fortunes/fortunes3.html](http://www.r-datacollection.com/materials/ch-6-ajax/fortunes/fortunes3.html)
+  - have a look at the source code
+  - load the pages with `readLines()` and save them in some objects
+  - load the RSelenium package
+  - start up a sever
+  - navigate your browser to the three pages and read in the page (emulate button clicks if necessary)
+  - compare it to what you got by simply using `readLines()`
+  

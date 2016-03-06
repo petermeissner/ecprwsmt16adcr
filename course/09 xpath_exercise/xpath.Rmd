@@ -21,21 +21,151 @@ a) getting started
 - load the xml2 package
 - use `ls(package:xml2)` to get a list of availible functions
 - use `read_xml()` to read in the following resource: http://www.r-datacollection.com/materials/ch-4-xpath/potus/potus.xml and save it myxml
+
+```{r}
+library(magrittr)
+library(xml2)
+ls(package:xml2)
+
+if( !file.exists("myxml.xml") ){
+  url <- "http://www.r-datacollection.com/materials/ch-4-xpath/potus/potus.xml"
+  download.file(url, "myxml.xml")
+}
+
+xml <- read_xml("myxml.xml")
+```
+
 - use your browser to look at the XML
+
+```{r, eval=FALSE}
+browseURL(url)
+```
+
 
 b) convenience functions
 - how many entries has the XML, which function did you use
-- extrct all the text of the XML and use cat() to print the text to the screen
+
+```{r}
+xml_length(xml)
+```
+
+- extract all the text of the XML and use cat() to print the text to the screen
+
+```{r}
+cat(xml_text(xml))
+```
+
 - use a function of the xml2 package to have a look at the structure of the XML
 
+```{r}
+xml_structure(xml)
+```
+
+
 c) extraction
+
 - use XPath to get all religion nodes
+
+```{r}
+xml_find_all(xml, xpath = "//religion")
+```
+
 - use CSS-Selectors to get all religion nodes
+
+```{r}
+religion <- xml_find_all(xml, "religion")
+religion
+```
+
 - extract the text from the nodes and use table() and sort() to produce a sorted table
-- use xml_node() in combination with XPath to extract the node for the first president
+
+```{r}
+religion %>% 
+  xml_text() %>% 
+  table() %>% 
+  sort(TRUE) %>% 
+  as.data.frame()
+```
+
+- use xml_find() in combination with XPath to extract the node for the first president
+
+```{r}
+xml %>% 
+  xml_find_one(xpath="//president[1]")
+```
+
 - extract the name node for all presidents after the 40th
-- using XPath get the nodes for Pierce, Garfied and Taylor
+
+```{r}
+xml %>% 
+  xml_find_all(xpath="//president[position()>40]")
+```
+
+- using XPath get the nodes for Pierce, Garfield and Taylor
+
+
+```{r}
+xml %>% 
+  xml_find_all(xpath="//president[contains(./name, 'Pierce') or contains(./name, 'Garfield') or contains(./name, 'Taylor')]")
+```
+
 - extract the occupation
+
+```{r}
+xml %>% 
+  xml_find_all("occupation") %>% 
+  xml_text() %>% 
+  table() %>% 
+  sort(TRUE) %>% 
+  as.data.frame()
+```
+
 - transform the XML into a data.frame
+
+```{r}
+tagnames <- 
+  xml %>% 
+  xml_find_all(xpath="/*/*/*") %>% 
+  xml_name() %>% 
+  unique()
+
+df <- data.frame(NA)
+for( tag in tagnames ){
+    tmp <- 
+      xml %>% 
+      xml_find_all(paste0("//",tag)) %>%
+      xml_text()
+  df <- data.frame(df, tmp)
+}
+df <- df[, -1]
+names(df) <- tagnames
+
+df
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

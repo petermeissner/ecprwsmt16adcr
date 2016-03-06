@@ -1,0 +1,82 @@
+---
+title: "Web Data Collection with R"
+author: "Peter Meißner / 2016-02-29 --  2016-03-04 / ECPR WSMT"
+header-includes:
+  - \definecolor{links}{HTML}{800080}
+  - \hypersetup{colorlinks,linkcolor=,urlcolor=links}
+output:
+  beamer_presentation:
+    fonttheme: structurebold
+    keep_tex: yes
+    toc: yes
+  slidy_presentation: default
+subtitle: AJAX / XHR Case Study
+keep_tex: yes
+---
+
+
+# Teaser
+
+## teaser
+
+[https://www.seezeit.com/Essen/Speiseplaene/MensaGiessberg.html](https://www.seezeit.com/Essen/Speiseplaene/MensaGiessberg.html)
+
+[https://twitter.com/Mensa_Bot_UniKN](https://twitter.com/Mensa_Bot_UniKN)
+
+
+
+## solution
+
+```{r, include=FALSE}
+mp_http_post <-
+  function(
+    lang = c("de","en"),
+    date = format(Sys.Date(), "%Y-%m-%d"),
+    loc  = "mensa_giessberg"
+  )
+{
+  url <- "https://www.max-manager.de/daten-extern/seezeit/html/inc/ajax-php_konnektor.inc.php"
+  post_results <-
+    httr::POST(
+      url,
+      body = list(
+        func = "make_spl",
+        loc  = loc,
+        lang = lang[1],
+        date = date
+      )
+    )
+  return(post_results)
+}  
+```
+
+
+## the function 1
+```{r, eval=FALSE}
+mp_http_post <-
+  function(
+    lang = c("de","en"),
+    date = format(Sys.Date(), "%Y-%m-%d"),
+    loc  = "mensa_giessberg"
+  )
+```
+
+## the function 2
+```{r, eval=FALSE}
+{
+    url <- "https://www.max-manager.de/daten-extern/seezeit/html/inc/ajax-php_konnektor.inc.php"
+    post_results <-
+      httr::POST(
+        url,
+        body = list(
+          func = "make_spl",
+          loc  = loc,
+          lang = lang[1],
+          date = date
+        )
+      )
+    return(post_results)
+  }
+```
+
+

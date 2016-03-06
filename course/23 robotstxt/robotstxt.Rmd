@@ -1,0 +1,79 @@
+---
+title: "Web Data Collection with R"
+author: "Peter Meißner / 2016-02-29 --  2016-03-04 / ECPR WSMT"
+header-includes:
+  - \definecolor{links}{HTML}{800080}
+  - \hypersetup{colorlinks,linkcolor=,urlcolor=links}
+output:
+  beamer_presentation:
+    fonttheme: structurebold
+    keep_tex: yes
+    toc: yes
+  slidy_presentation: default
+subtitle: robots.txt
+keep_tex: yes
+---
+
+
+
+## teaser
+
+- robots.txt files are part of many webpages
+- the idea is ask bots (e.g. googlebot, etc.) t adhere to those rules and not cause any trouble
+- for us this is valuable information about what might be unwanted behaviour as well
+
+## exmaple and syntax : https://www.researchgate.net/robots.txt
+
+```robotstxt
+User-agent: *
+Allow: /
+Disallow: /connector/
+Disallow: /deref/
+Disallow: /plugins.
+Disallow: /firststeps.
+Disallow: /publicliterature.PublicLiterature.search.html
+
+Sitemap: https://www.researchgate.net/sitemaps/sitemap-index.xml
+```
+
+## there is a package for that
+
+```{r}
+library(robotstxt)
+??robotstxt
+
+rtxt <- 
+  robotstxt$new(
+    domain="https://www.researchgate.net"
+  )
+```
+
+## there is a package for that
+
+```{r}
+rtxt
+```
+
+## there is a package for that
+
+```{r}
+rtxt$check(c("/connector/index.html","index.html"))
+```
+
+## But always have a look at the ToS
+
+https://www.researchgate.net/application.TermsAndConditions.html
+
+ARTICLE 5: MISUSE OF THE SERVICE
+
+- Users must not misuse the Service. 
+- Misuse of the Service includes, without limitation: 
+    - insults to other Users;
+    - automated or massive manual retrieval of other Users' profile data ("data harvesting");
+    - advertising for commercial products or services of all kinds;
+    - unsolicited job offers and business proposals;
+    - all kinds of technical attacks on the servers.
+- All aforementioned behaviors in this article are strictly forbidden, unless the User has obtained prior written permission by the Provider.
+
+
+

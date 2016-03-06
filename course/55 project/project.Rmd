@@ -1,0 +1,79 @@
+---
+title: "project"
+author: "Peter Meißner"
+date: "4 März 2016"
+output: html_document
+---
+
+
+```{r}
+library(rvest)
+library(stringr)
+
+get_links_for_year <- function(year){
+  base_url <- "https://www.ecb.europa.eu/press/pr/date/2016/html/index.en.html"
+  url <- str_replace(base_url, "2016", year)
+  html <- read_html(url)
+  
+  links <- 
+    html_nodes(html, "a") %>% 
+    html_attr("href")
+  
+  links %>% 
+    grep("^/press/pr/date/.*/html/pr.*en\\.html$", ., value=TRUE)
+}
+
+links <- get_links_for_year(2016)
+get_links_for_year(2015)
+get_links_for_year(1997)
+try(get_links_for_year(1996))
+
+
+get_press_releases <- function(links){
+  # preparations
+  if( !dir.exists("downloads") ){
+    dir.create("downloads", FALSE)
+  }
+  FILES <- list()
+  for( i in seq_along(links) ){
+    # names
+    link  <- links[i]
+    fname <- paste0("downloads/", basename(link))
+    # download
+    if( !file.exists(fname) ){
+      message( paste("downloading ", fname) )
+      download.file(link, fname)
+      Sys.sleep(1)
+    }
+    # reading in text
+    FILES[[i]] <- 
+      read_html(fname) %>% 
+      html_nodes("article") %>% 
+      html_text()
+  }
+  return(FILES)
+}
+
+txt <- get_press_releases(links)
+txt[1]
+
+links2016 <- get_links_for_year(2016)
+press2016 <- get_press_releases(links2016)
+ 
+links2015 <- get_links_for_year(2015)
+press2015 <- get_press_releases(links2015)
+ 
+# and so on etc ...
+
+
+
+```
+
+ECB also has an API for financial data and reports but there seem to be no press releases: https://sdw-wsrest.ecb.europa.eu/
+
+
+
+
+
+
+

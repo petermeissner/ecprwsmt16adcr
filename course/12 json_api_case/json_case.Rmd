@@ -138,9 +138,9 @@ page_views_to_df <- function(json){
 ##Getting serious
 ```{r}
 influenza15 <- 
-  JSON_parsed %>% 
+  JSON_parsed %>%
   lapply(page_views_to_df) %>% 
-  do.call(rbind, .) 
+  do.call(rbind) 
 ```
 
 ##Getting serious

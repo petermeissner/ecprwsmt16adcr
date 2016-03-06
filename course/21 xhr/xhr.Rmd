@@ -1,0 +1,27 @@
+---
+title: "Web Data Collection with R"
+author: "Peter Meißner / 2016-02-29 --  2016-03-04 / ECPR WSMT"
+header-includes:
+  - \definecolor{links}{HTML}{800080}
+  - \hypersetup{colorlinks,linkcolor=,urlcolor=links}
+output:
+  beamer_presentation:
+    fonttheme: structurebold
+    keep_tex: yes
+    toc: yes
+  slidy_presentation: default
+subtitle: AJAX / XHR 
+keep_tex: yes
+---
+
+
+# AJAX / XHR
+
+## AJAX / XHR
+
+- Asynchronous JavaScript and XML
+- XML HTTP Requests
+- allows JavaScript to make HTTP requests 
+- poses problems to web scraper
+- but can be solved with browser automation
+

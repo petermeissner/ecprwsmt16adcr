@@ -30,13 +30,14 @@ pdf
 ## ------------------------------------------------------------------------
 # names for PDFs on disk
 basename(pdf)
+dirname(dirname(dirname(pdf)))
 str_extract(pdf, "\\d{4}.pdf")
 
 pdf_names <- str_extract(pdf, "\\d{4}.pdf")
 
 ## ---- eval=F-------------------------------------------------------------
 ## # download pdfs
-## for(i in seq_along(pdf)) {
+## for(i in seq_along(pdf) ) {
 ##   download.file(pdf[i], pdf_names[i], mode="wb")
 ## }
 

@@ -1,0 +1,47 @@
+---
+output: html_document
+---
+
+
+- pdftools
+- rdom
+- RHTMLForms 
+- rvest::html_table(), submit_values(), submit_form()
+
+- feedback
+- evaluation
+
+- evolution of the web: http://www.evolutionoftheweb.com/
+
+- auto running scripts
+    - crontab (Unix like): https://wiki.ubuntuusers.de/Cron/
+    - scheduler (Windows): http://stackoverflow.com/a/21548386/1144966
+    - maybe use a small computer (e.g. RaspBerryPi Win/Raspian)
+    - maybe use a server - starts from 5 € per month 
+    
+- legal? 
+    - copy a database
+    - traffic
+    - ... 
+
+
+- reproducebility
+    - modularization
+        - data
+        - functions
+        - research projects
+        - dry
+    - data/research is a pipeline
+    - restructuring
+    - rewriting
+    - solving versus patching
+    - packages
+    - outputs (more than papers, homepage, webblog, ... ?)
+    - reports / .Rmd files and the like
+    - naming things 
+    - style (code)
+    - version controlling
+    - how much effort to put in reproducability
+    - reproducability starts with the fact that you yourself and future you and coworkers can reproduce
+    - document along the way
+    - always act as if you want to share data (even if you do not intend to or never will, future you will like it)

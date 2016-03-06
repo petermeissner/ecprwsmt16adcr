@@ -77,29 +77,3493 @@ img {
 <li>load the xml2 package</li>
 <li>use <code>ls(package:xml2)</code> to get a list of availible functions</li>
 <li>use <code>read_xml()</code> to read in the following resource: <a href="http://www.r-datacollection.com/materials/ch-4-xpath/potus/potus.xml" class="uri">http://www.r-datacollection.com/materials/ch-4-xpath/potus/potus.xml</a> and save it myxml</li>
+</ul>
+<pre class="r"><code>library(magrittr)
+library(xml2)
+ls(package:xml2)</code></pre>
+<pre><code>## Warning in ls(package:xml2): 'package:xml2' converted to character string</code></pre>
+<pre><code>##  [1] &quot;as_list&quot;        &quot;html_structure&quot; &quot;read_html&quot;      &quot;read_xml&quot;      
+##  [5] &quot;url_absolute&quot;   &quot;url_escape&quot;     &quot;url_parse&quot;      &quot;url_relative&quot;  
+##  [9] &quot;url_unescape&quot;   &quot;write_xml&quot;      &quot;xml_attr&quot;       &quot;xml_attrs&quot;     
+## [13] &quot;xml_children&quot;   &quot;xml_contents&quot;   &quot;xml_find_all&quot;   &quot;xml_find_one&quot;  
+## [17] &quot;xml_has_attr&quot;   &quot;xml_length&quot;     &quot;xml_name&quot;       &quot;xml_ns&quot;        
+## [21] &quot;xml_ns_rename&quot;  &quot;xml_parent&quot;     &quot;xml_parents&quot;    &quot;xml_path&quot;      
+## [25] &quot;xml_siblings&quot;   &quot;xml_structure&quot;  &quot;xml_text&quot;       &quot;xml_type&quot;      
+## [29] &quot;xml_url&quot;</code></pre>
+<pre class="r"><code>if( !file.exists(&quot;myxml.xml&quot;) ){
+  url &lt;- &quot;http://www.r-datacollection.com/materials/ch-4-xpath/potus/potus.xml&quot;
+  download.file(url, &quot;myxml.xml&quot;)
+}
+
+xml &lt;- read_xml(&quot;myxml.xml&quot;)</code></pre>
+<ul>
 <li>use your browser to look at the XML</li>
 </ul>
+<pre class="r"><code>browseURL(url)</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>convenience functions</li>
 </ol>
 <ul>
 <li>how many entries has the XML, which function did you use</li>
-<li>extrct all the text of the XML and use cat() to print the text to the screen</li>
+</ul>
+<pre class="r"><code>xml_length(xml)</code></pre>
+<pre><code>## [1] 42</code></pre>
+<ul>
+<li>extract all the text of the XML and use cat() to print the text to the screen</li>
+</ul>
+<pre class="r"><code>cat(xml_text(xml))</code></pre>
+<pre><code>## 
+##   
+##     George Washington
+##     1
+##     April 30, 1789
+##     March 3, 1797
+##     Federalist
+##     Father of His Country
+##     22-Feb-1732
+##     Planter, Soldier
+##     Virginia
+##     Westmoreland County
+##     No formal education
+##     Martha Dandridge Custis (1732-1802), on January 6, 1759
+##     Mary Ball Washington
+##     Augustine Washington
+##     NA
+##     Episcopalian
+##   
+##   
+##     John Adams
+##     2
+##     March 4, 1797
+##     March 3, 1801
+##     Federalist
+##     Atlas of Independence
+##     30-Oct-1735
+##     Lawyer
+##     Massachusetts
+##     Braintree (now Quincy)
+##     Graduated from Harvard College (1755)
+##     Abigail Smith (1744-1818), on October 25, 1764
+##     Susanna Boylston Adams
+##     John Adams
+##     NA
+##     Unitarian
+##   
+##   
+##     Thomas Jefferson
+##     3
+##     March 4, 1801
+##     March 3, 1809
+##     Democratic-Republican
+##     Man of the People; Sage of Monticello
+##     13-Apr-1743
+##     Lawyer, planter
+##     Virginia
+##     Shadwell
+##     Graduated from College of William and Mary (1762)
+##     Martha Wayles Skelton (1748-1782), on January 1, 1772
+##     Jane Randolph Jefferson
+##     Peter Jefferson
+##     NA
+##     No formal affiliation
+##   
+##   
+##     James Madison
+##     4
+##     March 4, 1809
+##     March 3, 1817
+##     Democratic-Republican
+##     Father of the Constitution
+##     16-Mar-1751
+##     Lawyer
+##     Virginia
+##     Port Conway
+##     Graduated from College of New Jersey (now Princeton University; 1771)
+##     Dolley Payne Todd (1768-1849), on September 15, 1794
+##     Nelly Conway Madison
+##     James Madison
+##     NA
+##     Episcopalian
+##   
+##   
+##     James Monroe
+##     5
+##     March 4, 1817
+##     March 3, 1825
+##     Democratic-Republican
+##     The Last Cocked Hat; Era-of-Good-Feeling President
+##     28-Apr-1758
+##     Lawyer
+##     Virginia
+##     Westmoreland County
+##     Graduated from College of William and Mary (1776)
+##     Elizabeth Eliza Kortright (1768-1830), on February 16, 1786
+##     Elizabeth Jones Monroe
+##     Spence Monroe
+##     NA
+##     Episcopalian
+##   
+##   
+##     John Quincy Adams
+##     6
+##     March 4, 1825
+##     March 3, 1829
+##     Democratic-Republican
+##     Old Man Eloquent
+##     11-Jul-1767
+##     Lawyer
+##     Massachusetts
+##     Braintree (now Quincy)
+##     Graduated from Harvard College (1787)
+##     Louisa Catherine Johnson (1775-1852), on July 26, 1797
+##     Abigail Smith Adams
+##     tiny U.S. flag John Adams
+##     NA
+##     Unitarian
+##   
+##   
+##     Andrew Jackson
+##     7
+##     March 4, 1829
+##     March 3, 1837
+##     Democratic
+##     Old Hickory
+##     15-Mar-1767
+##     Lawyer, soldier
+##     North Carolina
+##     Waxhaw
+##     No formal education
+##     Rachel Donelson Robards (1767-1828),August 1791 anda second ceremony on January
+##     Elizabeth Hutchinson Jackson
+##     Andrew Jackson
+##     NA
+##     Presbyterian
+##   
+##   
+##     Martin Van Buren
+##     8
+##     March 4, 1837
+##     March 3, 1841
+##     Democratic
+##     The Little Magician; The Red Fox of Kinderhook
+##     05-Dec-1782
+##     Lawyer
+##     New York
+##     Kinderhook
+##     Graduated from Kinderhook Academy (1796)
+##     Hannah Hoes (1783-1819), on February 21, 1807
+##     Maria Hoes Van Buren
+##     Abraham Van Buren
+##     NA
+##     Dutch Reformed
+##   
+##   
+##     William Henry Harrison
+##     9
+##     March 4, 1841
+##     April 4, 1841
+##     Whig
+##     Old Tippecanoe; Old Tip
+##     09-Feb-1773
+##     Soldier
+##     Virginia
+##     Berkeley
+##     Attended Hampden-Sydney College
+##     Anna Tuthill Symmes (1775-1864), on November 25, 1795
+##     Elizabeth Bassett Harrison
+##     Benjamin Harrison
+##     NA
+##     Episcopalian
+##   
+##   
+##     John Tyler
+##     10
+##     April 6, 1841
+##     March 3, 1845
+##     Whig
+##     Accidental President; His Accidency
+##     29-Mar-1790
+##     Lawyer
+##     Virginia
+##     Greenway
+##     Graduated from the College of William and Mary (1807)
+##     Letitia Chrisitan (1790-1842), on March 29, 1813; Julia Gardiner (1820-1889), on
+##     Mary Marot Armistead Tyler
+##     John Tyler
+##     NA
+##     Episcopalian
+##   
+##   
+##     James Knox Polk
+##     11
+##     March 4, 1845
+##     March 3, 1849
+##     Democratic
+##     Young Hickory
+##     02-Nov-1795
+##     Lawyer
+##     North Carolina
+##     Mecklenburg County
+##     Graduated from the University of North Carolina (1818)
+##     Sarah Childress (1803-1891), on January 1, 1824
+##     Jane Knox Polk
+##     Samuel Polk
+##     NA
+##     Presbyterian
+##   
+##   
+##     Zachary Taylor
+##     12
+##     March 5, 1849
+##     July 9, 1850
+##     Whig
+##     Old Rough and Ready
+##     24-Nov-1784
+##     Soldier
+##     Virginia
+##     near Barboursville
+##     No formal education
+##     Margaret Mackall Smith (1788-1852), on June 21, 1810
+##     Sarah Dabney Strother Taylor
+##     Lieutenant Colonel Richard Taylor
+##     NA
+##     Episcopalian
+##   
+##   
+##     Millard Fillmore
+##     13
+##     July 9, 1850
+##     March 3, 1853
+##     Whig
+##     The American Louis Philippe
+##     07-Jan-1800
+##     Lawyer
+##     New York
+##     Locke Township (now Summerhill)
+##     No formal education
+##     Abigail Powers (1798-1853), on February 5, 1826; Caroline Carmichael McIntosh (1
+##     Phoebe Millard Fillmore
+##     Nathaniel Fillmore
+##     NA
+##     Unitarian
+##   
+##   
+##     Franklin Pierce
+##     14
+##     March 4, 1853
+##     March 3, 1857
+##     Democrat
+##     Young Hickory of the Granite Hills
+##     23-Nov-1804
+##     Lawyer, public official
+##     New Hampshire
+##     Hillsborough (now Hillsboro)
+##     Graduated from Bowdoin College (1824)
+##     Jane Means Appleton (1806-1863), on November 10, 1834
+##     Ann Kendrick Pierce
+##     General Benjamin Pierce
+##     NA
+##     Episcopalian
+##   
+##   
+##     James Buchanan
+##     15
+##     March 4, 1857
+##     March 3, 1861
+##     Democrat
+##     Old Buck
+##     23-Apr-1791
+##     Lawyer
+##     Pennsylvania
+##     Cove Gap (near Mercersburg)
+##     Graduated from Dickinson College (1809)
+##     Never married. The White House hostess was his niece Harriet Lane (1830-1903)
+##     Elizabeth Speer Buchanan
+##     James Buchanan
+##     NA
+##     Presbyterian
+##   
+##   
+##     Abraham Lincoln
+##     16
+##     March 4, 1861
+##     April 15, 1865
+##     Republican
+##     Honest Abe; Illinois Rail-Splitter
+##     12-Feb-1809
+##     Lawyer
+##     Kentucky
+##     Hardin (now Larue) County
+##     No formal education
+##     Mary Todd (1818-1882), on November 4, 1842
+##     Nancy Hanks Lincoln
+##     Thomas Lincoln
+##     NA
+##     No formal affiliation
+##   
+##   
+##     Andrew Johnson
+##     17
+##     April 15, 1865
+##     March 3, 1869
+##     Democratic
+##     None
+##     29-Dec-1808
+##     Tailor, public official
+##     North Carolina
+##     Raleigh
+##     No formal education
+##     Eliza McCardle (1810-1876), on May 5, 1827
+##     Mary McDonough Johnson
+##     Jacob Johnson
+##     NA
+##     No formal affiliation
+##   
+##   
+##     Ulysses Simpson Grant
+##     18
+##     March 4, 1869
+##     March 3, 1877
+##     Republican
+##     Hero of Appomattox
+##     27-Apr-1822
+##     Soldier
+##     Ohio
+##     Point Pleasant
+##     Graduated from the U.S. Military AcademyWest Point, N.Y. (1843)
+##     Julia Boggs Dent (1826-1902), on August 22, 1848
+##     Hannah Simpson Grant
+##     Jesse Root Grant
+##     NA
+##     Methodist
+##   
+##   
+##     Rutherford Birchard Hayes
+##     19
+##     March 4, 1877
+##     March 3, 1881
+##     Republican
+##     Dark-Horse President
+##     04-Oct-1822
+##     Lawyer
+##     Ohio
+##     Delaware
+##     Graduated from Kenyon College (1842) and Harvard Law School (1845)
+##     Lucy Ware Webb (1831-1889), on December 30, 1852
+##     Sophia Birchard Hayes
+##     Rutherford Hayes
+##     NA
+##     No formal affiliation
+##   
+##   
+##     James Abram Garfield
+##     20
+##     March 4, 1881
+##     September 19, 1881
+##     Republican
+##     None
+##     19-Nov-1831
+##     Teacher, public official
+##     Ohio
+##     Orange
+##     Attended Western Reserve Eclectic Institute (now Hiram College); Graduated from
+##     Lucretia Rudolph (1832-1918), on November 11, 1858
+##     Eliza Ballou Garfield
+##     Abram Garfield
+##     NA
+##     Disciples of Christ
+##   
+##   
+##     Chester Alan Arthur
+##     21
+##     September 19, 1881
+##     March 3, 1885
+##     Republican
+##     The Gentleman Boss; Elegant Arthur
+##     05-Oct-1829
+##     Lawyer
+##     Vermont
+##     Fairfield
+##     Graduated from Union College (1848)
+##     Ellen Lewis Herndon (1837-1880), on October 25, 1859
+##     Malvina Stone Arthur
+##     William Arthur
+##     NA
+##     Episcopalian
+##   
+##   
+##     Grover Cleveland
+##     22
+##     March 4, 1885
+##     March 3, 1889 and March 4, 1893
+##     Democrat
+##     Uncle Jumbo; Veto Mayor; Veto President
+##     18-Mar-1837
+##     Lawyer
+##     New Jersey
+##     Caldwell
+##     No formal education
+##     Frances Folsom (1864-1947), on June 2, 1886
+##     Anne Neal Cleveland
+##     Richard Falley Cleveland
+##     NA
+##     Presbyterian
+##   
+##   
+##     Benjamin Harrison
+##     23
+##     March 4, 1889
+##     March 3, 1893
+##     Republican
+##     Kid Gloves Harrison; Little Ben
+##     20-Aug-1833
+##     Lawyer
+##     Ohio
+##     North Bend
+##     Graduated from Miami University, Oxford, Ohio (1852)
+##     Caroline Lavinia Scott (1832-1892), on October 20, 1853; Mary Scott Lord Dimmick
+##     Elizabeth Ramsey Irwin Harrison
+##     John Scott Harrison
+##     NA
+##     Presbyterian
+##   
+##   
+##     William McKinley
+##     25
+##     March 4, 1897
+##     September 14, 1901
+##     Republican
+##     Idol of Ohio
+##     29-Jan-1843
+##     Lawyer
+##     Ohio
+##     Niles
+##     Attended Allegheny College
+##     Ida Saxton (1847-1907), on January 25, 1871
+##     Nancy Campbell Allison McKinley
+##     William McKinley
+##     NA
+##     Methodist
+##   
+##   
+##     Theodore Roosevelt
+##     26
+##     September 14, 1901
+##     March 3, 1909
+##     Republican
+##     TR; Trust-Buster; Teddy
+##     27-Oct-1858
+##     Author, lawyer, public official
+##     New York
+##     New York
+##     Graduated from Harvard College (1880)
+##     Alice Hathaway Lee (1861-1884), on October 27, 1880; Edith Kermit Carow (1861-19
+##     Martha Bulloch Roosevelt
+##     Theodore Roosevelt
+##     NA
+##     Dutch Reformed
+##   
+##   
+##     William Howard Taft
+##     27
+##     March 4, 1909
+##     March 3, 1913
+##     Republican
+##     None
+##     15-Sep-1857
+##     Lawyer, public official
+##     Ohio
+##     Cincinnati
+##     Graduated from Yale College (1878); Cincinnati Law School (1880)
+##     Helen Herron (1861-1943), on June 19, 1886
+##     Louisa Maria Torrey Taft
+##     Alphonso Taft
+##     NA
+##     Unitarian
+##   
+##   
+##     Woodrow Wilson
+##     28
+##     March 4, 1913
+##     March 3, 1921
+##     Democrat
+##     SchoolmasterPolitics
+##     28-Dec-1856
+##     Teacher, public official
+##     Virginia
+##     Staunton
+##     Graduated from the College of New Jersey (now Princeton University) (1879)
+##     Ellen Louise Axson (1860-1914), on June 24, 1885; Edith Bolling Galt (1872-1961)
+##     Jessie Janet Woodrow Wilson
+##     Joseph Ruggles Wilson
+##     NA
+##     Presbyterian
+##   
+##   
+##     Warren Gamaliel Harding
+##     29
+##     March 4, 1921
+##     August 2, 1923
+##     Republican
+##     None
+##     02-Nov-1865
+##     Editor-Publisher
+##     Ohio
+##     near Corsica (now Blooming Grove)
+##     Graduated from Ohio Central College (1882)
+##     Florence Kling De Wolfe (1860-1924), on July 8, 1891
+##     Phoebe Elizabeth Dickerson Harding
+##     George Tyron Harding
+##     NA
+##     Baptist
+##   
+##   
+##     Calvin Coolidge
+##     30
+##     August 3, 1923
+##     March 3, 1929
+##     Republican
+##     Silent Cal
+##     04-Jul-1872
+##     Lawyer
+##     Vermont
+##     Plymouth
+##     Graduated from Amherst College (1895)
+##     Grace Anna Goodhue (1879-1957), on October 4, 1905
+##     Victoria Josephine Moor Coolidge
+##     John Calvin Coolidge
+##     NA
+##     Congregationalist
+##   
+##   
+##     Herbert Clark Hoover
+##     31
+##     March 4, 1929
+##     March 3, 1933
+##     Republican
+##     None
+##     10-Aug-1874
+##     Engineer
+##     Iowa
+##     West Branch
+##     Graduated from Stanford University (1895).
+##     Lou Henry (1875-1944), on February 10, 1899
+##     Hulda Randall Minthorn Hoover
+##     Jesse Clark Hoover
+##     NA
+##     Society of Friends (Quaker)
+##   
+##   
+##     Franklin Delano Roosevelt
+##     32
+##     March 4, 1933
+##     April 12, 1945
+##     Democrat
+##     FDR
+##     30-Jan-1882
+##     Public official, lawyer
+##     New York
+##     Hyde Park
+##     Graduated from Harvard College (1903); Attended Columbia Law School
+##     Anna Eleanor Roosevelt (1884-1962), on March 17, 1905
+##     Sara Delano Roosevelt
+##     James Roosevelt
+##     NA
+##     Episcopalian
+##   
+##   
+##     Harry S. Truman
+##     33
+##     April 12, 1945
+##     January 20, 1953
+##     Democrat
+##     Give 'Em Hell Harry
+##     08-May-1884
+##     Farmer, public official
+##     Missouri
+##     Lamar
+##     Attended the University of Kansas City Law School
+##     Elizabeth Bess Virginia Wallace (1885-1982), on June 28, 1919
+##     Martha Ellen Young Truman
+##     John Anderson Truman
+##     NA
+##     Baptist
+##   
+##   
+##     Dwight David Eisenhower
+##     34
+##     January 20, 1953
+##     January 20, 1961
+##     Republican
+##     Ike
+##     14-Oct-1890
+##     Soldier
+##     Texas
+##     Denison
+##     Graduated from U.S. Military Academy, West Point, N.Y. (1915)
+##     Mary Mamie Geneva Doud (1896-1979), on July 1, 1916
+##     Ida Elizabeth Stover Eisenhower
+##     David Jacob Eisenhower
+##     NA
+##     Presbyterian
+##   
+##   
+##     John Fitzgerald Kennedy
+##     35
+##     January 20, 1961
+##     November 22, 1963
+##     Democrat
+##     JFK, Jack
+##     29-May-1917
+##     Author, public official
+##     Massachusetts
+##     Brookline
+##     Graduated from Harvard College (1940)
+##     Jacqueline Lee Bouvier (1929-1994), on September 12, 1953
+##     Rose Elizabeth Fitzgerald Kennedy
+##     Joseph Patrick Kennedy
+##     NA
+##     Roman Catholic
+##   
+##   
+##     Lyndon Baines Johnson
+##     36
+##     November 22, 1963
+##     January 20, 1969
+##     Democrat
+##     LBJ
+##     27-Aug-1908
+##     Teacher, public official
+##     Texas
+##     near Johnson City
+##     Graduated from Southwest Texas State Teachers College (1930) (now known as Texas
+##     Claudia Lady Bird Alta Taylor (1912-2007), on November 17, 1934
+##     Rebekah Baines Johnson
+##     Sam Ealy Johnson, Jr.
+##     NA
+##     Disciples of Christ
+##   
+##   
+##     Richard Milhous Nixon
+##     37
+##     January 20, 1969
+##     August 9, 1974
+##     Republican
+##     Tricky Dick
+##     09-Jan-1913
+##     Lawyer, public official
+##     California
+##     Yorba Linda
+##     Graduated from Whittier College (1934) and Duke University Law School (1937)
+##     Thelma Patricia Catherine Ryan (1912-1993), on June 21, 1940
+##     Hannah Milhous Nixon
+##     Francis Anthony Nixon
+##     NA
+##     Society of Friends (Quaker)
+##   
+##   
+##     Gerald Rudolph Ford
+##     38
+##     August 9, 1974
+##     January 20, 1977
+##     Republican
+##     Jerry
+##     14-Jul-1913
+##     Lawyer, public official
+##     Nebraska
+##     Omaha
+##     Graduated from the University of Michigan (1935) and Yale University Law School
+##     Elizabeth Betty Bloomer Warren (1918- ), on October 15, 1948
+##     Dorothy Ayer Gardner King Ford
+##     Leslie Lynch King
+##     NA
+##     Episcopalian
+##   
+##   
+##     James Earl Carter, Jr.
+##     39
+##     January 20, 1977
+##     January 20, 1981
+##     Democrat
+##     Jimmy
+##     01-Oct-1924
+##     Farmer, public official
+##     Georgia
+##     Plains
+##     Graduated from U.S. Naval Academy, Annapolis, Md. (1946)
+##     Eleanor Rosalynn Smith (1928- ), on July 7, 1946
+##     Lillian Gordy Carter
+##     James Earl Carter
+##     NA
+##     Baptist
+##   
+##   
+##     Ronald Wilson Reagan
+##     40
+##     January 20, 1981
+##     January 20, 1989
+##     Republican
+##     The Gipper; The Great Communicator; Dutch
+##     06-Feb-1911
+##     Actor, public official
+##     Illinois
+##     Tampico
+##     Graduated from Eureka College (1932)
+##     Jane Wyman (1914- ), on June 25, 1940 (divorced1948); Nancy Davis (1923- ), on M
+##     Nelle Wilson Reagan
+##     John Edward Reagan
+##     NA
+##     Disciples of Christ
+##   
+##   
+##     George Herbert Walker Bush
+##     41
+##     January 20, 1989
+##     January 20, 1993
+##     Republican
+##     Poppy
+##     12-Jun-1924
+##     Businessman, public official
+##     Massachusetts
+##     Milton
+##     Graduated from Yale University (1948)
+##     Barbara Pierce (1925- ), on January 6, 1945
+##     Dorothy Walker Bush
+##     Prescott Sheldon Bush
+##     NA
+##     Episcopalian
+##   
+##   
+##     William Jefferson Clinton
+##     42
+##     January 20, 1993
+##     January 20, 2001
+##     Democrat
+##     Bill
+##     19-Aug-1946
+##     Lawyer, public official
+##     Arkansas
+##     Hope
+##     Graduated from Georgetown University (1968); Attended Oxford University (1968-70
+##     Hillary Rodham (1947- ), on October 11, 1975
+##     Virginia Divine Cassidy Blythe Clinton Kelley
+##     William Jefferson Blythe III
+##     NA
+##     Baptist
+##   
+##   
+##     George Walker Bush
+##     43
+##     January 20, 2001
+##     NA
+##     Republican
+##     W, Little George
+##     06-Jul-1946
+##     Businessman
+##     Connecticut
+##     New Haven
+##     Graduated from Yale University (1968); Graduated from Harvard Business School (1
+##     Laura Welch (1946- ), on November 5, 1977
+##     Barbara Pierce Bush
+##     tiny U.S. flag George Herbert Walker Bush
+##     NA
+##     Methodist
+## </code></pre>
+<ul>
 <li>use a function of the xml2 package to have a look at the structure of the XML</li>
 </ul>
+<pre class="r"><code>xml_structure(xml)</code></pre>
+<pre><code>## &lt;document&gt;
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}
+##   &lt;president&gt;
+##     {text}
+##     &lt;name&gt;
+##       {text}
+##     {text}
+##     &lt;number&gt;
+##       {text}
+##     {text}
+##     &lt;start&gt;
+##       {text}
+##     {text}
+##     &lt;end&gt;
+##       {text}
+##     {text}
+##     &lt;party&gt;
+##       {text}
+##     {text}
+##     &lt;nickname&gt;
+##       {text}
+##     {text}
+##     &lt;born&gt;
+##       {text}
+##     {text}
+##     &lt;occupation&gt;
+##       {text}
+##     {text}
+##     &lt;state&gt;
+##       {text}
+##     {text}
+##     &lt;hometown&gt;
+##       {text}
+##     {text}
+##     &lt;education&gt;
+##       {text}
+##     {text}
+##     &lt;married&gt;
+##       {text}
+##     {text}
+##     &lt;mother&gt;
+##       {text}
+##     {text}
+##     &lt;father&gt;
+##       {text}
+##     {text}
+##     &lt;salary&gt;
+##       {text}
+##     {text}
+##     &lt;religion&gt;
+##       {text}
+##     {text}
+##   {text}</code></pre>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>extraction</li>
 </ol>
 <ul>
 <li>use XPath to get all religion nodes</li>
+</ul>
+<pre class="r"><code>xml_find_all(xml, xpath = &quot;//religion&quot;)</code></pre>
+<pre><code>## {xml_nodeset (42)}
+##  [1] &lt;religion&gt;Episcopalian&lt;/religion&gt;
+##  [2] &lt;religion&gt;Unitarian&lt;/religion&gt;
+##  [3] &lt;religion&gt;No formal affiliation&lt;/religion&gt;
+##  [4] &lt;religion&gt;Episcopalian&lt;/religion&gt;
+##  [5] &lt;religion&gt;Episcopalian&lt;/religion&gt;
+##  [6] &lt;religion&gt;Unitarian&lt;/religion&gt;
+##  [7] &lt;religion&gt;Presbyterian&lt;/religion&gt;
+##  [8] &lt;religion&gt;Dutch Reformed&lt;/religion&gt;
+##  [9] &lt;religion&gt;Episcopalian&lt;/religion&gt;
+## [10] &lt;religion&gt;Episcopalian&lt;/religion&gt;
+## [11] &lt;religion&gt;Presbyterian&lt;/religion&gt;
+## [12] &lt;religion&gt;Episcopalian&lt;/religion&gt;
+## [13] &lt;religion&gt;Unitarian&lt;/religion&gt;
+## [14] &lt;religion&gt;Episcopalian&lt;/religion&gt;
+## [15] &lt;religion&gt;Presbyterian&lt;/religion&gt;
+## [16] &lt;religion&gt;No formal affiliation&lt;/religion&gt;
+## [17] &lt;religion&gt;No formal affiliation&lt;/religion&gt;
+## [18] &lt;religion&gt;Methodist&lt;/religion&gt;
+## [19] &lt;religion&gt;No formal affiliation&lt;/religion&gt;
+## [20] &lt;religion&gt;Disciples of Christ&lt;/religion&gt;
+## ...</code></pre>
+<ul>
 <li>use CSS-Selectors to get all religion nodes</li>
+</ul>
+<pre class="r"><code>religion &lt;- xml_find_all(xml, &quot;religion&quot;)
+religion</code></pre>
+<pre><code>## {xml_nodeset (0)}</code></pre>
+<ul>
 <li>extract the text from the nodes and use table() and sort() to produce a sorted table</li>
-<li>use xml_node() in combination with XPath to extract the node for the first president</li>
+</ul>
+<pre class="r"><code>religion %&gt;% 
+  xml_text() %&gt;% 
+  table() %&gt;% 
+  sort(TRUE) %&gt;% 
+  as.data.frame()</code></pre>
+<pre><code>## [1] .
+## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
+<ul>
+<li>use xml_find() in combination with XPath to extract the node for the first president</li>
+</ul>
+<pre class="r"><code>xml %&gt;% 
+  xml_find_one(xpath=&quot;//president[1]&quot;)</code></pre>
+<pre><code>## {xml_node}
+## &lt;president&gt;
+##  [1] &lt;name&gt;George Washington&lt;/name&gt;
+##  [2] &lt;number&gt;1&lt;/number&gt;
+##  [3] &lt;start&gt;April 30, 1789&lt;/start&gt;
+##  [4] &lt;end&gt;March 3, 1797&lt;/end&gt;
+##  [5] &lt;party&gt;Federalist&lt;/party&gt;
+##  [6] &lt;nickname&gt;Father of His Country&lt;/nickname&gt;
+##  [7] &lt;born&gt;22-Feb-1732&lt;/born&gt;
+##  [8] &lt;occupation&gt;Planter, Soldier&lt;/occupation&gt;
+##  [9] &lt;state&gt;Virginia&lt;/state&gt;
+## [10] &lt;hometown&gt;Westmoreland County&lt;/hometown&gt;
+## [11] &lt;education&gt;No formal education&lt;/education&gt;
+## [12] &lt;married&gt;Martha Dandridge Custis (1732-1802), on January 6, 1759&lt;/m ...
+## [13] &lt;mother&gt;Mary Ball Washington&lt;/mother&gt;
+## [14] &lt;father&gt;Augustine Washington&lt;/father&gt;
+## [15] &lt;salary&gt;NA&lt;/salary&gt;
+## [16] &lt;religion&gt;Episcopalian&lt;/religion&gt;</code></pre>
+<ul>
 <li>extract the name node for all presidents after the 40th</li>
-<li>using XPath get the nodes for Pierce, Garfied and Taylor</li>
+</ul>
+<pre class="r"><code>xml %&gt;% 
+  xml_find_all(xpath=&quot;//president[position()&gt;40]&quot;)</code></pre>
+<pre><code>## {xml_nodeset (2)}
+## [1] &lt;president&gt;\n    &lt;name&gt;William Jefferson Clinton&lt;/name&gt;\n    &lt;number ...
+## [2] &lt;president&gt;\n    &lt;name&gt;George Walker Bush&lt;/name&gt;\n    &lt;number&gt;43&lt;/nu ...</code></pre>
+<ul>
+<li>using XPath get the nodes for Pierce, Garfield and Taylor</li>
+</ul>
+<pre class="r"><code>xml %&gt;% 
+  xml_find_all(xpath=&quot;//president[contains(./name, 'Pierce') or contains(./name, 'Garfield') or contains(./name, 'Taylor')]&quot;)</code></pre>
+<pre><code>## {xml_nodeset (3)}
+## [1] &lt;president&gt;\n    &lt;name&gt;Zachary Taylor&lt;/name&gt;\n    &lt;number&gt;12&lt;/number ...
+## [2] &lt;president&gt;\n    &lt;name&gt;Franklin Pierce&lt;/name&gt;\n    &lt;number&gt;14&lt;/numbe ...
+## [3] &lt;president&gt;\n    &lt;name&gt;James Abram Garfield&lt;/name&gt;\n    &lt;number&gt;20&lt;/ ...</code></pre>
+<ul>
 <li>extract the occupation</li>
+</ul>
+<pre class="r"><code>xml %&gt;% 
+  xml_find_all(&quot;occupation&quot;) %&gt;% 
+  xml_text() %&gt;% 
+  table() %&gt;% 
+  sort(TRUE) %&gt;% 
+  as.data.frame()</code></pre>
+<pre><code>## [1] .
+## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
+<ul>
 <li>transform the XML into a data.frame</li>
 </ul>
+<pre class="r"><code>tagnames &lt;- 
+  xml %&gt;% 
+  xml_find_all(xpath=&quot;/*/*/*&quot;) %&gt;% 
+  xml_name() %&gt;% 
+  unique()
+
+df &lt;- data.frame(NA)
+for( tag in tagnames ){
+    tmp &lt;- 
+      xml %&gt;% 
+      xml_find_all(paste0(&quot;//&quot;,tag)) %&gt;%
+      xml_text()
+  df &lt;- data.frame(df, tmp)
+}
+df &lt;- df[, -1]
+names(df) &lt;- tagnames
+
+df</code></pre>
+<pre><code>##                          name number              start
+## 1           George Washington      1     April 30, 1789
+## 2                  John Adams      2      March 4, 1797
+## 3            Thomas Jefferson      3      March 4, 1801
+## 4               James Madison      4      March 4, 1809
+## 5                James Monroe      5      March 4, 1817
+## 6           John Quincy Adams      6      March 4, 1825
+## 7              Andrew Jackson      7      March 4, 1829
+## 8            Martin Van Buren      8      March 4, 1837
+## 9      William Henry Harrison      9      March 4, 1841
+## 10                 John Tyler     10      April 6, 1841
+## 11            James Knox Polk     11      March 4, 1845
+## 12             Zachary Taylor     12      March 5, 1849
+## 13           Millard Fillmore     13       July 9, 1850
+## 14            Franklin Pierce     14      March 4, 1853
+## 15             James Buchanan     15      March 4, 1857
+## 16            Abraham Lincoln     16      March 4, 1861
+## 17             Andrew Johnson     17     April 15, 1865
+## 18      Ulysses Simpson Grant     18      March 4, 1869
+## 19  Rutherford Birchard Hayes     19      March 4, 1877
+## 20       James Abram Garfield     20      March 4, 1881
+## 21        Chester Alan Arthur     21 September 19, 1881
+## 22           Grover Cleveland     22      March 4, 1885
+## 23          Benjamin Harrison     23      March 4, 1889
+## 24           William McKinley     25      March 4, 1897
+## 25         Theodore Roosevelt     26 September 14, 1901
+## 26        William Howard Taft     27      March 4, 1909
+## 27             Woodrow Wilson     28      March 4, 1913
+## 28    Warren Gamaliel Harding     29      March 4, 1921
+## 29            Calvin Coolidge     30     August 3, 1923
+## 30       Herbert Clark Hoover     31      March 4, 1929
+## 31  Franklin Delano Roosevelt     32      March 4, 1933
+## 32            Harry S. Truman     33     April 12, 1945
+## 33    Dwight David Eisenhower     34   January 20, 1953
+## 34    John Fitzgerald Kennedy     35   January 20, 1961
+## 35      Lyndon Baines Johnson     36  November 22, 1963
+## 36      Richard Milhous Nixon     37   January 20, 1969
+## 37        Gerald Rudolph Ford     38     August 9, 1974
+## 38     James Earl Carter, Jr.     39   January 20, 1977
+## 39       Ronald Wilson Reagan     40   January 20, 1981
+## 40 George Herbert Walker Bush     41   January 20, 1989
+## 41  William Jefferson Clinton     42   January 20, 1993
+## 42         George Walker Bush     43   January 20, 2001
+##                                end                 party
+## 1                    March 3, 1797            Federalist
+## 2                    March 3, 1801            Federalist
+## 3                    March 3, 1809 Democratic-Republican
+## 4                    March 3, 1817 Democratic-Republican
+## 5                    March 3, 1825 Democratic-Republican
+## 6                    March 3, 1829 Democratic-Republican
+## 7                    March 3, 1837            Democratic
+## 8                    March 3, 1841            Democratic
+## 9                    April 4, 1841                  Whig
+## 10                   March 3, 1845                  Whig
+## 11                   March 3, 1849            Democratic
+## 12                    July 9, 1850                  Whig
+## 13                   March 3, 1853                  Whig
+## 14                   March 3, 1857              Democrat
+## 15                   March 3, 1861              Democrat
+## 16                  April 15, 1865            Republican
+## 17                   March 3, 1869            Democratic
+## 18                   March 3, 1877            Republican
+## 19                   March 3, 1881            Republican
+## 20              September 19, 1881            Republican
+## 21                   March 3, 1885            Republican
+## 22 March 3, 1889 and March 4, 1893              Democrat
+## 23                   March 3, 1893            Republican
+## 24              September 14, 1901            Republican
+## 25                   March 3, 1909            Republican
+## 26                   March 3, 1913            Republican
+## 27                   March 3, 1921              Democrat
+## 28                  August 2, 1923            Republican
+## 29                   March 3, 1929            Republican
+## 30                   March 3, 1933            Republican
+## 31                  April 12, 1945              Democrat
+## 32                January 20, 1953              Democrat
+## 33                January 20, 1961            Republican
+## 34               November 22, 1963              Democrat
+## 35                January 20, 1969              Democrat
+## 36                  August 9, 1974            Republican
+## 37                January 20, 1977            Republican
+## 38                January 20, 1981              Democrat
+## 39                January 20, 1989            Republican
+## 40                January 20, 1993            Republican
+## 41                January 20, 2001              Democrat
+## 42                              NA            Republican
+##                                              nickname        born
+## 1                               Father of His Country 22-Feb-1732
+## 2                               Atlas of Independence 30-Oct-1735
+## 3               Man of the People; Sage of Monticello 13-Apr-1743
+## 4                          Father of the Constitution 16-Mar-1751
+## 5  The Last Cocked Hat; Era-of-Good-Feeling President 28-Apr-1758
+## 6                                    Old Man Eloquent 11-Jul-1767
+## 7                                         Old Hickory 15-Mar-1767
+## 8      The Little Magician; The Red Fox of Kinderhook 05-Dec-1782
+## 9                             Old Tippecanoe; Old Tip 09-Feb-1773
+## 10                Accidental President; His Accidency 29-Mar-1790
+## 11                                      Young Hickory 02-Nov-1795
+## 12                                Old Rough and Ready 24-Nov-1784
+## 13                        The American Louis Philippe 07-Jan-1800
+## 14                 Young Hickory of the Granite Hills 23-Nov-1804
+## 15                                           Old Buck 23-Apr-1791
+## 16                 Honest Abe; Illinois Rail-Splitter 12-Feb-1809
+## 17                                               None 29-Dec-1808
+## 18                                 Hero of Appomattox 27-Apr-1822
+## 19                               Dark-Horse President 04-Oct-1822
+## 20                                               None 19-Nov-1831
+## 21                 The Gentleman Boss; Elegant Arthur 05-Oct-1829
+## 22            Uncle Jumbo; Veto Mayor; Veto President 18-Mar-1837
+## 23                    Kid Gloves Harrison; Little Ben 20-Aug-1833
+## 24                                       Idol of Ohio 29-Jan-1843
+## 25                            TR; Trust-Buster; Teddy 27-Oct-1858
+## 26                                               None 15-Sep-1857
+## 27                               SchoolmasterPolitics 28-Dec-1856
+## 28                                               None 02-Nov-1865
+## 29                                         Silent Cal 04-Jul-1872
+## 30                                               None 10-Aug-1874
+## 31                                                FDR 30-Jan-1882
+## 32                                Give 'Em Hell Harry 08-May-1884
+## 33                                                Ike 14-Oct-1890
+## 34                                          JFK, Jack 29-May-1917
+## 35                                                LBJ 27-Aug-1908
+## 36                                        Tricky Dick 09-Jan-1913
+## 37                                              Jerry 14-Jul-1913
+## 38                                              Jimmy 01-Oct-1924
+## 39          The Gipper; The Great Communicator; Dutch 06-Feb-1911
+## 40                                              Poppy 12-Jun-1924
+## 41                                               Bill 19-Aug-1946
+## 42                                   W, Little George 06-Jul-1946
+##                         occupation          state
+## 1                 Planter, Soldier       Virginia
+## 2                           Lawyer  Massachusetts
+## 3                  Lawyer, planter       Virginia
+## 4                           Lawyer       Virginia
+## 5                           Lawyer       Virginia
+## 6                           Lawyer  Massachusetts
+## 7                  Lawyer, soldier North Carolina
+## 8                           Lawyer       New York
+## 9                          Soldier       Virginia
+## 10                          Lawyer       Virginia
+## 11                          Lawyer North Carolina
+## 12                         Soldier       Virginia
+## 13                          Lawyer       New York
+## 14         Lawyer, public official  New Hampshire
+## 15                          Lawyer   Pennsylvania
+## 16                          Lawyer       Kentucky
+## 17         Tailor, public official North Carolina
+## 18                         Soldier           Ohio
+## 19                          Lawyer           Ohio
+## 20        Teacher, public official           Ohio
+## 21                          Lawyer        Vermont
+## 22                          Lawyer     New Jersey
+## 23                          Lawyer           Ohio
+## 24                          Lawyer           Ohio
+## 25 Author, lawyer, public official       New York
+## 26         Lawyer, public official           Ohio
+## 27        Teacher, public official       Virginia
+## 28                Editor-Publisher           Ohio
+## 29                          Lawyer        Vermont
+## 30                        Engineer           Iowa
+## 31         Public official, lawyer       New York
+## 32         Farmer, public official       Missouri
+## 33                         Soldier          Texas
+## 34         Author, public official  Massachusetts
+## 35        Teacher, public official          Texas
+## 36         Lawyer, public official     California
+## 37         Lawyer, public official       Nebraska
+## 38         Farmer, public official        Georgia
+## 39          Actor, public official       Illinois
+## 40    Businessman, public official  Massachusetts
+## 41         Lawyer, public official       Arkansas
+## 42                     Businessman    Connecticut
+##                             hometown
+## 1                Westmoreland County
+## 2             Braintree (now Quincy)
+## 3                           Shadwell
+## 4                        Port Conway
+## 5                Westmoreland County
+## 6             Braintree (now Quincy)
+## 7                             Waxhaw
+## 8                         Kinderhook
+## 9                           Berkeley
+## 10                          Greenway
+## 11                Mecklenburg County
+## 12                near Barboursville
+## 13   Locke Township (now Summerhill)
+## 14      Hillsborough (now Hillsboro)
+## 15       Cove Gap (near Mercersburg)
+## 16         Hardin (now Larue) County
+## 17                           Raleigh
+## 18                    Point Pleasant
+## 19                          Delaware
+## 20                            Orange
+## 21                         Fairfield
+## 22                          Caldwell
+## 23                        North Bend
+## 24                             Niles
+## 25                          New York
+## 26                        Cincinnati
+## 27                          Staunton
+## 28 near Corsica (now Blooming Grove)
+## 29                          Plymouth
+## 30                       West Branch
+## 31                         Hyde Park
+## 32                             Lamar
+## 33                           Denison
+## 34                         Brookline
+## 35                 near Johnson City
+## 36                       Yorba Linda
+## 37                             Omaha
+## 38                            Plains
+## 39                           Tampico
+## 40                            Milton
+## 41                              Hope
+## 42                         New Haven
+##                                                                           education
+## 1                                                               No formal education
+## 2                                             Graduated from Harvard College (1755)
+## 3                                 Graduated from College of William and Mary (1762)
+## 4             Graduated from College of New Jersey (now Princeton University; 1771)
+## 5                                 Graduated from College of William and Mary (1776)
+## 6                                             Graduated from Harvard College (1787)
+## 7                                                               No formal education
+## 8                                          Graduated from Kinderhook Academy (1796)
+## 9                                                   Attended Hampden-Sydney College
+## 10                            Graduated from the College of William and Mary (1807)
+## 11                           Graduated from the University of North Carolina (1818)
+## 12                                                              No formal education
+## 13                                                              No formal education
+## 14                                            Graduated from Bowdoin College (1824)
+## 15                                          Graduated from Dickinson College (1809)
+## 16                                                              No formal education
+## 17                                                              No formal education
+## 18                  Graduated from the U.S. Military AcademyWest Point, N.Y. (1843)
+## 19               Graduated from Kenyon College (1842) and Harvard Law School (1845)
+## 20  Attended Western Reserve Eclectic Institute (now Hiram College); Graduated from
+## 21                                              Graduated from Union College (1848)
+## 22                                                              No formal education
+## 23                             Graduated from Miami University, Oxford, Ohio (1852)
+## 24                                                       Attended Allegheny College
+## 25                                            Graduated from Harvard College (1880)
+## 26                 Graduated from Yale College (1878); Cincinnati Law School (1880)
+## 27       Graduated from the College of New Jersey (now Princeton University) (1879)
+## 28                                       Graduated from Ohio Central College (1882)
+## 29                                            Graduated from Amherst College (1895)
+## 30                                       Graduated from Stanford University (1895).
+## 31              Graduated from Harvard College (1903); Attended Columbia Law School
+## 32                                Attended the University of Kansas City Law School
+## 33                    Graduated from U.S. Military Academy, West Point, N.Y. (1915)
+## 34                                            Graduated from Harvard College (1940)
+## 35 Graduated from Southwest Texas State Teachers College (1930) (now known as Texas
+## 36     Graduated from Whittier College (1934) and Duke University Law School (1937)
+## 37  Graduated from the University of Michigan (1935) and Yale University Law School
+## 38                         Graduated from U.S. Naval Academy, Annapolis, Md. (1946)
+## 39                                             Graduated from Eureka College (1932)
+## 40                                            Graduated from Yale University (1948)
+## 41 Graduated from Georgetown University (1968); Attended Oxford University (1968-70
+## 42 Graduated from Yale University (1968); Graduated from Harvard Business School (1
+##                                                                             married
+## 1                           Martha Dandridge Custis (1732-1802), on January 6, 1759
+## 2                                    Abigail Smith (1744-1818), on October 25, 1764
+## 3                             Martha Wayles Skelton (1748-1782), on January 1, 1772
+## 4                              Dolley Payne Todd (1768-1849), on September 15, 1794
+## 5                       Elizabeth Eliza Kortright (1768-1830), on February 16, 1786
+## 6                            Louisa Catherine Johnson (1775-1852), on July 26, 1797
+## 7   Rachel Donelson Robards (1767-1828),August 1791 anda second ceremony on January
+## 8                                     Hannah Hoes (1783-1819), on February 21, 1807
+## 9                             Anna Tuthill Symmes (1775-1864), on November 25, 1795
+## 10 Letitia Chrisitan (1790-1842), on March 29, 1813; Julia Gardiner (1820-1889), on
+## 11                                  Sarah Childress (1803-1891), on January 1, 1824
+## 12                             Margaret Mackall Smith (1788-1852), on June 21, 1810
+## 13 Abigail Powers (1798-1853), on February 5, 1826; Caroline Carmichael McIntosh (1
+## 14                            Jane Means Appleton (1806-1863), on November 10, 1834
+## 15    Never married. The White House hostess was his niece Harriet Lane (1830-1903)
+## 16                                       Mary Todd (1818-1882), on November 4, 1842
+## 17                                       Eliza McCardle (1810-1876), on May 5, 1827
+## 18                                 Julia Boggs Dent (1826-1902), on August 22, 1848
+## 19                                 Lucy Ware Webb (1831-1889), on December 30, 1852
+## 20                               Lucretia Rudolph (1832-1918), on November 11, 1858
+## 21                             Ellen Lewis Herndon (1837-1880), on October 25, 1859
+## 22                                      Frances Folsom (1864-1947), on June 2, 1886
+## 23 Caroline Lavinia Scott (1832-1892), on October 20, 1853; Mary Scott Lord Dimmick
+## 24                                      Ida Saxton (1847-1907), on January 25, 1871
+## 25 Alice Hathaway Lee (1861-1884), on October 27, 1880; Edith Kermit Carow (1861-19
+## 26                                       Helen Herron (1861-1943), on June 19, 1886
+## 27 Ellen Louise Axson (1860-1914), on June 24, 1885; Edith Bolling Galt (1872-1961)
+## 28                             Florence Kling De Wolfe (1860-1924), on July 8, 1891
+## 29                               Grace Anna Goodhue (1879-1957), on October 4, 1905
+## 30                                      Lou Henry (1875-1944), on February 10, 1899
+## 31                            Anna Eleanor Roosevelt (1884-1962), on March 17, 1905
+## 32                    Elizabeth Bess Virginia Wallace (1885-1982), on June 28, 1919
+## 33                              Mary Mamie Geneva Doud (1896-1979), on July 1, 1916
+## 34                        Jacqueline Lee Bouvier (1929-1994), on September 12, 1953
+## 35                  Claudia Lady Bird Alta Taylor (1912-2007), on November 17, 1934
+## 36                     Thelma Patricia Catherine Ryan (1912-1993), on June 21, 1940
+## 37                     Elizabeth Betty Bloomer Warren (1918- ), on October 15, 1948
+## 38                                 Eleanor Rosalynn Smith (1928- ), on July 7, 1946
+## 39 Jane Wyman (1914- ), on June 25, 1940 (divorced1948); Nancy Davis (1923- ), on M
+## 40                                      Barbara Pierce (1925- ), on January 6, 1945
+## 41                                     Hillary Rodham (1947- ), on October 11, 1975
+## 42                                        Laura Welch (1946- ), on November 5, 1977
+##                                           mother
+## 1                           Mary Ball Washington
+## 2                         Susanna Boylston Adams
+## 3                        Jane Randolph Jefferson
+## 4                           Nelly Conway Madison
+## 5                         Elizabeth Jones Monroe
+## 6                            Abigail Smith Adams
+## 7                   Elizabeth Hutchinson Jackson
+## 8                           Maria Hoes Van Buren
+## 9                     Elizabeth Bassett Harrison
+## 10                    Mary Marot Armistead Tyler
+## 11                                Jane Knox Polk
+## 12                  Sarah Dabney Strother Taylor
+## 13                       Phoebe Millard Fillmore
+## 14                           Ann Kendrick Pierce
+## 15                      Elizabeth Speer Buchanan
+## 16                           Nancy Hanks Lincoln
+## 17                        Mary McDonough Johnson
+## 18                          Hannah Simpson Grant
+## 19                         Sophia Birchard Hayes
+## 20                         Eliza Ballou Garfield
+## 21                          Malvina Stone Arthur
+## 22                           Anne Neal Cleveland
+## 23               Elizabeth Ramsey Irwin Harrison
+## 24               Nancy Campbell Allison McKinley
+## 25                      Martha Bulloch Roosevelt
+## 26                      Louisa Maria Torrey Taft
+## 27                   Jessie Janet Woodrow Wilson
+## 28            Phoebe Elizabeth Dickerson Harding
+## 29              Victoria Josephine Moor Coolidge
+## 30                 Hulda Randall Minthorn Hoover
+## 31                         Sara Delano Roosevelt
+## 32                     Martha Ellen Young Truman
+## 33               Ida Elizabeth Stover Eisenhower
+## 34             Rose Elizabeth Fitzgerald Kennedy
+## 35                        Rebekah Baines Johnson
+## 36                          Hannah Milhous Nixon
+## 37                Dorothy Ayer Gardner King Ford
+## 38                          Lillian Gordy Carter
+## 39                           Nelle Wilson Reagan
+## 40                           Dorothy Walker Bush
+## 41 Virginia Divine Cassidy Blythe Clinton Kelley
+## 42                           Barbara Pierce Bush
+##                                       father salary
+## 1                       Augustine Washington     NA
+## 2                                 John Adams     NA
+## 3                            Peter Jefferson     NA
+## 4                              James Madison     NA
+## 5                              Spence Monroe     NA
+## 6                  tiny U.S. flag John Adams     NA
+## 7                             Andrew Jackson     NA
+## 8                          Abraham Van Buren     NA
+## 9                          Benjamin Harrison     NA
+## 10                                John Tyler     NA
+## 11                               Samuel Polk     NA
+## 12         Lieutenant Colonel Richard Taylor     NA
+## 13                        Nathaniel Fillmore     NA
+## 14                   General Benjamin Pierce     NA
+## 15                            James Buchanan     NA
+## 16                            Thomas Lincoln     NA
+## 17                             Jacob Johnson     NA
+## 18                          Jesse Root Grant     NA
+## 19                          Rutherford Hayes     NA
+## 20                            Abram Garfield     NA
+## 21                            William Arthur     NA
+## 22                  Richard Falley Cleveland     NA
+## 23                       John Scott Harrison     NA
+## 24                          William McKinley     NA
+## 25                        Theodore Roosevelt     NA
+## 26                             Alphonso Taft     NA
+## 27                     Joseph Ruggles Wilson     NA
+## 28                      George Tyron Harding     NA
+## 29                      John Calvin Coolidge     NA
+## 30                        Jesse Clark Hoover     NA
+## 31                           James Roosevelt     NA
+## 32                      John Anderson Truman     NA
+## 33                    David Jacob Eisenhower     NA
+## 34                    Joseph Patrick Kennedy     NA
+## 35                     Sam Ealy Johnson, Jr.     NA
+## 36                     Francis Anthony Nixon     NA
+## 37                         Leslie Lynch King     NA
+## 38                         James Earl Carter     NA
+## 39                        John Edward Reagan     NA
+## 40                     Prescott Sheldon Bush     NA
+## 41              William Jefferson Blythe III     NA
+## 42 tiny U.S. flag George Herbert Walker Bush     NA
+##                       religion
+## 1                 Episcopalian
+## 2                    Unitarian
+## 3        No formal affiliation
+## 4                 Episcopalian
+## 5                 Episcopalian
+## 6                    Unitarian
+## 7                 Presbyterian
+## 8               Dutch Reformed
+## 9                 Episcopalian
+## 10                Episcopalian
+## 11                Presbyterian
+## 12                Episcopalian
+## 13                   Unitarian
+## 14                Episcopalian
+## 15                Presbyterian
+## 16       No formal affiliation
+## 17       No formal affiliation
+## 18                   Methodist
+## 19       No formal affiliation
+## 20         Disciples of Christ
+## 21                Episcopalian
+## 22                Presbyterian
+## 23                Presbyterian
+## 24                   Methodist
+## 25              Dutch Reformed
+## 26                   Unitarian
+## 27                Presbyterian
+## 28                     Baptist
+## 29           Congregationalist
+## 30 Society of Friends (Quaker)
+## 31                Episcopalian
+## 32                     Baptist
+## 33                Presbyterian
+## 34              Roman Catholic
+## 35         Disciples of Christ
+## 36 Society of Friends (Quaker)
+## 37                Episcopalian
+## 38                     Baptist
+## 39         Disciples of Christ
+## 40                Episcopalian
+## 41                     Baptist
+## 42                   Methodist</code></pre>
 </div>
 
 

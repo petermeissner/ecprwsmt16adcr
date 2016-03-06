@@ -1,0 +1,38 @@
+---
+title: 'Exercise: HTML Forms'
+author: "Peter Meißner"
+date: "03 March 2016"
+output:
+  html_document:
+    keep_md: no
+    toc: no
+  pdf_document:
+    toc: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##1) go fill it out
+ 
+a) find html forms that use GET
+  - make your self familiar with it by looking at the source code
+  - which inputs are there
+  - use it from within R
+
+b) find html forms that use POST
+  - make your self familiar with it by looking at the source code
+  - which inputs are there
+  - use it from within R
+
+
+
+
+
+
+
+
+
+
+

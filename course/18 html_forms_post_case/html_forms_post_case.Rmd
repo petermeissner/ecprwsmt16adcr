@@ -1,0 +1,212 @@
+---
+title: "Web Data Collection with R"
+author: "Peter Meißner / 2016-02-29 --  2016-03-04 / ECPR WSMT"
+header-includes:
+  - \definecolor{links}{HTML}{800080}
+  - \hypersetup{colorlinks,linkcolor=,urlcolor=links}
+output:
+  beamer_presentation:
+    fonttheme: structurebold
+    keep_tex: yes
+    toc: yes
+  slidy_presentation: default
+subtitle: HTML Forms POST Case Study
+keep_tex: yes
+---
+
+
+
+
+# Posting HTML Forms
+
+
+
+
+## Teaser
+- ADCR author blog post on http://www.r-datacollection.com/ battle against each other 
+ for the readability price 
+
+## a first glance
+```{r}
+# ADCR: page 236
+attr_inspector <- function(parsed_html, xpath){
+  x <- html_nodes(parsed_html, xpath=xpath)
+  x <- html_attrs(x)
+  x <- lapply(x, function(x) as.data.frame(t(x)) )
+  do.call(plyr::rbind.fill, x)
+}
+```
+
+```{r}
+library(httr)
+library(rvest)
+library(stringr)
+```
+
+## a first glance
+
+```{r, cache=TRUE}
+url  <- "http://read-able.com/"
+html <- read_html(url)
+attr_inspector( html, "//form")
+attr_inspector( html, "//form[2]//input|//textarea|//select")
+```
+
+
+## HTTP messages
+- but where goes our data? 
+
+![](fig/httprequest.pdf)
+
+## HTTP messages
+- but where goes our data? 
+
+![](fig/httpresponse.pdf)
+
+
+## getting the texts
+```{r, cache=TRUE}
+dominic <- read_html("http://www.r-datacollection.com/blog/Fifty-years-of-Christmas-at-the-Windsors/")
+dominic <- html_nodes(dominic, xpath="//p")
+dominic <- html_text(dominic)
+dominic <- str_c(dominic, collapse="\n")
+```
+
+## getting the texts
+```{r, cache=TRUE}
+peter <- read_html("http://www.r-datacollection.com/blog/Introduction-to-Public-Attention-Analytics-with-Wikipediatrend/")
+peter <- html_nodes(peter, xpath="//p")
+peter <- html_text(peter)
+peter <- str_c(peter, collapse="\n")
+```
+
+## getting the texts
+```{r}
+simon <- read_html("http://www.r-datacollection.com/blog/Programming-a-Twitter-bot/")
+simon <- html_nodes(simon, xpath="//p")
+simon <- html_text(simon)
+simon <- str_c(simon, collapse="\n")
+```
+
+## getting the texts
+```{r}
+christian <- read_html("http://www.r-datacollection.com/blog/Hassle-free-data-from-HTML-tables-with-the-htmltable-package/")
+christian <- html_nodes(christian, xpath="//p")
+christian <- html_text(christian)
+christian <- str_c(christian, collapse="\n")
+```
+
+
+## posting texts
+
+```{r}
+force <- F # redo or not
+if ( !file.exists("dominic.html") | force==T){
+  resp_d <- POST("http://read-able.com/check.php",
+            body=list(directInput=dominic), 
+            encode="form")
+  writeBin(content(resp_d, "raw"), 
+           con="dominic.html" , useBytes=T)
+}
+```
+
+## posting texts
+```{r}
+if ( !file.exists("peter.html")  | force==T){
+  resp_p <- POST("http://read-able.com/check.php",
+            body=list(directInput=peter), 
+            encode="form")
+  writeBin(content(resp_p, "raw"), 
+           con="peter.html" , useBytes=T)
+}
+```
+
+## posting texts
+```{r}
+if ( !file.exists("simon.html") | force==T ){
+  resp_s <- POST("http://read-able.com/check.php",
+            body=list(directInput=simon), 
+            encode="form")
+  writeBin(content(resp_s, "raw"), 
+           con="simon.html" , useBytes=T)
+}
+```
+
+## posting texts
+```{r}
+if ( !file.exists("christian.html")  | force==T){
+  resp_c <- POST("http://read-able.com/check.php",
+            body=list(directInput=christian), 
+            encode="form")
+  writeBin(content(resp_c, "raw"), 
+           con="christian.html" , useBytes=T)
+}
+```
+
+
+## the verdict
+```{r}
+verdict <- function(file){
+  read_html(file) %>% 
+    html_table() %>% 
+    magrittr::extract2(1) %>% 
+    magrittr::extract(2,)
+}
+```
+
+## the verdict
+```{r}
+verdict("simon.html")
+verdict("dominic.html")
+verdict("peter.html")
+verdict("christian.html")
+```
+
+
+
+
+
+# GET and POST within Developer Tools
+
+## GET and POST within Developer Tools
+
+Libve Clicking
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

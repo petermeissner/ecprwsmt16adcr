@@ -321,6 +321,20 @@
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\KeywordTok{dirname}\NormalTok{(}\KeywordTok{dirname}\NormalTok{(}\KeywordTok{dirname}\NormalTok{(pdf)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "http://ajpsblogging.files.wordpress.com"
+## [2] "http://ajpsblogging.files.wordpress.com"
+## [3] "http://ajpsblogging.files.wordpress.com"
+## [4] "http://ajpsblogging.files.wordpress.com"
+## [5] "http://ajpsblogging.files.wordpress.com"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \KeywordTok{str_extract}\NormalTok{(pdf, }\StringTok{"}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{d\{4\}.pdf"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -338,7 +352,7 @@
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# download pdfs}
-\NormalTok{for(i in }\KeywordTok{seq_along}\NormalTok{(pdf)) \{}
+\NormalTok{for(i in }\KeywordTok{seq_along}\NormalTok{(pdf) ) \{}
   \KeywordTok{download.file}\NormalTok{(pdf[i], pdf_names[i], }\DataTypeTok{mode=}\StringTok{"wb"}\NormalTok{)}
 \NormalTok{\}}
 \end{Highlighting}

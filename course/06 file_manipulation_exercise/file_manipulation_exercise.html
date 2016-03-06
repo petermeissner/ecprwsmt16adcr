@@ -67,8 +67,13 @@ img {
 </div>
 
 
-<pre class="r"><code>library(magrittr)
-library(stringr)</code></pre>
+<pre class="r"><code>library(magrittr)</code></pre>
+<pre><code>## 
+## Attaching package: 'magrittr'</code></pre>
+<pre><code>## Das folgende Objekt ist maskiert 'package:ggmap':
+## 
+##     inset</code></pre>
+<pre class="r"><code>library(stringr)</code></pre>
 <pre class="r"><code>if( grepl(&quot;file_manipulation_exercise&quot;,basename(getwd())) ){
   list.files(pattern = &quot;txt$&quot;)  %&gt;% 
     file.remove()
@@ -98,10 +103,10 @@ library(stringr)</code></pre>
 }
 
 list.files(pattern = &quot;^\\d&quot;)</code></pre>
-<pre><code>##  [1] &quot;2016-03-01 18_22_25&quot; &quot;2016-03-01 18_22_26&quot; &quot;2016-03-01 18_22_27&quot;
-##  [4] &quot;2016-03-01 18_22_28&quot; &quot;2016-03-01 18_22_29&quot; &quot;2016-03-01 18_22_30&quot;
-##  [7] &quot;2016-03-01 18_22_31&quot; &quot;2016-03-01 18_22_32&quot; &quot;2016-03-01 18_22_33&quot;
-## [10] &quot;2016-03-01 18_22_34&quot;</code></pre>
+<pre><code>##  [1] &quot;2016-03-03 02_35_29&quot; &quot;2016-03-03 02_35_30&quot; &quot;2016-03-03 02_35_31&quot;
+##  [4] &quot;2016-03-03 02_35_32&quot; &quot;2016-03-03 02_35_33&quot; &quot;2016-03-03 02_35_34&quot;
+##  [7] &quot;2016-03-03 02_35_35&quot; &quot;2016-03-03 02_35_36&quot; &quot;2016-03-03 02_35_37&quot;
+## [10] &quot;2016-03-03 02_35_38&quot;</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>write a function that
 <ul>
@@ -128,9 +133,9 @@ write_punny_file()</code></pre>
 <pre class="r"><code>list.files(pattern = &quot;^not_&quot;)</code></pre>
 <pre><code>## [1] &quot;not_a_clever_name.txt&quot;</code></pre>
 <pre class="r"><code>Sys.time()</code></pre>
-<pre><code>## [1] &quot;2016-03-01 18:22:34 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2016-03-03 02:35:38 CET&quot;</code></pre>
 <pre class="r"><code>file.info(&quot;not_a_clever_name.txt&quot;)$mtime</code></pre>
-<pre><code>## [1] &quot;2016-03-01 18:22:34 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2016-03-03 02:35:38 CET&quot;</code></pre>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>write a loop that
 <ul>
@@ -146,10 +151,10 @@ write_punny_file()</code></pre>
 }
 
 readLines(&quot;mylogfile&quot;)</code></pre>
-<pre><code>##  [1] &quot;2016-03-01 18:22:34&quot; &quot;2016-03-01 18:22:35&quot; &quot;2016-03-01 18:22:35&quot;
-##  [4] &quot;2016-03-01 18:22:35&quot; &quot;2016-03-01 18:22:36&quot; &quot;2016-03-01 18:22:36&quot;
-##  [7] &quot;2016-03-01 18:22:36&quot; &quot;2016-03-01 18:22:37&quot; &quot;2016-03-01 18:22:37&quot;
-## [10] &quot;2016-03-01 18:22:37&quot;</code></pre>
+<pre><code>##  [1] &quot;2016-03-03 02:35:38&quot; &quot;2016-03-03 02:35:39&quot; &quot;2016-03-03 02:35:39&quot;
+##  [4] &quot;2016-03-03 02:35:39&quot; &quot;2016-03-03 02:35:40&quot; &quot;2016-03-03 02:35:40&quot;
+##  [7] &quot;2016-03-03 02:35:40&quot; &quot;2016-03-03 02:35:40&quot; &quot;2016-03-03 02:35:41&quot;
+## [10] &quot;2016-03-03 02:35:41&quot;</code></pre>
 </div>
 <div id="pasting-file-names" class="section level2">
 <h2>2) Pasting file names</h2>
@@ -243,11 +248,11 @@ list.files(pattern = &quot;txt$&quot;)</code></pre>
 <li>use list.files() to get a vector of file names in the current folder</li>
 </ol>
 <pre class="r"><code>list.files()</code></pre>
-<pre><code>##  [1] &quot;2016-03-01 18_22_25&quot;             &quot;2016-03-01 18_22_26&quot;            
-##  [3] &quot;2016-03-01 18_22_27&quot;             &quot;2016-03-01 18_22_28&quot;            
-##  [5] &quot;2016-03-01 18_22_29&quot;             &quot;2016-03-01 18_22_30&quot;            
-##  [7] &quot;2016-03-01 18_22_31&quot;             &quot;2016-03-01 18_22_32&quot;            
-##  [9] &quot;2016-03-01 18_22_33&quot;             &quot;2016-03-01 18_22_34&quot;            
+<pre><code>##  [1] &quot;2016-03-03 02_35_29&quot;             &quot;2016-03-03 02_35_30&quot;            
+##  [3] &quot;2016-03-03 02_35_31&quot;             &quot;2016-03-03 02_35_32&quot;            
+##  [5] &quot;2016-03-03 02_35_33&quot;             &quot;2016-03-03 02_35_34&quot;            
+##  [7] &quot;2016-03-03 02_35_35&quot;             &quot;2016-03-03 02_35_36&quot;            
+##  [9] &quot;2016-03-03 02_35_37&quot;             &quot;2016-03-03 02_35_38&quot;            
 ## [11] &quot;a_G.txt&quot;                         &quot;a_H.txt&quot;                        
 ## [13] &quot;a_I.txt&quot;                         &quot;b_G.txt&quot;                        
 ## [15] &quot;b_H.txt&quot;                         &quot;b_I.txt&quot;                        
@@ -264,10 +269,10 @@ list.files(pattern = &quot;txt$&quot;)</code></pre>
 </ul></li>
 </ol>
 <pre class="r"><code>list.files(pattern = &quot;^\\d&quot;)</code></pre>
-<pre><code>##  [1] &quot;2016-03-01 18_22_25&quot; &quot;2016-03-01 18_22_26&quot; &quot;2016-03-01 18_22_27&quot;
-##  [4] &quot;2016-03-01 18_22_28&quot; &quot;2016-03-01 18_22_29&quot; &quot;2016-03-01 18_22_30&quot;
-##  [7] &quot;2016-03-01 18_22_31&quot; &quot;2016-03-01 18_22_32&quot; &quot;2016-03-01 18_22_33&quot;
-## [10] &quot;2016-03-01 18_22_34&quot;</code></pre>
+<pre><code>##  [1] &quot;2016-03-03 02_35_29&quot; &quot;2016-03-03 02_35_30&quot; &quot;2016-03-03 02_35_31&quot;
+##  [4] &quot;2016-03-03 02_35_32&quot; &quot;2016-03-03 02_35_33&quot; &quot;2016-03-03 02_35_34&quot;
+##  [7] &quot;2016-03-03 02_35_35&quot; &quot;2016-03-03 02_35_36&quot; &quot;2016-03-03 02_35_37&quot;
+## [10] &quot;2016-03-03 02_35_38&quot;</code></pre>
 <pre class="r"><code>list.files(pattern = &quot;txt$&quot;)</code></pre>
 <pre><code>##  [1] &quot;a_G.txt&quot;               &quot;a_H.txt&quot;              
 ##  [3] &quot;a_I.txt&quot;               &quot;b_G.txt&quot;              

@@ -156,11 +156,17 @@ pdf</code></pre></div>
 <pre><code>## [1] &quot;ajps-reviewers-2014.pdf&quot; &quot;ajps_reviewers_2013.pdf&quot;
 ## [3] &quot;reviewers_2012.pdf&quot;      &quot;reviewers_2011.pdf&quot;     
 ## [5] &quot;reviewers_2010.pdf&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dirname</span>(<span class="kw">dirname</span>(<span class="kw">dirname</span>(pdf)))</code></pre></div>
+<pre><code>## [1] &quot;http://ajpsblogging.files.wordpress.com&quot;
+## [2] &quot;http://ajpsblogging.files.wordpress.com&quot;
+## [3] &quot;http://ajpsblogging.files.wordpress.com&quot;
+## [4] &quot;http://ajpsblogging.files.wordpress.com&quot;
+## [5] &quot;http://ajpsblogging.files.wordpress.com&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_extract</span>(pdf, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">d{4}.pdf&quot;</span>)</code></pre></div>
 <pre><code>## [1] &quot;2014.pdf&quot; &quot;2013.pdf&quot; &quot;2012.pdf&quot; &quot;2011.pdf&quot; &quot;2010.pdf&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pdf_names &lt;-<span class="st"> </span><span class="kw">str_extract</span>(pdf, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">d{4}.pdf&quot;</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download pdfs</span>
-for(i in <span class="kw">seq_along</span>(pdf)) {
+for(i in <span class="kw">seq_along</span>(pdf) ) {
   <span class="kw">download.file</span>(pdf[i], pdf_names[i], <span class="dt">mode=</span><span class="st">&quot;wb&quot;</span>)
 }</code></pre></div>
 </div>
